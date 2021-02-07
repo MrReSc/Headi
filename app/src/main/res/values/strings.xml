@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Headi</string>
+    <string name="nav_header_title">Headi</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_add">Add</string>
+    <string name="action_delete">Delete</string>
+
+    <string name="menu_timer">Timer</string>
+    <string name="menu_pains">Pains</string>
+    <string name="menu_stats">Statistics</string>
+    <string name="menu_export">Export</string>
+    <!-- TODO: Remove or change this placeholder text -->
+</resources>

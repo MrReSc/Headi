@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@+id/nav_timer">
+
+    <fragment
+        android:id="@+id/nav_timer"
+        android:name="com.example.headi.ui.timer.TimerFragment"
+        android:label="@string/menu_timer"
+        tools:layout="@layout/fragment_timer" />
+
+    <fragment
+        android:id="@+id/nav_pains"
+        android:name="com.example.headi.ui.pains.PainsFragment"
+        android:label="@string/menu_pains"
+        tools:layout="@layout/fragment_pains" >
+        <action
+            android:id="@+id/action_nav_pains_to_painsAddFragment"
+            app:destination="@id/painsAddFragment" />
+        <action
+            android:id="@+id/action_nav_pains_to_painsDeleteFragment"
+            app:destination="@id/painsDeleteFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_stats"
+        android:name="com.example.headi.ui.stats.StatsFragment"
+        android:label="@string/menu_stats"
+        tools:layout="@layout/fragment_stats" />
+
+    <fragment
+        android:id="@+id/nav_export"
+        android:name="com.example.headi.ui.export.ExportFragment"
+        android:label="@string/menu_export"
+        tools:layout="@layout/fragment_export" />
+    <fragment
+        android:id="@+id/painsAddFragment"
+        android:name="com.example.headi.ui.pains.PainsAddFragment"
+        android:label="@string/action_add"
+        tools:layout="@layout/fragment_pains_add" />
+    <fragment
+        android:id="@+id/painsDeleteFragment"
+        android:name="com.example.headi.ui.pains.PainsDeleteFragment"
+        android:label="@string/action_delete"
+        tools:layout="@layout/fragment_pains_delete" />
+</navigation>
