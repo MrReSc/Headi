@@ -10,5 +10,9 @@
     <string name="menu_pains">Pains</string>
     <string name="menu_stats">Statistics</string>
     <string name="menu_export">Export</string>
+    <string name="save_button">Save</string>
+    <string name="new_pains_hint">Enter new pain</string>
+    <string name="new_pains_added">New pain added</string>
+
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

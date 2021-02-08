@@ -1,18 +1,28 @@
 package com.example.headi.ui.pains;
 
-import androidx.lifecycle.ViewModelProvider;
-
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.headi.R;
+import com.example.headi.db.HeadiDBContract;
+import com.example.headi.db.HeadiDBSQLiteHelper;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class PainsAddFragment extends Fragment {
 
@@ -25,7 +35,14 @@ public class PainsAddFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_pains_add, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_pains_add, container, false);
+
+        // Save Button listener
+        final Button button = view.findViewById(R.id.pains_save_button);
+        button.setOnClickListener(v -> saveToDB());
+
+        return view;
     }
 
     @Override
@@ -35,4 +52,15 @@ public class PainsAddFragment extends Fragment {
         // TODO: Use the ViewModel
     }
 
+    private void saveToDB() {
+        Context context = getActivity();
+        SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(HeadiDBContract.Pains.COLUMN_PAIN, getView().findViewById(R.id.pains_new_pain).toString());
+        database.insert(HeadiDBContract.Pains.TABLE_NAME, null, values);
+
+        Toast.makeText(context, context.getString(R.string.new_pains_added), Toast.LENGTH_LONG).show();
+
+    }
 }
