@@ -53,37 +53,7 @@ public class PainsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        // Save Button listener
-        final Button button = view.findViewById(R.id.pains_save_button);
-        button.setOnClickListener(v -> saveToDB());
-
-        // Find ListView to populate
-        PainsItems = (ListView) view.findViewById(R.id.pains_list);
-        PainsItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
-
-                new MaterialAlertDialogBuilder(context)
-                        .setTitle("Delete")
-                        .setMessage("Position = " + position + " | id = " + id )
-                        .setPositiveButton("GOT IT", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        })
-                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        })
-                        .show();
-                return true;
-            }
-        });
-
-
+        registerListeners(context);
         readFromDB();
         return view;
     }
@@ -130,5 +100,49 @@ public class PainsFragment extends Fragment {
         PainsCurserAdapter painsAdapter = new PainsCurserAdapter(context, cursor, 0);
         // Attach cursor adapter to the ListView
         PainsItems.setAdapter(painsAdapter);
+    }
+
+    private void deleteFromDB(long id) {
+        Context context = getActivity();
+        SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getWritableDatabase();
+
+        String selection = HeadiDBContract.Pains._ID + " = ?";
+        String[] selectionArgs = {Long.toString(id)};
+
+        database.delete(HeadiDBContract.Pains.TABLE_NAME, selection, selectionArgs);
+        readFromDB();
+    }
+
+    private void registerListeners(Context context) {
+        // Save Button listener
+        final Button button = view.findViewById(R.id.pains_save_button);
+        button.setOnClickListener(v -> saveToDB());
+
+        // Find ListView to populate
+        PainsItems = (ListView) view.findViewById(R.id.pains_list);
+        PainsItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+
+                new MaterialAlertDialogBuilder(context)
+                        .setTitle(context.getString(R.string.action_delete))
+                        .setMessage(context.getString(R.string.delete_pains) + "Position = " + position + " | id = " + id )
+                        .setPositiveButton(context.getString(R.string.delete_button), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                deleteFromDB(id);
+                            }
+                        })
+                        .setNegativeButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .show();
+                return true;
+            }
+        });
+
     }
 }

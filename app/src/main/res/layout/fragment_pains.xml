@@ -15,9 +15,9 @@
         android:id="@+id/pains_new_pain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
+        android:ems="15"
         android:hint="@string/new_pains_hint"
-        android:inputType="textPersonName"
+        android:inputType="textCapWords"
         android:autofillHints="@string/new_pains_hint" />
 
     <Button
