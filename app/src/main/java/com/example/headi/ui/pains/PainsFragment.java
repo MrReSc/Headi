@@ -1,6 +1,11 @@
 package com.example.headi.ui.pains;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -8,7 +13,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,28 +31,61 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.headi.R;
+import com.example.headi.db.HeadiDBContract;
+import com.example.headi.db.HeadiDBSQLiteHelper;
+import com.example.headi.db.PainsCurserAdapter;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 
 public class PainsFragment extends Fragment {
 
     private PainsViewModel painsViewModel;
+    private View view;
+    private ListView PainsItems;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        painsViewModel = new ViewModelProvider(this).get(PainsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_pains, container, false);
 
-        final TextView textView = root.findViewById(R.id.text_gallery);
-        painsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+        Context context = getActivity();
+        painsViewModel = new ViewModelProvider(this).get(PainsViewModel.class);
+        view = inflater.inflate(R.layout.fragment_pains, container, false);
 
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        return root;
+
+        // Save Button listener
+        final Button button = view.findViewById(R.id.pains_save_button);
+        button.setOnClickListener(v -> saveToDB());
+
+        // Find ListView to populate
+        PainsItems = (ListView) view.findViewById(R.id.pains_list);
+        PainsItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+
+                new MaterialAlertDialogBuilder(context)
+                        .setTitle("Delete")
+                        .setMessage("Position = " + position + " | id = " + id )
+                        .setPositiveButton("GOT IT", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .show();
+                return true;
+            }
+        });
+
+
+        readFromDB();
+        return view;
     }
 
     @Override
@@ -50,4 +93,42 @@ public class PainsFragment extends Fragment {
         inflater.inflate(R.menu.menu_pains, menu);
     }
 
+    private void saveToDB() {
+        Context context = getActivity();
+        SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        EditText mEdit = (EditText)view.findViewById(R.id.pains_new_pain);
+        values.put(HeadiDBContract.Pains.COLUMN_PAIN, mEdit.getText().toString());
+        database.insert(HeadiDBContract.Pains.TABLE_NAME, null, values);
+
+        Toast.makeText(context, context.getString(R.string.new_pains_added), Toast.LENGTH_LONG).show();
+        mEdit.setText("");
+        readFromDB();
+    }
+
+    private void readFromDB() {
+        Context context = getActivity();
+        SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getReadableDatabase();
+
+        String[] projection = {
+                HeadiDBContract.Pains._ID,
+                HeadiDBContract.Pains.COLUMN_PAIN,
+        };
+
+        Cursor cursor = database.query(
+                HeadiDBContract.Pains.TABLE_NAME,         // The table to query
+                projection,                               // The columns to return
+                null,                            // The columns for the WHERE clause
+                null,                         // The values for the WHERE clause
+                null,                             // don't group the rows
+                null,                              // don't filter by row groups
+                null                              // don't sort
+        );
+
+        // Setup cursor adapter using cursor from last step
+        PainsCurserAdapter painsAdapter = new PainsCurserAdapter(context, cursor, 0);
+        // Attach cursor adapter to the ListView
+        PainsItems.setAdapter(painsAdapter);
+    }
 }

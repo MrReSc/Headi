@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.example.headi.R;
 import com.example.headi.db.HeadiDBContract;
@@ -27,6 +28,7 @@ import java.util.Calendar;
 public class PainsAddFragment extends Fragment {
 
     private PainsAddViewModel mViewModel;
+    private View view;
 
     public static PainsAddFragment newInstance() {
         return new PainsAddFragment();
@@ -36,7 +38,7 @@ public class PainsAddFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_pains_add, container, false);
+        view = inflater.inflate(R.layout.fragment_pains_add, container, false);
 
         // Save Button listener
         final Button button = view.findViewById(R.id.pains_save_button);
@@ -57,10 +59,14 @@ public class PainsAddFragment extends Fragment {
         SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(HeadiDBContract.Pains.COLUMN_PAIN, getView().findViewById(R.id.pains_new_pain).toString());
+        EditText mEdit = (EditText)view.findViewById(R.id.pains_new_pain);
+        values.put(HeadiDBContract.Pains.COLUMN_PAIN, mEdit.getText().toString());
         database.insert(HeadiDBContract.Pains.TABLE_NAME, null, values);
 
         Toast.makeText(context, context.getString(R.string.new_pains_added), Toast.LENGTH_LONG).show();
+
+        // Navigate Back
+        Navigation.findNavController(view).navigateUp();
 
     }
 }
