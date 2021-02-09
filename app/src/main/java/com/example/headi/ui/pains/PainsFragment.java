@@ -58,11 +58,6 @@ public class PainsFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_pains, menu);
-    }
-
     private void saveToDB() {
         Context context = getActivity();
         SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getWritableDatabase();
