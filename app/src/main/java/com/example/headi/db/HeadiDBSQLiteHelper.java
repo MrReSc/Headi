@@ -1,6 +1,7 @@
 package com.example.headi.db;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -27,5 +28,28 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + HeadiDBContract.Pains.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + HeadiDBContract.Diary.TABLE_NAME);
         onCreate(sqLiteDatabase);
+    }
+
+    public PainsCurserAdapter readPainsFromDB(Context context){
+        SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getReadableDatabase();
+
+        String[] projection = {
+                HeadiDBContract.Pains._ID,
+                HeadiDBContract.Pains.COLUMN_PAIN,
+        };
+
+        Cursor cursor = database.query(
+                HeadiDBContract.Pains.TABLE_NAME,         // The table to query
+                projection,                               // The columns to return
+                null,                            // The columns for the WHERE clause
+                null,                         // The values for the WHERE clause
+                null,                             // don't group the rows
+                null,                              // don't filter by row groups
+                null                              // don't sort
+        );
+
+        // Setup cursor adapter using cursor from last step
+        PainsCurserAdapter painsAdapter = new PainsCurserAdapter(context, cursor, 0);
+        return painsAdapter;
     }
 }

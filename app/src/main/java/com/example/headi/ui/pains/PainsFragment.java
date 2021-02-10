@@ -74,27 +74,10 @@ public class PainsFragment extends Fragment {
 
     private void readFromDB() {
         Context context = getActivity();
-        SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getReadableDatabase();
 
-        String[] projection = {
-                HeadiDBContract.Pains._ID,
-                HeadiDBContract.Pains.COLUMN_PAIN,
-        };
-
-        Cursor cursor = database.query(
-                HeadiDBContract.Pains.TABLE_NAME,         // The table to query
-                projection,                               // The columns to return
-                null,                            // The columns for the WHERE clause
-                null,                         // The values for the WHERE clause
-                null,                             // don't group the rows
-                null,                              // don't filter by row groups
-                null                              // don't sort
-        );
-
-        // Setup cursor adapter using cursor from last step
-        PainsCurserAdapter painsAdapter = new PainsCurserAdapter(context, cursor, 0);
         // Attach cursor adapter to the ListView
-        PainsItems.setAdapter(painsAdapter);
+        HeadiDBSQLiteHelper helper = new HeadiDBSQLiteHelper(context);
+        PainsItems.setAdapter(helper.readPainsFromDB(context));
     }
 
     private void deleteFromDB(long id) {

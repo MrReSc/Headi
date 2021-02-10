@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
+import com.example.headi.ui.timer.StopwatchHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.core.view.GravityCompat;
+import androidx.lifecycle.MutableLiveData;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -20,10 +23,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import java.util.concurrent.TimeUnit;
+
+import timerx.Stopwatch;
+import timerx.StopwatchBuilder;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private NavController navController;
+    public StopwatchHelper stopwatch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        // The Stopwatch must run in the MainActivity so that it can be reached from every fragment
+        stopwatch = new StopwatchHelper();
     }
 
     @Override
