@@ -1,17 +1,22 @@
 package com.example.headi.ui.timer;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.headi.Constants;
 import com.example.headi.MainActivity;
@@ -73,7 +78,17 @@ public class TimerFragment extends Fragment {
                 getActivity().startService(intent);
             }
         });
+
+        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(Constants.BROADCAST.ACTION_CURRENT_TIME));
     }
+
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            TextView mTimerView = (TextView)view.findViewById(R.id.timer_time);
+            mTimerView.setText(intent.getExtras().get(Constants.BROADCAST.DATA_CURRENT_TIME).toString());
+        }
+    };
 
     private void setStateTimerButtons(String action) {
         Context context = getActivity();

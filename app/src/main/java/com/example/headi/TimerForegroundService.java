@@ -109,6 +109,11 @@ public class TimerForegroundService extends Service {
 
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(Constants.SERVICE.NOTIFICATION_ID_TIMER_SERVICE, notification);
+
+        Intent timerIntent = new Intent();
+        timerIntent.putExtra(Constants.BROADCAST.DATA_CURRENT_TIME, time);
+        timerIntent.setAction(Constants.BROADCAST.ACTION_CURRENT_TIME);
+        sendBroadcast(timerIntent);
     }
 }
 

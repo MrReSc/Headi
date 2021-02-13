@@ -12,4 +12,9 @@ public class Constants {
         public static final int NOTIFICATION_ID_TIMER_SERVICE = 8466503;
         public static final String NOTIFICATION_CHANEL_ID = "7894";
     }
+
+    public static class BROADCAST {
+        public static final String DATA_CURRENT_TIME = "timer.broadcast.data.current_time";
+        public static final String ACTION_CURRENT_TIME = "timer.broadcast.action.current_time";
+    }
 }
