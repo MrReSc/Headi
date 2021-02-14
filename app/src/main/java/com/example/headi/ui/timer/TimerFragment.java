@@ -1,19 +1,24 @@
 package com.example.headi.ui.timer;
 
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -71,6 +76,7 @@ public class TimerFragment extends Fragment {
             intent.setAction(Constants.ACTION.SAVE_ACTION);
             requireActivity().startService(intent);
             setTimerTime(requireActivity().getString(R.string.timer_time));
+            saveToDB();
         });
 
         // Spinner selected listener
@@ -153,6 +159,23 @@ public class TimerFragment extends Fragment {
 
         // Set saved pain
         setSpinnerPain(adapter);
+    }
+
+    private void saveToDB() {
+        Context context = requireActivity();
+        SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(HeadiDBContract.Diary.COLUMN_START_DATE, TimerForegroundService.startDate);
+        values.put(HeadiDBContract.Diary.COLUMN_END_DATE, TimerForegroundService.endDate);
+        values.put(HeadiDBContract.Diary.COLUMN_DURATION, TimerForegroundService.elapsedTime);
+        values.put(HeadiDBContract.Diary.COLUMN_REGION, "Blafoo");
+        values.put(HeadiDBContract.Diary.COLUMN_DESCRIPTION, "Lorem ipsum");
+        values.put(HeadiDBContract.Diary.COLUMN_PAIN_ID, pains_items.getSelectedItemId());
+
+        database.insert(HeadiDBContract.Diary.TABLE_NAME, null, values);
+
+        Toast.makeText(context, context.getString(R.string.new_diary_added), Toast.LENGTH_SHORT).show();
     }
 
     private void setSpinnerPain(PainsCurserAdapter adapter) {

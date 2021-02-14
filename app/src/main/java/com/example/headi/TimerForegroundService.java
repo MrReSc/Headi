@@ -6,11 +6,14 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.icu.util.Calendar;
 import android.os.IBinder;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import java.sql.Time;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import timerx.Stopwatch;
@@ -21,6 +24,11 @@ public class TimerForegroundService extends Service {
     public Stopwatch stopwatch;
     public static boolean isTimerRunning = false;
     public static CharSequence currentTime = "00:00:00";
+
+    public static Long startDate = 0L;
+    public static Long endDate = 0L;
+    public static Long elapsedTime = 0L;
+
 
     @Nullable
     @Override
@@ -46,6 +54,8 @@ public class TimerForegroundService extends Service {
                 // When time is equal to one hour, change format to "HH:MM:SS"
                 .changeFormatWhen(1, TimeUnit.HOURS, "HH:MM:SS")
                 .build();
+
+        calcTimes();
     }
 
     @Override
@@ -65,7 +75,6 @@ public class TimerForegroundService extends Service {
                 stopForeground(true);
                 stopwatch.release();
                 isTimerRunning = false;
-                currentTime = "00:00:00";
                 stopSelf();
                 break;
             case Constants.ACTION.NONE_ACTION:
@@ -73,6 +82,7 @@ public class TimerForegroundService extends Service {
             default:
                 stopForeground(true);
                 isTimerRunning = false;
+                stopwatch.release();
                 stopSelf();
         }
 
@@ -107,6 +117,15 @@ public class TimerForegroundService extends Service {
         timerIntent.putExtra(Constants.BROADCAST.DATA_CURRENT_TIME, time);
         timerIntent.setAction(Constants.BROADCAST.ACTION_CURRENT_TIME);
         sendBroadcast(timerIntent);
+
+        calcTimes();
+    }
+
+    private void calcTimes() {
+        currentTime = "00:00:00";
+        elapsedTime = stopwatch.getTimeIn(TimeUnit.MILLISECONDS);
+        startDate = System.currentTimeMillis() - elapsedTime;
+        endDate = System.currentTimeMillis();
     }
 }
 

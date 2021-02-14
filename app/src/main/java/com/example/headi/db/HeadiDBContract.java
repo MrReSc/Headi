@@ -19,7 +19,8 @@ public final class HeadiDBContract {
 
     public static class Diary implements BaseColumns {
         public static final String TABLE_NAME = "diary";
-        public static final String COLUMN_DATE = "date";
+        public static final String COLUMN_START_DATE = "start_date";
+        public static final String COLUMN_END_DATE = "end_date";
         public static final String COLUMN_DURATION = "duration";
         public static final String COLUMN_PAIN_ID = "pain_id";
         public static final String COLUMN_REGION = "region";
@@ -28,7 +29,8 @@ public final class HeadiDBContract {
         public static final String CREATE_TABLE = "CREATE TABLE " +
                 TABLE_NAME + " (" +
                 _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_DATE + " INTEGER, " +
+                COLUMN_START_DATE + " INTEGER, " +
+                COLUMN_END_DATE + " INTEGER, " +
                 COLUMN_DURATION + " INTEGER, " +
                 COLUMN_REGION + " INTEGER, " +
                 COLUMN_DESCRIPTION + " TEXT, " +
