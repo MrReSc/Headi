@@ -54,7 +54,7 @@ public class PainsFragment extends Fragment {
         values.put(HeadiDBContract.Pains.COLUMN_PAIN, mEdit.getText().toString());
         database.insert(HeadiDBContract.Pains.TABLE_NAME, null, values);
 
-        Toast.makeText(context, context.getString(R.string.new_pains_added), Toast.LENGTH_LONG).show();
+        Toast.makeText(context, context.getString(R.string.new_pains_added), Toast.LENGTH_SHORT).show();
         mEdit.setText("");
         readFromDB();
     }
