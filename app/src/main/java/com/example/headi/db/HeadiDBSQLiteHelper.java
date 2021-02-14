@@ -5,8 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.Nullable;
-
 public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
@@ -49,7 +47,6 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         );
 
         // Setup cursor adapter using cursor from last step
-        PainsCurserAdapter painsAdapter = new PainsCurserAdapter(context, cursor, 0);
-        return painsAdapter;
+        return new PainsCurserAdapter(context, cursor, 0);
     }
 }

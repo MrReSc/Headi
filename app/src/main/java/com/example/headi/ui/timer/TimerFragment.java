@@ -9,20 +9,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.headi.Constants;
-import com.example.headi.MainActivity;
 import com.example.headi.R;
 import com.example.headi.TimerForegroundService;
 import com.example.headi.db.HeadiDBSQLiteHelper;
+
+import java.util.Objects;
 
 
 public class TimerFragment extends Fragment {
@@ -30,6 +29,7 @@ public class TimerFragment extends Fragment {
     private TimerViewModel timerViewModel;
     private View view;
     private Spinner PainsItems;
+    private boolean timerIsRunning;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -39,7 +39,7 @@ public class TimerFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_timer, container, false);
 
         registerListeners();
-        setStateTimerButtons();
+        setStateTimerButtons(Constants.ACTION.INIT_ACTION);
 
         PainsItems = (Spinner) view.findViewById(R.id.timer_pains_select);
         readFromDB();
@@ -51,38 +51,31 @@ public class TimerFragment extends Fragment {
 
         // Start / Stop Button listener
         final Button button_start = view.findViewById(R.id.timer_startOrStop_button);
-        button_start.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), TimerForegroundService.class);
-                if (button_start.getText() == getActivity().getString(R.string.timer_stop)) {
-                    intent.setAction(Constants.ACTION.STOP_ACTION);
-                }
-                else {
-                    intent.setAction(Constants.ACTION.START_ACTION);
-                }
-                getActivity().startService(intent);
-                setStateTimerButtons(intent.getAction());
+        button_start.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), TimerForegroundService.class);
+            if (TimerForegroundService.isTimerRunning) {
+                intent.setAction(Constants.ACTION.STOP_ACTION);
             }
-
+            else {
+                intent.setAction(Constants.ACTION.START_ACTION);
+            }
+            requireActivity().startService(intent);
+            setStateTimerButtons(intent.getAction());
         });
 
         // Save Button listener
         final Button button_save = view.findViewById(R.id.timer_save_button);
-        button_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), TimerForegroundService.class);
-                intent.setAction(Constants.ACTION.SAVE_ACTION);
-                getActivity().startService(intent);
-            }
+        button_save.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), TimerForegroundService.class);
+            intent.setAction(Constants.ACTION.SAVE_ACTION);
+            requireActivity().startService(intent);
+            setTimerTime(requireActivity().getString(R.string.timer_time));
         });
 
-        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(Constants.BROADCAST.ACTION_CURRENT_TIME));
+        requireActivity().registerReceiver(broadcastReceiverTimer, new IntentFilter(Constants.BROADCAST.ACTION_CURRENT_TIME));
     }
 
-    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+    BroadcastReceiver broadcastReceiverTimer = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             TextView mTimerView = (TextView)view.findViewById(R.id.timer_time);
@@ -95,22 +88,49 @@ public class TimerFragment extends Fragment {
 
         final Button button_start = view.findViewById(R.id.timer_startOrStop_button);
         final Button button_save = view.findViewById(R.id.timer_save_button);
-        boolean timerIsRunning = ((MainActivity)getActivity()).isServiceRunning(TimerForegroundService.class);
 
-        if (!timerIsRunning | action.equals(Constants.ACTION.STOP_ACTION)) {
-            button_start.setText(context.getString(R.string.timer_start));
-            button_start.setBackgroundColor(context.getColor(R.color.play));
-            button_save.setEnabled(true);
-        }
-        else {
-            button_start.setText(context.getString(R.string.timer_stop));
-            button_start.setBackgroundColor(context.getColor(R.color.stop));
-            button_save.setEnabled(false);
+        switch (action){
+            case Constants.ACTION.INIT_ACTION:
+                if (!TimerForegroundService.isTimerRunning) {
+                    setButton(button_start, button_save, Constants.ACTION.STOP_ACTION);
+                }
+                else {
+                    setButton(button_start, button_save, Constants.ACTION.START_ACTION);
+                }
+                // Set current timer time on init
+                setTimerTime(TimerForegroundService.currentTime);
+                break;
+            case Constants.ACTION.START_ACTION:
+                setButton(button_start, button_save, Constants.ACTION.START_ACTION);
+                break;
+            case Constants.ACTION.STOP_ACTION:
+                setButton(button_start, button_save, Constants.ACTION.STOP_ACTION);
+                break;
+            default:
+                setButton(button_start, button_save, Constants.ACTION.STOP_ACTION);
+                break;
         }
     }
 
-    private void setStateTimerButtons() {
-        setStateTimerButtons("");
+    private void setButton (Button start, Button save, String action) {
+        Context context = getActivity();
+
+        if (action.equals(Constants.ACTION.STOP_ACTION)) {
+            start.setText(requireActivity().getString(R.string.timer_start));
+            start.setBackgroundColor(requireActivity().getColor(R.color.play));
+            save.setEnabled(true);
+        }
+
+        if (action.equals(Constants.ACTION.START_ACTION)) {
+            start.setText(requireActivity().getString(R.string.timer_stop));
+            start.setBackgroundColor(requireActivity().getColor(R.color.stop));
+            save.setEnabled(false);
+        }
+    }
+
+    private void setTimerTime(CharSequence time) {
+        TextView mTimerView = (TextView)view.findViewById(R.id.timer_time);
+        mTimerView.setText(time);
     }
 
     private void readFromDB() {
