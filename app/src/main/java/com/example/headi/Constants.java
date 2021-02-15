@@ -5,7 +5,7 @@ public class Constants {
     public static class ACTION {
         public static final String START_ACTION = "timer.action.start";
         public static final String STOP_ACTION = "timer.action.stop";
-        public static final String SAVE_ACTION = "timer.action.save";
+        public static final String END_ACTION = "timer.action.end";
         public static final String NONE_ACTION = "timer.action.none";
         public static final String INIT_ACTION = "timer.action.init";
     }

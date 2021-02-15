@@ -6,14 +6,11 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.icu.util.Calendar;
 import android.os.IBinder;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-import java.sql.Time;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import timerx.Stopwatch;
@@ -71,7 +68,7 @@ public class TimerForegroundService extends Service {
                 stopwatch.stop();
                 isTimerRunning = false;
                 break;
-            case Constants.ACTION.SAVE_ACTION:
+            case Constants.ACTION.END_ACTION:
                 stopForeground(true);
                 stopwatch.release();
                 isTimerRunning = false;
@@ -122,7 +119,6 @@ public class TimerForegroundService extends Service {
     }
 
     private void calcTimes() {
-        currentTime = "00:00:00";
         elapsedTime = stopwatch.getTimeIn(TimeUnit.MILLISECONDS);
         startDate = System.currentTimeMillis() - elapsedTime;
         endDate = System.currentTimeMillis();

@@ -20,11 +20,14 @@
     <string name="new_pains_hint">Enter new pain</string>
     <string name="new_pains_added">New pain added</string>
     <string name="new_diary_added">New record saved</string>
+    <string name="title_diary_save">Save record</string>
     <string name="delete_pains">Do you want to delete the entry?</string>
     <string name="timer_time">00:00:00</string>
     <string name="timer_start">Start</string>
     <string name="timer_stop">Stop</string>
     <string name="timer_save">Save</string>
+    <string name="diary_description">Description</string>
+    <string name="pain_region">Pain region</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

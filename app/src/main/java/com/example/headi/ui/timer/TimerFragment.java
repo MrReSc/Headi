@@ -3,12 +3,12 @@ package com.example.headi.ui.timer;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -36,6 +37,13 @@ public class TimerFragment extends Fragment {
 
     private TimerViewModel timerViewModel;
     private View view;
+    BroadcastReceiver broadcastReceiverTimer = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            TextView mTimerView = view.findViewById(R.id.timer_time);
+            mTimerView.setText(intent.getExtras().get(Constants.BROADCAST.DATA_CURRENT_TIME).toString());
+        }
+    };
     private Spinner pains_items;
     private Button button_start, button_save;
 
@@ -47,7 +55,7 @@ public class TimerFragment extends Fragment {
 
         button_start = view.findViewById(R.id.timer_startOrStop_button);
         button_save = view.findViewById(R.id.timer_save_button);
-        pains_items = (Spinner) view.findViewById(R.id.timer_pains_select);
+        pains_items = view.findViewById(R.id.timer_pains_select);
 
         registerListeners();
         readFromDB();
@@ -72,11 +80,7 @@ public class TimerFragment extends Fragment {
 
         // Save Button listener
         button_save.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), TimerForegroundService.class);
-            intent.setAction(Constants.ACTION.SAVE_ACTION);
-            requireActivity().startService(intent);
-            setTimerTime(requireActivity().getString(R.string.timer_time));
-            saveToDB();
+            openSaveDialog();
         });
 
         // Spinner selected listener
@@ -98,14 +102,6 @@ public class TimerFragment extends Fragment {
         requireActivity().registerReceiver(broadcastReceiverTimer,
                 new IntentFilter(Constants.BROADCAST.ACTION_CURRENT_TIME));
     }
-
-    BroadcastReceiver broadcastReceiverTimer = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            TextView mTimerView = (TextView) view.findViewById(R.id.timer_time);
-            mTimerView.setText(intent.getExtras().get(Constants.BROADCAST.DATA_CURRENT_TIME).toString());
-        }
-    };
 
     private void setUiAppearance(String action) {
         switch (action) {
@@ -131,21 +127,25 @@ public class TimerFragment extends Fragment {
     }
 
     private void setButton(Button start, Button save, String action) {
-        if (action.equals(Constants.ACTION.STOP_ACTION)) {
-            start.setText(requireActivity().getString(R.string.timer_start));
-            start.setBackgroundColor(requireActivity().getColor(R.color.play));
-            save.setEnabled(true);
-        }
-
-        if (action.equals(Constants.ACTION.START_ACTION)) {
-            start.setText(requireActivity().getString(R.string.timer_stop));
-            start.setBackgroundColor(requireActivity().getColor(R.color.stop));
-            save.setEnabled(false);
+        switch (action) {
+            case Constants.ACTION.STOP_ACTION:
+                start.setText(requireActivity().getString(R.string.timer_start));
+                start.setBackgroundColor(requireActivity().getColor(R.color.play));
+                save.setEnabled(true);
+                break;
+            case Constants.ACTION.START_ACTION:
+                start.setText(requireActivity().getString(R.string.timer_stop));
+                start.setBackgroundColor(requireActivity().getColor(R.color.stop));
+                save.setEnabled(false);
+                break;
+            default:
+                save.setEnabled(TimerForegroundService.isTimerRunning);
+                break;
         }
     }
 
     private void setTimerTime(CharSequence time) {
-        TextView mTimerView = (TextView) view.findViewById(R.id.timer_time);
+        TextView mTimerView = view.findViewById(R.id.timer_time);
         mTimerView.setText(time);
     }
 
@@ -161,21 +161,73 @@ public class TimerFragment extends Fragment {
         setSpinnerPain(adapter);
     }
 
-    private void saveToDB() {
+    private void saveToDB(String region, String description) {
         Context context = requireActivity();
+        timerForegroundServiceEndAction();
+
+        // Save to DB
         SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getWritableDatabase();
         ContentValues values = new ContentValues();
 
         values.put(HeadiDBContract.Diary.COLUMN_START_DATE, TimerForegroundService.startDate);
         values.put(HeadiDBContract.Diary.COLUMN_END_DATE, TimerForegroundService.endDate);
         values.put(HeadiDBContract.Diary.COLUMN_DURATION, TimerForegroundService.elapsedTime);
-        values.put(HeadiDBContract.Diary.COLUMN_REGION, "Blafoo");
-        values.put(HeadiDBContract.Diary.COLUMN_DESCRIPTION, "Lorem ipsum");
+        values.put(HeadiDBContract.Diary.COLUMN_REGION, region);
+        values.put(HeadiDBContract.Diary.COLUMN_DESCRIPTION, description);
         values.put(HeadiDBContract.Diary.COLUMN_PAIN_ID, pains_items.getSelectedItemId());
 
         database.insert(HeadiDBContract.Diary.TABLE_NAME, null, values);
 
         Toast.makeText(context, context.getString(R.string.new_diary_added), Toast.LENGTH_SHORT).show();
+    }
+
+    private void timerForegroundServiceEndAction() {
+        Intent intent = new Intent(getActivity(), TimerForegroundService.class);
+        intent.setAction(Constants.ACTION.END_ACTION);
+        requireActivity().startService(intent);
+        setTimerTime(requireActivity().getString(R.string.timer_time));
+    }
+
+    private void openSaveDialog() {
+        Context context = requireActivity();
+
+        // Create an alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(context.getString(R.string.title_diary_save));
+
+        // set the custom layout
+        final View customLayout = getLayoutInflater().inflate(R.layout.fragment_save_diary_dialog, null);
+        builder.setView(customLayout);
+
+        // add save button
+        builder.setPositiveButton(context.getString(R.string.save_button), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                EditText diaryDescription = customLayout.findViewById(R.id.diary_description);
+                EditText diaryRegion = customLayout.findViewById(R.id.diary_region);
+                saveToDB(diaryRegion.getText().toString(), diaryDescription.getText().toString());
+            }
+        });
+
+        // add delete button
+        builder.setNegativeButton(context.getString(R.string.delete_button), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                timerForegroundServiceEndAction();
+            }
+        });
+
+        // add cancel button
+        builder.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void setSpinnerPain(PainsCurserAdapter adapter) {
