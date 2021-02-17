@@ -22,7 +22,7 @@ public final class HeadiDBContract {
         public static final String COLUMN_START_DATE = "start_date";
         public static final String COLUMN_END_DATE = "end_date";
         public static final String COLUMN_DURATION = "duration";
-        public static final String COLUMN_PAIN_ID = "pain_id";
+        public static final String COLUMN_PAIN = "pain";
         public static final String COLUMN_REGION = "region";
         public static final String COLUMN_DESCRIPTION = "description";
 
@@ -34,8 +34,6 @@ public final class HeadiDBContract {
                 COLUMN_DURATION + " INTEGER, " +
                 COLUMN_REGION + " BLOB, " +
                 COLUMN_DESCRIPTION + " TEXT, " +
-                COLUMN_PAIN_ID + " INTEGER, " +
-                "FOREIGN KEY(" + COLUMN_PAIN_ID + ") REFERENCES " +
-                Pains.TABLE_NAME + "(" + Pains._ID + ") " + ")";
+                COLUMN_PAIN + " TEXT " + ")";
     }
 }

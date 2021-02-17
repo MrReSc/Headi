@@ -11,9 +11,9 @@ import androidx.cursoradapter.widget.CursorAdapter;
 
 import com.example.headi.R;
 
-public class PainsCurserAdapter extends CursorAdapter {
+public class PainsCourserAdapter extends CursorAdapter {
 
-    public PainsCurserAdapter(Context context, Cursor c, int flags) {
+    public PainsCourserAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
     }
 

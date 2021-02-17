@@ -22,6 +22,7 @@
     <string name="new_diary_added">New record saved</string>
     <string name="title_diary_save">Save record</string>
     <string name="delete_pains">Do you want to delete the entry?</string>
+    <string name="delete_diary">Do you want to delete the record?</string>
     <string name="timer_time">00:00:00</string>
     <string name="timer_start">Start</string>
     <string name="timer_stop">Stop</string>

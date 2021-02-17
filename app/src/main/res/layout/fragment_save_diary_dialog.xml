@@ -21,7 +21,7 @@
     <tech.picnic.fingerpaintview.FingerPaintImageView
         android:id="@+id/diary_region"
         android:layout_width="match_parent"
-        android:layout_height="550dp"
+        android:layout_height="220dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"

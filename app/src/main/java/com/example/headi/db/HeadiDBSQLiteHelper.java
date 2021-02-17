@@ -28,7 +28,7 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public PainsCurserAdapter readPainsFromDB(Context context){
+    public PainsCourserAdapter readPainsFromDB(Context context){
         SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getReadableDatabase();
 
         String[] projection = {
@@ -47,6 +47,36 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         );
 
         // Setup cursor adapter using cursor from last step
-        return new PainsCurserAdapter(context, cursor, 0);
+        return new PainsCourserAdapter(context, cursor, 0);
     }
+
+    public DiaryCourserAdapter readDiaryFromDB(Context context){
+        SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getReadableDatabase();
+
+        String[] projection = {
+                HeadiDBContract.Diary._ID,
+                HeadiDBContract.Diary.COLUMN_DESCRIPTION,
+                HeadiDBContract.Diary.COLUMN_DURATION,
+                HeadiDBContract.Diary.COLUMN_END_DATE,
+                HeadiDBContract.Diary.COLUMN_PAIN,
+                HeadiDBContract.Diary.COLUMN_REGION,
+                HeadiDBContract.Diary.COLUMN_START_DATE,
+        };
+
+        String orderBy = HeadiDBContract.Diary.COLUMN_START_DATE + " DESC";
+
+        Cursor cursor = database.query(
+                HeadiDBContract.Diary.TABLE_NAME,         // The table to query
+                projection,                               // The columns to return
+                null,                            // The columns for the WHERE clause
+                null,                         // The values for the WHERE clause
+                null,                             // don't group the rows
+                null,                              // don't filter by row groups
+                orderBy                                   // sort
+        );
+
+        // Setup cursor adapter using cursor from last step
+        return new DiaryCourserAdapter(context, cursor, 0);
+    }
+
 }

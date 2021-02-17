@@ -6,4 +6,4 @@ Headache diary
 - [FingerPaintView](https://github.com/PicnicSupermarket/FingerPaintView) MIT
 
 ## Pictures
-- Bild von <a href="https://pixabay.com/de/users/gdj-1086657/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=5594744">Gordon Johnson</a> auf <a href="https://pixabay.com/de/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=5594744">Pixabay</a>
+- [Clker-Free-Vector-Images](https://pixabay.com/de/users/clker-free-vector-images-3736/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=29840)

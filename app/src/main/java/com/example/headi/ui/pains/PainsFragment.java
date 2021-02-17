@@ -36,9 +36,7 @@ public class PainsFragment extends Fragment {
         Context context = getActivity();
         painsViewModel = new ViewModelProvider(this).get(PainsViewModel.class);
         view = inflater.inflate(R.layout.fragment_pains, container, false);
-
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        PainsItems = (ListView) view.findViewById(R.id.pains_list);
 
         registerListeners(context);
         readFromDB();
@@ -84,7 +82,6 @@ public class PainsFragment extends Fragment {
         button.setOnClickListener(v -> saveToDB());
 
         // Find ListView to populate
-        PainsItems = (ListView) view.findViewById(R.id.pains_list);
         PainsItems.setOnItemLongClickListener((adapterView, view, position, id) -> {
 
             new MaterialAlertDialogBuilder(context)

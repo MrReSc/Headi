@@ -10,9 +10,10 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
-import android.graphics.Color;
+import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.VectorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +35,7 @@ import com.example.headi.R;
 import com.example.headi.TimerForegroundService;
 import com.example.headi.db.HeadiDBContract;
 import com.example.headi.db.HeadiDBSQLiteHelper;
-import com.example.headi.db.PainsCurserAdapter;
+import com.example.headi.db.PainsCourserAdapter;
 
 import java.io.ByteArrayOutputStream;
 
@@ -154,7 +155,7 @@ public class TimerFragment extends Fragment {
 
         // Attach cursor adapter to the ListView
         HeadiDBSQLiteHelper helper = new HeadiDBSQLiteHelper(context);
-        PainsCurserAdapter adapter = helper.readPainsFromDB(context);
+        PainsCourserAdapter adapter = helper.readPainsFromDB(context);
         pains_items.setAdapter(adapter);
 
         // Set saved pain
@@ -174,7 +175,8 @@ public class TimerFragment extends Fragment {
         values.put(HeadiDBContract.Diary.COLUMN_DURATION, TimerForegroundService.elapsedTime);
         values.put(HeadiDBContract.Diary.COLUMN_REGION, getDrawableAsByteArray(region));
         values.put(HeadiDBContract.Diary.COLUMN_DESCRIPTION, description);
-        values.put(HeadiDBContract.Diary.COLUMN_PAIN_ID, pains_items.getSelectedItemId());
+        String pain = ((Cursor)pains_items.getSelectedItem()).getString(1);
+        values.put(HeadiDBContract.Diary.COLUMN_PAIN, pain);
 
         database.insert(HeadiDBContract.Diary.TABLE_NAME, null, values);
 
@@ -182,9 +184,20 @@ public class TimerFragment extends Fragment {
     }
 
     public static byte[] getDrawableAsByteArray(Drawable d) {
-        Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
+        Bitmap bitmap = null;
+
+        if (d instanceof BitmapDrawable) {
+            bitmap = ((BitmapDrawable)d).getBitmap();
+        }
+        else {
+            bitmap = Bitmap.createBitmap(d.getIntrinsicWidth(), d.getIntrinsicHeight(), Bitmap.Config.RGBA_F16);
+            Canvas canvas = new Canvas(bitmap);
+            d.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            d.draw(canvas);
+        }
+
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         return stream.toByteArray();
     }
 
@@ -253,7 +266,7 @@ public class TimerFragment extends Fragment {
         dialog.show();
     }
 
-    private void setSpinnerPain(PainsCurserAdapter adapter) {
+    private void setSpinnerPain(PainsCourserAdapter adapter) {
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         long id = sharedPref.getLong(Constants.SHAREDPREFS.TIMER_SPINNER_PAINS, 0);
 

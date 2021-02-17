@@ -10,4 +10,5 @@
     <color name="play">#4CAF50</color>
     <color name="stop">#E91E63</color>
     <color name="region_mark">#94E91E63</color>
+    <color name="pain_name">#03A9F4</color>
 </resources>
