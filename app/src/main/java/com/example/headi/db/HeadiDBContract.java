@@ -32,7 +32,7 @@ public final class HeadiDBContract {
                 COLUMN_START_DATE + " INTEGER, " +
                 COLUMN_END_DATE + " INTEGER, " +
                 COLUMN_DURATION + " INTEGER, " +
-                COLUMN_REGION + " INTEGER, " +
+                COLUMN_REGION + " BLOB, " +
                 COLUMN_DESCRIPTION + " TEXT, " +
                 COLUMN_PAIN_ID + " INTEGER, " +
                 "FOREIGN KEY(" + COLUMN_PAIN_ID + ") REFERENCES " +

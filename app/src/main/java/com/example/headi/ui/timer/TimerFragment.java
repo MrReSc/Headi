@@ -9,6 +9,10 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +36,10 @@ import com.example.headi.db.HeadiDBContract;
 import com.example.headi.db.HeadiDBSQLiteHelper;
 import com.example.headi.db.PainsCurserAdapter;
 
+import java.io.ByteArrayOutputStream;
+
+import tech.picnic.fingerpaintview.FingerPaintImageView;
+
 
 public class TimerFragment extends Fragment {
 
@@ -45,7 +53,7 @@ public class TimerFragment extends Fragment {
         }
     };
     private Spinner pains_items;
-    private Button button_start, button_save;
+    private Button button_start;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -54,7 +62,6 @@ public class TimerFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_timer, container, false);
 
         button_start = view.findViewById(R.id.timer_startOrStop_button);
-        button_save = view.findViewById(R.id.timer_save_button);
         pains_items = view.findViewById(R.id.timer_pains_select);
 
         registerListeners();
@@ -71,16 +78,12 @@ public class TimerFragment extends Fragment {
             Intent intent = new Intent(getActivity(), TimerForegroundService.class);
             if (TimerForegroundService.isTimerRunning) {
                 intent.setAction(Constants.ACTION.STOP_ACTION);
+                openSaveDialog();
             } else {
                 intent.setAction(Constants.ACTION.START_ACTION);
             }
             requireActivity().startService(intent);
             setUiAppearance(intent.getAction());
-        });
-
-        // Save Button listener
-        button_save.setOnClickListener(v -> {
-            openSaveDialog();
         });
 
         // Spinner selected listener
@@ -107,39 +110,36 @@ public class TimerFragment extends Fragment {
         switch (action) {
             case Constants.ACTION.INIT_ACTION:
                 if (!TimerForegroundService.isTimerRunning) {
-                    setButton(button_start, button_save, Constants.ACTION.STOP_ACTION);
+                    setButton(button_start, Constants.ACTION.STOP_ACTION);
                 } else {
-                    setButton(button_start, button_save, Constants.ACTION.START_ACTION);
+                    setButton(button_start, Constants.ACTION.START_ACTION);
                 }
                 // Set current timer time on init
                 setTimerTime(TimerForegroundService.currentTime);
                 break;
             case Constants.ACTION.START_ACTION:
-                setButton(button_start, button_save, Constants.ACTION.START_ACTION);
+                setButton(button_start, Constants.ACTION.START_ACTION);
                 break;
             case Constants.ACTION.STOP_ACTION:
-                setButton(button_start, button_save, Constants.ACTION.STOP_ACTION);
+                setButton(button_start, Constants.ACTION.STOP_ACTION);
                 break;
             default:
-                setButton(button_start, button_save, Constants.ACTION.STOP_ACTION);
+                setButton(button_start, Constants.ACTION.STOP_ACTION);
                 break;
         }
     }
 
-    private void setButton(Button start, Button save, String action) {
+    private void setButton(Button start, String action) {
         switch (action) {
             case Constants.ACTION.STOP_ACTION:
                 start.setText(requireActivity().getString(R.string.timer_start));
                 start.setBackgroundColor(requireActivity().getColor(R.color.play));
-                save.setEnabled(true);
                 break;
             case Constants.ACTION.START_ACTION:
                 start.setText(requireActivity().getString(R.string.timer_stop));
                 start.setBackgroundColor(requireActivity().getColor(R.color.stop));
-                save.setEnabled(false);
                 break;
             default:
-                save.setEnabled(TimerForegroundService.isTimerRunning);
                 break;
         }
     }
@@ -161,7 +161,7 @@ public class TimerFragment extends Fragment {
         setSpinnerPain(adapter);
     }
 
-    private void saveToDB(String region, String description) {
+    private void saveToDB(Drawable region, String description) {
         Context context = requireActivity();
         timerForegroundServiceEndAction();
 
@@ -172,13 +172,20 @@ public class TimerFragment extends Fragment {
         values.put(HeadiDBContract.Diary.COLUMN_START_DATE, TimerForegroundService.startDate);
         values.put(HeadiDBContract.Diary.COLUMN_END_DATE, TimerForegroundService.endDate);
         values.put(HeadiDBContract.Diary.COLUMN_DURATION, TimerForegroundService.elapsedTime);
-        values.put(HeadiDBContract.Diary.COLUMN_REGION, region);
+        values.put(HeadiDBContract.Diary.COLUMN_REGION, getDrawableAsByteArray(region));
         values.put(HeadiDBContract.Diary.COLUMN_DESCRIPTION, description);
         values.put(HeadiDBContract.Diary.COLUMN_PAIN_ID, pains_items.getSelectedItemId());
 
         database.insert(HeadiDBContract.Diary.TABLE_NAME, null, values);
 
         Toast.makeText(context, context.getString(R.string.new_diary_added), Toast.LENGTH_SHORT).show();
+    }
+
+    public static byte[] getDrawableAsByteArray(Drawable d) {
+        Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        return stream.toByteArray();
     }
 
     private void timerForegroundServiceEndAction() {
@@ -195,33 +202,49 @@ public class TimerFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(context.getString(R.string.title_diary_save));
 
-        // set the custom layout
-        final View customLayout = getLayoutInflater().inflate(R.layout.fragment_save_diary_dialog, null);
-        builder.setView(customLayout);
+        // set the save layout
+        final View saveView = getLayoutInflater().inflate(R.layout.fragment_save_diary_dialog, null);
+        builder.setView(saveView);
+
+        // set up finger paint view
+        FingerPaintImageView finger = saveView.findViewById(R.id.diary_region);
+        finger.setStrokeColor(requireActivity().getColor(R.color.region_mark));
+        finger.setStrokeWidth(20);
+        finger.setTouchTolerance(1);
+
+        Button button_undo = saveView.findViewById(R.id.button_undo);
+        Button button_clear = saveView.findViewById(R.id.button_clear);
+
+        button_undo.setOnClickListener(v -> {
+            finger.undo();
+        });
+
+        button_clear.setOnClickListener(v -> {
+            finger.clear();
+        });
 
         // add save button
         builder.setPositiveButton(context.getString(R.string.save_button), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                EditText diaryDescription = customLayout.findViewById(R.id.diary_description);
-                EditText diaryRegion = customLayout.findViewById(R.id.diary_region);
-                saveToDB(diaryRegion.getText().toString(), diaryDescription.getText().toString());
+                EditText diaryDescription = saveView.findViewById(R.id.diary_description);
+                saveToDB(finger.getDrawable(), diaryDescription.getText().toString());
             }
         });
 
         // add delete button
-        builder.setNegativeButton(context.getString(R.string.delete_button), new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                timerForegroundServiceEndAction();
+
             }
         });
 
         // add cancel button
-        builder.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
+        builder.setNeutralButton(context.getString(R.string.delete_button), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                timerForegroundServiceEndAction();
             }
         });
 

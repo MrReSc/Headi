@@ -28,6 +28,8 @@
     <string name="timer_save">Save</string>
     <string name="diary_description">Description</string>
     <string name="pain_region">Pain region</string>
+    <string name="button_undo">Undo</string>
+    <string name="button_clear">Clear</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>
