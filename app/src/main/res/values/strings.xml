@@ -31,6 +31,11 @@
     <string name="pain_region">Pain region</string>
     <string name="button_undo">Undo</string>
     <string name="button_clear">Clear</string>
+    <string name="region_left">left</string>
+    <string name="region_right">right</string>
+    <string name="from">from:</string>
+    <string name="to">to:</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

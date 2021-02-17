@@ -42,6 +42,7 @@ public class DiaryCourserAdapter extends CursorAdapter {
         TextView diary_pain_name = (TextView) view.findViewById(R.id.diary_pain_name);
         TextView diary_pain_duration = (TextView) view.findViewById(R.id.diary_pain_duration);
         ImageView diary_region = (ImageView) view.findViewById(R.id.diary_region);
+        TextView diary_description = (TextView) view.findViewById(R.id.diary_description);
 
         // Extract properties from cursor
         SimpleDateFormat date_formatter = new SimpleDateFormat("E dd. MMM yyyy");
@@ -59,6 +60,8 @@ public class DiaryCourserAdapter extends CursorAdapter {
         byte[] region_blob = cursor.getBlob(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_REGION));
         Bitmap region = BitmapFactory.decodeByteArray(region_blob,0,region_blob.length);
 
+        String description = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DESCRIPTION));
+
         // Populate fields with extracted properties
         diary_date.setText(date);
         diary_pain_start.setText(pain_start);
@@ -66,6 +69,7 @@ public class DiaryCourserAdapter extends CursorAdapter {
         diary_pain_name.setText(pain_name);
         diary_pain_duration.setText(pain_duration);
         diary_region.setImageBitmap(region);
+        diary_description.setText(description);
     }
 
     private String getFormattedTime(SimpleDateFormat formatter, String date) {
