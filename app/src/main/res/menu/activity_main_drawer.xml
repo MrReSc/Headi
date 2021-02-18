@@ -8,17 +8,20 @@
             android:id="@+id/nav_timer"
             android:icon="@drawable/ic_menu_timer"
             android:title="@string/menu_timer" />
-        <item
-            android:id="@+id/nav_pains"
-            android:icon="@drawable/ic_menu_pain"
-            android:title="@string/menu_pains" />
+
         <item
             android:id="@+id/nav_stats"
             android:icon="@drawable/ic_menu_stats"
             android:title="@string/menu_stats" />
+
         <item
-            android:id="@+id/nav_export"
-            android:icon="@drawable/ic_menu_export"
-            android:title="@string/menu_export" />
+            android:id="@+id/nav_pains"
+            android:icon="@drawable/ic_menu_pain"
+            android:title="@string/menu_pains" />
+
+        <item
+            android:id="@+id/nav_medication"
+            android:icon="@drawable/ic_menu_medication"
+            android:title="@string/menu_medication" />
     </group>
 </menu>

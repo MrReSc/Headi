@@ -15,8 +15,19 @@
         android:layout_height="wrap_content"
         android:ems="15"
         android:hint="@string/diary_description"
-        android:inputType="textCapSentences"
+        android:inputType="textMultiLine|textCapSentences"
+        android:maxLines ="4"
+        android:maxLength ="2000"
+        android:scrollHorizontally="false"
         android:autofillHints="@string/diary_description" />
+
+    <Spinner
+        android:id="@+id/diary_medication"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:textSize="50sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"

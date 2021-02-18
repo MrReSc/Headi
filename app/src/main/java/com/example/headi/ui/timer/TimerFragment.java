@@ -13,7 +13,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.VectorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +34,7 @@ import com.example.headi.R;
 import com.example.headi.TimerForegroundService;
 import com.example.headi.db.HeadiDBContract;
 import com.example.headi.db.HeadiDBSQLiteHelper;
+import com.example.headi.db.MedicationsCourserAdapter;
 import com.example.headi.db.PainsCourserAdapter;
 
 import java.io.ByteArrayOutputStream;
@@ -162,7 +162,7 @@ public class TimerFragment extends Fragment {
         setSpinnerPain(adapter);
     }
 
-    private void saveToDB(Drawable region, String description) {
+    private void saveToDB(Drawable region, String description, String medication) {
         Context context = requireActivity();
         timerForegroundServiceEndAction();
 
@@ -175,6 +175,7 @@ public class TimerFragment extends Fragment {
         values.put(HeadiDBContract.Diary.COLUMN_DURATION, TimerForegroundService.elapsedTime);
         values.put(HeadiDBContract.Diary.COLUMN_REGION, getDrawableAsByteArray(region));
         values.put(HeadiDBContract.Diary.COLUMN_DESCRIPTION, description);
+        values.put(HeadiDBContract.Diary.COLUMN_MEDICATION, medication);
         String pain = ((Cursor)pains_items.getSelectedItem()).getString(1);
         values.put(HeadiDBContract.Diary.COLUMN_PAIN, pain);
 
@@ -241,7 +242,9 @@ public class TimerFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 EditText diaryDescription = saveView.findViewById(R.id.diary_description);
-                saveToDB(finger.getDrawable(), diaryDescription.getText().toString());
+                Spinner medication = saveView.findViewById(R.id.diary_medication);
+                String diaryMedication = ((Cursor)medication.getSelectedItem()).getString(1);
+                saveToDB(finger.getDrawable(), diaryDescription.getText().toString(), diaryMedication);
             }
         });
 
@@ -261,9 +264,22 @@ public class TimerFragment extends Fragment {
             }
         });
 
+        // populate medication spinner
+        populateMedicationSpinner(saveView);
+
         // create and show the alert dialog
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void populateMedicationSpinner(View view) {
+        Context context = requireActivity();
+        Spinner medication_items = view.findViewById(R.id.diary_medication);
+
+        // Attach cursor adapter to the ListView
+        HeadiDBSQLiteHelper helper = new HeadiDBSQLiteHelper(context);
+        MedicationsCourserAdapter adapter = helper.readMedicationsFromDB(context);
+        medication_items.setAdapter(adapter);
     }
 
     private void setSpinnerPain(PainsCourserAdapter adapter) {

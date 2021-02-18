@@ -18,7 +18,7 @@
     <string name="cancel_button">Cancel</string>
 
     <string name="new_pains_hint">Enter new pain</string>
-    <string name="new_pains_added">New pain added</string>
+    <string name="new_item_added">New item added</string>
     <string name="new_diary_added">New record saved</string>
     <string name="title_diary_save">Save record</string>
     <string name="delete_pains">Do you want to delete the entry?</string>
@@ -35,6 +35,12 @@
     <string name="region_right">right</string>
     <string name="from">from:</string>
     <string name="to">to:</string>
+    <string name="menu_medication">Medication</string>
+    <string name="add_button">Add</string>
+    <string name="types_of_pain">Types of pain</string>
+    <string name="new_medications_hint">Enter new medication</string>
+    <string name="types_of_medication">Medications</string>
+    <string name="diary_medication">Medication</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

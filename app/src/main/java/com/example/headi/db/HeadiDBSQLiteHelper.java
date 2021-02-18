@@ -19,12 +19,14 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(HeadiDBContract.Pains.CREATE_TABLE);
         sqLiteDatabase.execSQL(HeadiDBContract.Diary.CREATE_TABLE);
+        sqLiteDatabase.execSQL(HeadiDBContract.Medication.CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + HeadiDBContract.Pains.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + HeadiDBContract.Diary.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + HeadiDBContract.Medication.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 
@@ -36,6 +38,8 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
                 HeadiDBContract.Pains.COLUMN_PAIN,
         };
 
+        String orderBy = HeadiDBContract.Pains.COLUMN_PAIN + " ASC";
+
         Cursor cursor = database.query(
                 HeadiDBContract.Pains.TABLE_NAME,         // The table to query
                 projection,                               // The columns to return
@@ -43,11 +47,35 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
                 null,                         // The values for the WHERE clause
                 null,                             // don't group the rows
                 null,                              // don't filter by row groups
-                null                              // don't sort
+                orderBy                                   // sort
         );
 
         // Setup cursor adapter using cursor from last step
         return new PainsCourserAdapter(context, cursor, 0);
+    }
+
+    public MedicationsCourserAdapter readMedicationsFromDB(Context context){
+        SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getReadableDatabase();
+
+        String[] projection = {
+                HeadiDBContract.Medication._ID,
+                HeadiDBContract.Medication.COLUMN_MEDICATION,
+        };
+
+        String orderBy = HeadiDBContract.Medication.COLUMN_MEDICATION + " ASC";
+
+        Cursor cursor = database.query(
+                HeadiDBContract.Medication.TABLE_NAME,    // The table to query
+                projection,                               // The columns to return
+                null,                            // The columns for the WHERE clause
+                null,                         // The values for the WHERE clause
+                null,                             // don't group the rows
+                null,                              // don't filter by row groups
+                orderBy                                   // sort
+        );
+
+        // Setup cursor adapter using cursor from last step
+        return new MedicationsCourserAdapter(context, cursor, 0);
     }
 
     public DiaryCourserAdapter readDiaryFromDB(Context context){
@@ -60,6 +88,7 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
                 HeadiDBContract.Diary.COLUMN_END_DATE,
                 HeadiDBContract.Diary.COLUMN_PAIN,
                 HeadiDBContract.Diary.COLUMN_REGION,
+                HeadiDBContract.Diary.COLUMN_MEDICATION,
                 HeadiDBContract.Diary.COLUMN_START_DATE,
         };
 

@@ -43,6 +43,7 @@ public class DiaryCourserAdapter extends CursorAdapter {
         TextView diary_pain_duration = (TextView) view.findViewById(R.id.diary_pain_duration);
         ImageView diary_region = (ImageView) view.findViewById(R.id.diary_region);
         TextView diary_description = (TextView) view.findViewById(R.id.diary_description);
+        TextView diary_medication = (TextView) view.findViewById(R.id.diary_medication);
 
         // Extract properties from cursor
         SimpleDateFormat date_formatter = new SimpleDateFormat("E dd. MMM yyyy");
@@ -52,8 +53,9 @@ public class DiaryCourserAdapter extends CursorAdapter {
         String pain_start = getFormattedTime(formatter, cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
         String pain_end = getFormattedTime(formatter, cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_END_DATE)));
 
-        Long durationAsLong = Long.parseLong(cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DURATION)));
-        String pain_duration = DateUtils.formatElapsedTime(durationAsLong / 1000);
+        Long s = Long.parseLong(cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DURATION))) / 1000;
+        //String pain_duration = DateUtils.formatElapsedTime(durationAsLong / 1000);
+        String pain_duration =  String.format("%02dH %02dM %02dS", s / 3600, (s % 3600) / 60, (s % 60));
 
         String pain_name = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_PAIN));
 
@@ -61,6 +63,7 @@ public class DiaryCourserAdapter extends CursorAdapter {
         Bitmap region = BitmapFactory.decodeByteArray(region_blob,0,region_blob.length);
 
         String description = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DESCRIPTION));
+        String medication = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_MEDICATION));
 
         // Populate fields with extracted properties
         diary_date.setText(date);
@@ -70,6 +73,7 @@ public class DiaryCourserAdapter extends CursorAdapter {
         diary_pain_duration.setText(pain_duration);
         diary_region.setImageBitmap(region);
         diary_description.setText(description);
+        diary_medication.setText(medication);
     }
 
     private String getFormattedTime(SimpleDateFormat formatter, String date) {

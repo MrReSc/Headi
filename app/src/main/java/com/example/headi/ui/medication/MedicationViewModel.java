@@ -1,14 +1,14 @@
-package com.example.headi.ui.export;
+package com.example.headi.ui.medication;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ExportViewModel extends ViewModel {
+public class MedicationViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public ExportViewModel() {
+    public MedicationViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is export fragment");
     }

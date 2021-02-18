@@ -17,6 +17,16 @@ public final class HeadiDBContract {
                 COLUMN_PAIN + " TEXT" + ")";
     }
 
+    public static class Medication implements BaseColumns {
+        public static final String TABLE_NAME = "medication";
+        public static final String COLUMN_MEDICATION = "medication";
+
+        public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
+                TABLE_NAME + " (" +
+                _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_MEDICATION + " TEXT" + ")";
+    }
+
     public static class Diary implements BaseColumns {
         public static final String TABLE_NAME = "diary";
         public static final String COLUMN_START_DATE = "start_date";
@@ -24,6 +34,7 @@ public final class HeadiDBContract {
         public static final String COLUMN_DURATION = "duration";
         public static final String COLUMN_PAIN = "pain";
         public static final String COLUMN_REGION = "region";
+        public static final String COLUMN_MEDICATION = "medication";
         public static final String COLUMN_DESCRIPTION = "description";
 
         public static final String CREATE_TABLE = "CREATE TABLE " +
@@ -33,6 +44,7 @@ public final class HeadiDBContract {
                 COLUMN_END_DATE + " INTEGER, " +
                 COLUMN_DURATION + " INTEGER, " +
                 COLUMN_REGION + " BLOB, " +
+                COLUMN_MEDICATION + " TEXT, " +
                 COLUMN_DESCRIPTION + " TEXT, " +
                 COLUMN_PAIN + " TEXT " + ")";
     }
