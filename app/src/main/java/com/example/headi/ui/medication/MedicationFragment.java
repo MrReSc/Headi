@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.headi.R;
 import com.example.headi.db.HeadiDBContract;
@@ -24,7 +23,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class MedicationFragment extends Fragment {
 
-    private MedicationViewModel medicationViewModel;
     private View view;
     private ListView MedicationsItems;
 
@@ -32,7 +30,6 @@ public class MedicationFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         Context context = getActivity();
-        medicationViewModel = new ViewModelProvider(this).get(MedicationViewModel.class);
         view = inflater.inflate(R.layout.fragment_pains_medications, container, false);
 
         MedicationsItems = (ListView) view.findViewById(R.id.pains_list);
@@ -93,8 +90,10 @@ public class MedicationFragment extends Fragment {
             new MaterialAlertDialogBuilder(context)
                     .setTitle(context.getString(R.string.action_delete))
                     .setMessage(context.getString(R.string.delete_pains))
-                    .setPositiveButton(context.getString(R.string.delete_button), (dialogInterface, i) -> deleteFromDB(id))
-                    .setNegativeButton(context.getString(R.string.cancel_button), (dialogInterface, i) -> { })
+                    .setPositiveButton(context.getString(R.string.delete_button),
+                            (dialogInterface, i) -> deleteFromDB(id))
+                    .setNegativeButton(context.getString(R.string.cancel_button), (dialogInterface, i) -> {
+                    })
                     .show();
             return true;
         });

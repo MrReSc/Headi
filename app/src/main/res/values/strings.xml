@@ -5,13 +5,11 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
 
-    <string name="action_add">Add</string>
     <string name="action_delete">Delete</string>
 
     <string name="menu_timer">Timer</string>
     <string name="menu_pains">Pains</string>
-    <string name="menu_stats">Statistics</string>
-    <string name="menu_export">Export</string>
+    <string name="menu_diary">Diary</string>
 
     <string name="save_button">Save</string>
     <string name="delete_button">Delete</string>
@@ -26,9 +24,7 @@
     <string name="timer_time">00:00:00</string>
     <string name="timer_start">Start</string>
     <string name="timer_stop">Stop</string>
-    <string name="timer_save">Save</string>
     <string name="diary_description">Description</string>
-    <string name="pain_region">Pain region</string>
     <string name="button_undo">Undo</string>
     <string name="button_clear">Clear</string>
     <string name="region_left">left</string>

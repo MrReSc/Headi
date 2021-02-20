@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.icu.text.SimpleDateFormat;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,7 @@ import androidx.cursoradapter.widget.CursorAdapter;
 import com.example.headi.R;
 
 import java.util.Date;
+import java.util.Locale;
 
 public class DiaryCourserAdapter extends CursorAdapter {
 
@@ -28,7 +28,7 @@ public class DiaryCourserAdapter extends CursorAdapter {
     // you don't bind any data to the view at this point.
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.fragment_stats_item, parent, false);
+        return LayoutInflater.from(context).inflate(R.layout.fragment_diary_item, parent, false);
     }
 
     // The bindView method is used to bind all data to a given view
@@ -46,21 +46,25 @@ public class DiaryCourserAdapter extends CursorAdapter {
         TextView diary_medication = (TextView) view.findViewById(R.id.diary_medication);
 
         // Extract properties from cursor
-        SimpleDateFormat date_formatter = new SimpleDateFormat("E dd. MMM yyyy");
-        String date = getFormattedTime(date_formatter, cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
+        SimpleDateFormat date_formatter = new SimpleDateFormat("E dd. MMM yyyy", Locale.getDefault());
+        String date = getFormattedTime(date_formatter,
+                cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
 
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
-        String pain_start = getFormattedTime(formatter, cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
-        String pain_end = getFormattedTime(formatter, cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_END_DATE)));
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        String pain_start = getFormattedTime(formatter,
+                cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
+        String pain_end = getFormattedTime(formatter,
+                cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_END_DATE)));
 
-        Long s = Long.parseLong(cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DURATION))) / 1000;
+        Long s =
+                Long.parseLong(cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DURATION))) / 1000;
         //String pain_duration = DateUtils.formatElapsedTime(durationAsLong / 1000);
-        String pain_duration =  String.format("%02dH %02dM %02dS", s / 3600, (s % 3600) / 60, (s % 60));
+        String pain_duration = String.format(Locale.getDefault(), "%02dH %02dM", s / 3600, (s % 3600) / 60);
 
         String pain_name = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_PAIN));
 
         byte[] region_blob = cursor.getBlob(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_REGION));
-        Bitmap region = BitmapFactory.decodeByteArray(region_blob,0,region_blob.length);
+        Bitmap region = BitmapFactory.decodeByteArray(region_blob, 0, region_blob.length);
 
         String description = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DESCRIPTION));
         String medication = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_MEDICATION));

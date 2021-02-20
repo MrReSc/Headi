@@ -30,7 +30,7 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public PainsCourserAdapter readPainsFromDB(Context context){
+    public PainsCourserAdapter readPainsFromDB(Context context) {
         SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getReadableDatabase();
 
         String[] projection = {
@@ -54,7 +54,7 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         return new PainsCourserAdapter(context, cursor, 0);
     }
 
-    public MedicationsCourserAdapter readMedicationsFromDB(Context context){
+    public MedicationsCourserAdapter readMedicationsFromDB(Context context) {
         SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getReadableDatabase();
 
         String[] projection = {
@@ -78,7 +78,7 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         return new MedicationsCourserAdapter(context, cursor, 0);
     }
 
-    public DiaryCourserAdapter readDiaryFromDB(Context context){
+    public DiaryCourserAdapter readDiaryFromDB(Context context) {
         SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getReadableDatabase();
 
         String[] projection = {

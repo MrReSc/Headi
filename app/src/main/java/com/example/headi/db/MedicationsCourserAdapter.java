@@ -17,7 +17,9 @@ import com.example.headi.R;
 import static androidx.core.content.ContextCompat.getColor;
 
 public class MedicationsCourserAdapter extends CursorAdapter {
-    public MedicationsCourserAdapter(Context context, Cursor c, int flags) { super(context, c, flags);}
+    public MedicationsCourserAdapter(Context context, Cursor c, int flags) {
+        super(context, c, flags);
+    }
 
     // The newView method is used to inflate a new view and return it,
     // you don't bind any data to the view at this point.

@@ -17,10 +17,10 @@
         tools:layout="@layout/fragment_pains_medications" />
 
     <fragment
-        android:id="@+id/nav_stats"
-        android:name="com.example.headi.ui.stats.StatsFragment"
-        android:label="@string/menu_stats"
-        tools:layout="@layout/fragment_stats" />
+        android:id="@+id/nav_diary"
+        android:name="com.example.headi.ui.diary.DiaryFragment"
+        android:label="@string/menu_diary"
+        tools:layout="@layout/fragment_diary" />
 
     <fragment
         android:id="@+id/nav_medication"

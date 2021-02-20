@@ -27,7 +27,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.headi.Constants;
 import com.example.headi.R;
@@ -44,9 +43,8 @@ import tech.picnic.fingerpaintview.FingerPaintImageView;
 
 public class TimerFragment extends Fragment {
 
-    private TimerViewModel timerViewModel;
     private View view;
-    BroadcastReceiver broadcastReceiverTimer = new BroadcastReceiver() {
+    final BroadcastReceiver broadcastReceiverTimer = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             TextView mTimerView = view.findViewById(R.id.timer_time);
@@ -59,7 +57,6 @@ public class TimerFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        timerViewModel = new ViewModelProvider(this).get(TimerViewModel.class);
         view = inflater.inflate(R.layout.fragment_timer, container, false);
 
         button_start = view.findViewById(R.id.timer_startOrStop_button);
@@ -94,7 +91,7 @@ public class TimerFragment extends Fragment {
                 SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
                 SharedPreferences.Editor prefEditor = sharedPref.edit();
                 prefEditor.putLong(Constants.SHAREDPREFS.TIMER_SPINNER_PAINS, id);
-                prefEditor.commit();
+                prefEditor.apply();
             }
 
             @Override
@@ -176,7 +173,7 @@ public class TimerFragment extends Fragment {
         values.put(HeadiDBContract.Diary.COLUMN_REGION, getDrawableAsByteArray(region));
         values.put(HeadiDBContract.Diary.COLUMN_DESCRIPTION, description);
         values.put(HeadiDBContract.Diary.COLUMN_MEDICATION, medication);
-        String pain = ((Cursor)pains_items.getSelectedItem()).getString(1);
+        String pain = ((Cursor) pains_items.getSelectedItem()).getString(1);
         values.put(HeadiDBContract.Diary.COLUMN_PAIN, pain);
 
         database.insert(HeadiDBContract.Diary.TABLE_NAME, null, values);
@@ -185,12 +182,11 @@ public class TimerFragment extends Fragment {
     }
 
     public static byte[] getDrawableAsByteArray(Drawable d) {
-        Bitmap bitmap = null;
+        Bitmap bitmap;
 
         if (d instanceof BitmapDrawable) {
-            bitmap = ((BitmapDrawable)d).getBitmap();
-        }
-        else {
+            bitmap = ((BitmapDrawable) d).getBitmap();
+        } else {
             bitmap = Bitmap.createBitmap(d.getIntrinsicWidth(), d.getIntrinsicHeight(), Bitmap.Config.RGBA_F16);
             Canvas canvas = new Canvas(bitmap);
             d.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -217,7 +213,7 @@ public class TimerFragment extends Fragment {
         builder.setTitle(context.getString(R.string.title_diary_save));
 
         // set the save layout
-        final View saveView = getLayoutInflater().inflate(R.layout.fragment_save_diary_dialog, null);
+        final View saveView = getLayoutInflater().inflate(R.layout.fragment_timer_dialog, null);
         builder.setView(saveView);
 
         // set up finger paint view
@@ -229,40 +225,25 @@ public class TimerFragment extends Fragment {
         Button button_undo = saveView.findViewById(R.id.button_undo);
         Button button_clear = saveView.findViewById(R.id.button_clear);
 
-        button_undo.setOnClickListener(v -> {
-            finger.undo();
-        });
+        button_undo.setOnClickListener(v -> finger.undo());
 
-        button_clear.setOnClickListener(v -> {
-            finger.clear();
-        });
+        button_clear.setOnClickListener(v -> finger.clear());
 
         // add save button
-        builder.setPositiveButton(context.getString(R.string.save_button), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                EditText diaryDescription = saveView.findViewById(R.id.diary_description);
-                Spinner medication = saveView.findViewById(R.id.diary_medication);
-                String diaryMedication = ((Cursor)medication.getSelectedItem()).getString(1);
-                saveToDB(finger.getDrawable(), diaryDescription.getText().toString(), diaryMedication);
-            }
+        builder.setPositiveButton(context.getString(R.string.save_button), (dialog, which) -> {
+            EditText diaryDescription = saveView.findViewById(R.id.diary_description);
+            Spinner medication = saveView.findViewById(R.id.diary_medication);
+            String diaryMedication = ((Cursor) medication.getSelectedItem()).getString(1);
+            saveToDB(finger.getDrawable(), diaryDescription.getText().toString(), diaryMedication);
         });
 
         // add delete button
-        builder.setNegativeButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        builder.setNegativeButton(context.getString(R.string.cancel_button), (dialog, which) -> {
 
-            }
         });
 
         // add cancel button
-        builder.setNeutralButton(context.getString(R.string.delete_button), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                timerForegroundServiceEndAction();
-            }
-        });
+        builder.setNeutralButton(context.getString(R.string.delete_button), (dialog, which) -> timerForegroundServiceEndAction());
 
         // populate medication spinner
         populateMedicationSpinner(saveView);

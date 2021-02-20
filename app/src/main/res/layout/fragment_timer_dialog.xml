@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <EditText
         android:id="@+id/diary_description"
@@ -16,18 +16,17 @@
         android:ems="15"
         android:hint="@string/diary_description"
         android:inputType="textMultiLine|textCapSentences"
-        android:maxLines ="4"
-        android:maxLength ="2000"
+        android:maxLines="4"
+        android:maxLength="2000"
         android:scrollHorizontally="false"
         android:autofillHints="@string/diary_description" />
 
     <Spinner
         android:id="@+id/diary_medication"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="50sp"
-        android:textStyle="bold" />
+        style="@android:style/Widget.Material.Spinner.Underlined"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -60,8 +59,6 @@
         android:id="@+id/diary_region"
         android:layout_width="match_parent"
         android:layout_height="220dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:src="@drawable/ic_pain_region"
         app:inEditMode="true" />
@@ -70,24 +67,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="8dp">
+        style="?android:attr/buttonBarStyle">
 
         <Button
             android:id="@+id/button_undo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginRight="8dp"
-            android:text="@string/button_undo" />
+            android:text="@string/button_undo"
+            style="?android:attr/buttonBarButtonStyle" />
 
         <Button
             android:id="@+id/button_clear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="8dp"
-
-            android:text="@string/button_clear" />
+            android:text="@string/button_clear"
+            style="?android:attr/buttonBarButtonStyle"/>
     </LinearLayout>
 
 

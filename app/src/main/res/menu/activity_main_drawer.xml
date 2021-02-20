@@ -10,9 +10,9 @@
             android:title="@string/menu_timer" />
 
         <item
-            android:id="@+id/nav_stats"
-            android:icon="@drawable/ic_menu_stats"
-            android:title="@string/menu_stats" />
+            android:id="@+id/nav_diary"
+            android:icon="@drawable/ic_menu_diary"
+            android:title="@string/menu_diary" />
 
         <item
             android:id="@+id/nav_pains"

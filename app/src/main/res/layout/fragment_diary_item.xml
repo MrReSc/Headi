@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -35,19 +35,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="8dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
         <RelativeLayout
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:layout_weight="0.25"
             android:layout_width="0dp">
 
             <LinearLayout
-                android:id="@+id/layout_from_to"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:orientation="vertical">
 
                 <TextView
@@ -64,7 +64,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:orientation="vertical">
 
                 <TextView
@@ -107,7 +107,8 @@
         android:layout_width="match_parent"
         android:layout_height="220dp"
         android:layout_marginBottom="8dp"
-        app:srcCompat="@drawable/ic_pain_region" />
+        app:srcCompat="@drawable/ic_pain_region"
+        android:contentDescription="TODO" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -141,7 +142,7 @@
         android:hint="@string/diary_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="8dp" />
 
     <TextView
         android:id="@+id/diary_medication"
@@ -149,6 +150,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/medication_name"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="8dp" />
 
 </LinearLayout>

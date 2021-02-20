@@ -1,4 +1,4 @@
-package com.example.headi.ui.stats;
+package com.example.headi.ui.diary;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,30 +10,27 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.headi.R;
 import com.example.headi.db.HeadiDBContract;
 import com.example.headi.db.HeadiDBSQLiteHelper;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-public class StatsFragment extends Fragment {
+public class DiaryFragment extends Fragment {
 
-    private StatsViewModel statsViewModel;
     private View view;
     private ListView DiaryItems;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        
+
         Context context = getActivity();
-        statsViewModel = new ViewModelProvider(this).get(StatsViewModel.class);
-        view = inflater.inflate(R.layout.fragment_stats, container, false);
+        view = inflater.inflate(R.layout.fragment_diary, container, false);
         DiaryItems = (ListView) view.findViewById(R.id.diary_list);
 
         registerListeners(context);
         readFromDB();
-        
+
         return view;
     }
 
@@ -51,8 +48,10 @@ public class StatsFragment extends Fragment {
             new MaterialAlertDialogBuilder(context)
                     .setTitle(context.getString(R.string.action_delete))
                     .setMessage(context.getString(R.string.delete_diary) + "Position = " + position + " | id = " + id)
-                    .setPositiveButton(context.getString(R.string.delete_button), (dialogInterface, i) -> deleteFromDB(id))
-                    .setNegativeButton(context.getString(R.string.cancel_button), (dialogInterface, i) -> { })
+                    .setPositiveButton(context.getString(R.string.delete_button),
+                            (dialogInterface, i) -> deleteFromDB(id))
+                    .setNegativeButton(context.getString(R.string.cancel_button), (dialogInterface, i) -> {
+                    })
                     .show();
             return true;
         });

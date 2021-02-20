@@ -23,11 +23,10 @@
     <Spinner
         android:id="@+id/timer_pains_select"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:gravity="center"
-        android:textSize="50sp"
-        android:textStyle="bold" />
+        style="@android:style/Widget.Material.Spinner.Underlined"/>
 
     <Button
         android:id="@+id/timer_startOrStop_button"

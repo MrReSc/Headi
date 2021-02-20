@@ -1,9 +1,7 @@
 package com.example.headi;
 
-import android.app.ActivityManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_timer, R.id.nav_pains, R.id.nav_stats, R.id.nav_medication)
+                R.id.nav_timer, R.id.nav_pains, R.id.nav_diary, R.id.nav_medication)
                 .setDrawerLayout(drawer)
                 .build();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -69,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
         CharSequence name = "Test";
         String description = "DescTest";
         int importance = NotificationManager.IMPORTANCE_DEFAULT;
-        NotificationChannel channel = new NotificationChannel(Constants.SERVICE.NOTIFICATION_CHANEL_ID, name, importance);
+        NotificationChannel channel = new NotificationChannel(Constants.SERVICE.NOTIFICATION_CHANEL_ID, name,
+                importance);
         channel.setDescription(description);
         // Register the channel with the system; you can't change the importance
         // or other notification behaviors after this
