@@ -33,6 +33,7 @@ public final class HeadiDBContract {
         public static final String COLUMN_END_DATE = "end_date";
         public static final String COLUMN_DURATION = "duration";
         public static final String COLUMN_PAIN = "pain";
+        public static final String COLUMN_STRENGTH = "strength";
         public static final String COLUMN_REGION = "region";
         public static final String COLUMN_MEDICATION = "medication";
         public static final String COLUMN_DESCRIPTION = "description";
@@ -43,6 +44,7 @@ public final class HeadiDBContract {
                 COLUMN_START_DATE + " INTEGER, " +
                 COLUMN_END_DATE + " INTEGER, " +
                 COLUMN_DURATION + " INTEGER, " +
+                COLUMN_STRENGTH + " INTEGER, " +
                 COLUMN_REGION + " BLOB, " +
                 COLUMN_MEDICATION + " TEXT, " +
                 COLUMN_DESCRIPTION + " TEXT, " +

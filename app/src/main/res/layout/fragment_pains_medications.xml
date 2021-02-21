@@ -42,7 +42,7 @@
         android:id="@+id/pains_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:dividerHeight="3dp" />
+        android:dividerHeight="2dp" />
 </LinearLayout>
 
 

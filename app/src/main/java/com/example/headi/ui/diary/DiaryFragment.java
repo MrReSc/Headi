@@ -10,6 +10,7 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.headi.R;
 import com.example.headi.db.HeadiDBContract;
@@ -47,7 +48,7 @@ public class DiaryFragment extends Fragment {
         DiaryItems.setOnItemLongClickListener((adapterView, view, position, id) -> {
             new MaterialAlertDialogBuilder(context)
                     .setTitle(context.getString(R.string.action_delete))
-                    .setMessage(context.getString(R.string.delete_diary) + "Position = " + position + " | id = " + id)
+                    .setMessage(context.getString(R.string.delete_diary))
                     .setPositiveButton(context.getString(R.string.delete_button),
                             (dialogInterface, i) -> deleteFromDB(id))
                     .setNegativeButton(context.getString(R.string.cancel_button), (dialogInterface, i) -> {

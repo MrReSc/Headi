@@ -72,6 +72,7 @@ public class TimerForegroundService extends Service {
                 stopForeground(true);
                 stopwatch.release();
                 isTimerRunning = false;
+                currentTime = "00:00:00";
                 stopSelf();
                 break;
             case Constants.ACTION.NONE_ACTION:
@@ -92,7 +93,7 @@ public class TimerForegroundService extends Service {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
         return new NotificationCompat.Builder(this, Constants.SERVICE.NOTIFICATION_CHANEL_ID)
-                .setContentTitle("getText(R.string.notification_title)")
+                .setContentTitle(getText(R.string.notification_title))
                 .setContentText(time)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentIntent(pendingIntent)

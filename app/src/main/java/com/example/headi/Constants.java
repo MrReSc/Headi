@@ -23,4 +23,9 @@ public class Constants {
     public static class SHAREDPREFS {
         public static final String TIMER_SPINNER_PAINS = "sharedprefs.timer.spinner_pains";
     }
+
+    public static class UI_TYPES {
+        public static final String SPINNER = "ui.type.spinner";
+        public static final String LISTVIEW = "ui.type.listview";
+    }
 }

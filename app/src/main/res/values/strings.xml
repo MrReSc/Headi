@@ -24,7 +24,7 @@
     <string name="timer_time">00:00:00</string>
     <string name="timer_start">Start</string>
     <string name="timer_stop">Stop</string>
-    <string name="diary_description">Description</string>
+    <string name="diary_description">Description:</string>
     <string name="button_undo">Undo</string>
     <string name="button_clear">Clear</string>
     <string name="region_left">left</string>
@@ -36,7 +36,11 @@
     <string name="types_of_pain">Types of pain</string>
     <string name="new_medications_hint">Enter new medication</string>
     <string name="types_of_medication">Medications</string>
-    <string name="diary_medication">Medication</string>
+    <string name="diary_medication">Medication:</string>
+    <string name="diary_medication_hint">Medication...</string>
+    <string name="notification_title">Timer is running...</string>
+    <string name="paint_strength">Pain strength:</string>
+    <string name="diary_description_hint">Descrition...</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

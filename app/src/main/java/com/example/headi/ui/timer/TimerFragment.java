@@ -3,7 +3,6 @@ package com.example.headi.ui.timer;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -20,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +33,7 @@ import com.example.headi.R;
 import com.example.headi.TimerForegroundService;
 import com.example.headi.db.HeadiDBContract;
 import com.example.headi.db.HeadiDBSQLiteHelper;
-import com.example.headi.db.MedicationsCourserAdapter;
+import com.example.headi.db.MedicationsSpinnerCourserAdapter;
 import com.example.headi.db.PainsCourserAdapter;
 
 import java.io.ByteArrayOutputStream;
@@ -53,6 +53,23 @@ public class TimerFragment extends Fragment {
     };
     private Spinner pains_items;
     private Button button_start;
+
+    public static byte[] getDrawableAsByteArray(Drawable d) {
+        Bitmap bitmap;
+
+        if (d instanceof BitmapDrawable) {
+            bitmap = ((BitmapDrawable) d).getBitmap();
+        } else {
+            bitmap = Bitmap.createBitmap(d.getIntrinsicWidth(), d.getIntrinsicHeight(), Bitmap.Config.RGBA_F16);
+            Canvas canvas = new Canvas(bitmap);
+            d.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            d.draw(canvas);
+        }
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return stream.toByteArray();
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -159,7 +176,7 @@ public class TimerFragment extends Fragment {
         setSpinnerPain(adapter);
     }
 
-    private void saveToDB(Drawable region, String description, String medication) {
+    private void saveToDB(Drawable region, String description, String medication, int strength) {
         Context context = requireActivity();
         timerForegroundServiceEndAction();
 
@@ -173,29 +190,13 @@ public class TimerFragment extends Fragment {
         values.put(HeadiDBContract.Diary.COLUMN_REGION, getDrawableAsByteArray(region));
         values.put(HeadiDBContract.Diary.COLUMN_DESCRIPTION, description);
         values.put(HeadiDBContract.Diary.COLUMN_MEDICATION, medication);
+        values.put(HeadiDBContract.Diary.COLUMN_STRENGTH, strength);
         String pain = ((Cursor) pains_items.getSelectedItem()).getString(1);
         values.put(HeadiDBContract.Diary.COLUMN_PAIN, pain);
 
         database.insert(HeadiDBContract.Diary.TABLE_NAME, null, values);
 
         Toast.makeText(context, context.getString(R.string.new_diary_added), Toast.LENGTH_SHORT).show();
-    }
-
-    public static byte[] getDrawableAsByteArray(Drawable d) {
-        Bitmap bitmap;
-
-        if (d instanceof BitmapDrawable) {
-            bitmap = ((BitmapDrawable) d).getBitmap();
-        } else {
-            bitmap = Bitmap.createBitmap(d.getIntrinsicWidth(), d.getIntrinsicHeight(), Bitmap.Config.RGBA_F16);
-            Canvas canvas = new Canvas(bitmap);
-            d.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-            d.draw(canvas);
-        }
-
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        return stream.toByteArray();
     }
 
     private void timerForegroundServiceEndAction() {
@@ -222,8 +223,8 @@ public class TimerFragment extends Fragment {
         finger.setStrokeWidth(20);
         finger.setTouchTolerance(1);
 
-        Button button_undo = saveView.findViewById(R.id.button_undo);
-        Button button_clear = saveView.findViewById(R.id.button_clear);
+        TextView button_undo = saveView.findViewById(R.id.button_undo);
+        TextView button_clear = saveView.findViewById(R.id.button_clear);
 
         button_undo.setOnClickListener(v -> finger.undo());
 
@@ -234,7 +235,9 @@ public class TimerFragment extends Fragment {
             EditText diaryDescription = saveView.findViewById(R.id.diary_description);
             Spinner medication = saveView.findViewById(R.id.diary_medication);
             String diaryMedication = ((Cursor) medication.getSelectedItem()).getString(1);
-            saveToDB(finger.getDrawable(), diaryDescription.getText().toString(), diaryMedication);
+            SeekBar strength = saveView.findViewById(R.id.diary_strength);
+            saveToDB(finger.getDrawable(), diaryDescription.getText().toString(), diaryMedication,
+                    strength.getProgress());
         });
 
         // add delete button
@@ -243,10 +246,30 @@ public class TimerFragment extends Fragment {
         });
 
         // add cancel button
-        builder.setNeutralButton(context.getString(R.string.delete_button), (dialog, which) -> timerForegroundServiceEndAction());
+        builder.setNeutralButton(context.getString(R.string.delete_button),
+                (dialog, which) -> timerForegroundServiceEndAction());
 
         // populate medication spinner
         populateMedicationSpinner(saveView);
+
+        // Set pain strength text
+        TextView pain_strength_text = saveView.findViewById(R.id.diary_strength_text);
+        SeekBar pain_strength = saveView.findViewById(R.id.diary_strength);
+
+        pain_strength_text.setText(pain_strength.getProgress() + " / 10");
+
+        pain_strength.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                pain_strength_text.setText(progress + " / 10");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
 
         // create and show the alert dialog
         AlertDialog dialog = builder.create();
@@ -259,7 +282,7 @@ public class TimerFragment extends Fragment {
 
         // Attach cursor adapter to the ListView
         HeadiDBSQLiteHelper helper = new HeadiDBSQLiteHelper(context);
-        MedicationsCourserAdapter adapter = helper.readMedicationsFromDB(context);
+        MedicationsSpinnerCourserAdapter adapter = helper.readMedicationsSpinnerFromDB(context);
         medication_items.setAdapter(adapter);
     }
 

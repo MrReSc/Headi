@@ -39,7 +39,6 @@
                 android:text="Pain"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
-
         </RelativeLayout>
 
     </LinearLayout>

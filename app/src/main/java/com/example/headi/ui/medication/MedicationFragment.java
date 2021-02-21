@@ -51,7 +51,7 @@ public class MedicationFragment extends Fragment {
 
         // Attach cursor adapter to the ListView
         HeadiDBSQLiteHelper helper = new HeadiDBSQLiteHelper(context);
-        MedicationsItems.setAdapter(helper.readMedicationsFromDB(context));
+        MedicationsItems.setAdapter(helper.readMedicationsListFromDB(context));
     }
 
     private void saveToDB() {

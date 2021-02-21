@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "headi_database";
 
     public HeadiDBSQLiteHelper(Context context) {
@@ -54,7 +54,17 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         return new PainsCourserAdapter(context, cursor, 0);
     }
 
-    public MedicationsCourserAdapter readMedicationsFromDB(Context context) {
+    public MedicationsListCourserAdapter readMedicationsListFromDB(Context context) {
+        // Setup cursor adapter using cursor from last step
+        return new MedicationsListCourserAdapter(context, readMedicationsFromDB(context), 0);
+    }
+
+    public MedicationsSpinnerCourserAdapter readMedicationsSpinnerFromDB(Context context) {
+        // Setup cursor adapter using cursor from last step
+        return new MedicationsSpinnerCourserAdapter(context, readMedicationsFromDB(context), 0);
+    }
+
+    private Cursor readMedicationsFromDB (Context context) {
         SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getReadableDatabase();
 
         String[] projection = {
@@ -74,9 +84,10 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
                 orderBy                                   // sort
         );
 
-        // Setup cursor adapter using cursor from last step
-        return new MedicationsCourserAdapter(context, cursor, 0);
+        return cursor;
     }
+
+
 
     public DiaryCourserAdapter readDiaryFromDB(Context context) {
         SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getReadableDatabase();
@@ -87,6 +98,7 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
                 HeadiDBContract.Diary.COLUMN_DURATION,
                 HeadiDBContract.Diary.COLUMN_END_DATE,
                 HeadiDBContract.Diary.COLUMN_PAIN,
+                HeadiDBContract.Diary.COLUMN_STRENGTH,
                 HeadiDBContract.Diary.COLUMN_REGION,
                 HeadiDBContract.Diary.COLUMN_MEDICATION,
                 HeadiDBContract.Diary.COLUMN_START_DATE,

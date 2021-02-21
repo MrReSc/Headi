@@ -8,7 +8,9 @@ import android.icu.text.SimpleDateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.cursoradapter.widget.CursorAdapter;
@@ -44,6 +46,7 @@ public class DiaryCourserAdapter extends CursorAdapter {
         ImageView diary_region = (ImageView) view.findViewById(R.id.diary_region);
         TextView diary_description = (TextView) view.findViewById(R.id.diary_description);
         TextView diary_medication = (TextView) view.findViewById(R.id.diary_medication);
+        ProgressBar diary_stength = (ProgressBar) view.findViewById(R.id.diary_strength);
 
         // Extract properties from cursor
         SimpleDateFormat date_formatter = new SimpleDateFormat("E dd. MMM yyyy", Locale.getDefault());
@@ -56,9 +59,7 @@ public class DiaryCourserAdapter extends CursorAdapter {
         String pain_end = getFormattedTime(formatter,
                 cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_END_DATE)));
 
-        Long s =
-                Long.parseLong(cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DURATION))) / 1000;
-        //String pain_duration = DateUtils.formatElapsedTime(durationAsLong / 1000);
+        Long s = Long.parseLong(cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DURATION))) / 1000;
         String pain_duration = String.format(Locale.getDefault(), "%02dH %02dM", s / 3600, (s % 3600) / 60);
 
         String pain_name = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_PAIN));
@@ -68,6 +69,7 @@ public class DiaryCourserAdapter extends CursorAdapter {
 
         String description = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DESCRIPTION));
         String medication = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_MEDICATION));
+        String strength = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_STRENGTH));
 
         // Populate fields with extracted properties
         diary_date.setText(date);
@@ -78,6 +80,7 @@ public class DiaryCourserAdapter extends CursorAdapter {
         diary_region.setImageBitmap(region);
         diary_description.setText(description);
         diary_medication.setText(medication);
+        diary_stength.setProgress(Integer.parseInt(strength));
     }
 
     private String getFormattedTime(SimpleDateFormat formatter, String date) {

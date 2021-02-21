@@ -16,8 +16,9 @@ import com.example.headi.R;
 
 import static androidx.core.content.ContextCompat.getColor;
 
-public class MedicationsCourserAdapter extends CursorAdapter {
-    public MedicationsCourserAdapter(Context context, Cursor c, int flags) {
+public class MedicationsListCourserAdapter extends CursorAdapter {
+
+    public MedicationsListCourserAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
     }
 
@@ -25,7 +26,7 @@ public class MedicationsCourserAdapter extends CursorAdapter {
     // you don't bind any data to the view at this point.
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.fragment_pains_mediactions_item, parent, false);
+        return LayoutInflater.from(context).inflate(R.layout.fragment_pains_mediactions_list_item, parent, false);
     }
 
     // The bindView method is used to bind all data to a given view

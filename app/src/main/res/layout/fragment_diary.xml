@@ -7,13 +7,10 @@
     android:orientation="vertical"
     tools:context=".ui.diary.DiaryFragment">
 
-    <SearchView
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
 
     <ListView
         android:id="@+id/diary_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:dividerHeight="3dp" />
+        android:dividerHeight="2dp" />
 </LinearLayout>
