@@ -46,7 +46,8 @@ public class DiaryCourserAdapter extends CursorAdapter {
         ImageView diary_region = (ImageView) view.findViewById(R.id.diary_region);
         TextView diary_description = (TextView) view.findViewById(R.id.diary_description);
         TextView diary_medication = (TextView) view.findViewById(R.id.diary_medication);
-        ProgressBar diary_stength = (ProgressBar) view.findViewById(R.id.diary_strength);
+        ProgressBar diary_strength = (ProgressBar) view.findViewById(R.id.diary_strength);
+        TextView diary_strength_text = (TextView) view.findViewById(R.id.diary_strength_text);
 
         // Extract properties from cursor
         SimpleDateFormat date_formatter = new SimpleDateFormat("E dd. MMM yyyy", Locale.getDefault());
@@ -80,7 +81,8 @@ public class DiaryCourserAdapter extends CursorAdapter {
         diary_region.setImageBitmap(region);
         diary_description.setText(description);
         diary_medication.setText(medication);
-        diary_stength.setProgress(Integer.parseInt(strength));
+        diary_strength.setProgress(Integer.parseInt(strength));
+        diary_strength_text.setText(strength + " / 10");
     }
 
     private String getFormattedTime(SimpleDateFormat formatter, String date) {

@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "headi_database";
 
     public HeadiDBSQLiteHelper(Context context) {
@@ -87,9 +87,7 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-
-
-    public DiaryCourserAdapter readDiaryFromDB(Context context) {
+    public DiaryCourserAdapter readDiaryFromDB(Context context, String selection, String[] selectionArgs) {
         SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getReadableDatabase();
 
         String[] projection = {
@@ -109,8 +107,8 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         Cursor cursor = database.query(
                 HeadiDBContract.Diary.TABLE_NAME,         // The table to query
                 projection,                               // The columns to return
-                null,                            // The columns for the WHERE clause
-                null,                         // The values for the WHERE clause
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
                 null,                             // don't group the rows
                 null,                              // don't filter by row groups
                 orderBy                                   // sort

@@ -168,6 +168,13 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.25" />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_80"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.85" />
+
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
@@ -185,9 +192,18 @@
             android:max="10"
             android:progress="3"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/guideline_80"
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/diary_description" />
+
+        <TextView
+            android:id="@+id/diary_strength_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/diary_strength_text"
+            app:layout_constraintBottom_toBottomOf="@+id/diary_strength"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/diary_strength" />
 
         <TextView
             android:id="@+id/textView"

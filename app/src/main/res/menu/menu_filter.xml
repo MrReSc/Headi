@@ -1,0 +1,11 @@
+<!-- sample_menu.xml -->
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_diary_filter_list"
+        android:icon="@drawable/ic_menu_filter_list"
+        app:showAsAction="ifRoom"
+        android:title="@string/diary_filter_list" />
+</menu>

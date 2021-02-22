@@ -41,6 +41,13 @@
     <string name="notification_title">Timer is running...</string>
     <string name="paint_strength">Pain strength:</string>
     <string name="diary_description_hint">Descrition...</string>
+    <string name="diary_strength_text">3 / 10</string>
+    <string name="diary_filter_list">Filter list</string>
+    <string name="title_diary_filter">Filter list</string>
+    <string name="apply_button">Apply</string>
+    <string name="filter_from_hint">From date</string>
+    <string name="filter_to_hint">To date</string>
+    <string name="delete_filter_button">Delete filter</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
