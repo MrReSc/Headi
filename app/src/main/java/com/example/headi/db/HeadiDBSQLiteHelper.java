@@ -30,7 +30,17 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public PainsCourserAdapter readPainsFromDB(Context context) {
+    public PainsCourserIconAdapter readPainsWithIconFromDB(Context context) {
+        // Setup cursor adapter using cursor from last step
+        return new PainsCourserIconAdapter(context, readPainsFromDB(context), 0);
+    }
+
+    public PainsCourserCheckboxAdapter readPainsWithCheckboxFromDB(Context context) {
+        // Setup cursor adapter using cursor from last step
+        return new PainsCourserCheckboxAdapter(context, readPainsFromDB(context), 0);
+    }
+
+    private Cursor readPainsFromDB (Context context) {
         SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getReadableDatabase();
 
         String[] projection = {
@@ -51,17 +61,17 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         );
 
         // Setup cursor adapter using cursor from last step
-        return new PainsCourserAdapter(context, cursor, 0);
+        return cursor;
     }
 
-    public MedicationsListCourserAdapter readMedicationsListFromDB(Context context) {
+    public MedicationsIconCourserAdapter readMedicationsWithIconFromDB(Context context) {
         // Setup cursor adapter using cursor from last step
-        return new MedicationsListCourserAdapter(context, readMedicationsFromDB(context), 0);
+        return new MedicationsIconCourserAdapter(context, readMedicationsFromDB(context), 0);
     }
 
-    public MedicationsSpinnerCourserAdapter readMedicationsSpinnerFromDB(Context context) {
+    public MedicationsCourserAdapter readMedicationsWithoutIconFromDB(Context context) {
         // Setup cursor adapter using cursor from last step
-        return new MedicationsSpinnerCourserAdapter(context, readMedicationsFromDB(context), 0);
+        return new MedicationsCourserAdapter(context, readMedicationsFromDB(context), 0);
     }
 
     private Cursor readMedicationsFromDB (Context context) {

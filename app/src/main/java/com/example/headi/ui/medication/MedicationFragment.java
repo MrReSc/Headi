@@ -10,10 +10,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -93,7 +91,7 @@ public class MedicationFragment extends Fragment {
 
         // Attach cursor adapter to the ListView
         HeadiDBSQLiteHelper helper = new HeadiDBSQLiteHelper(context);
-        MedicationsItems.setAdapter(helper.readMedicationsListFromDB(context));
+        MedicationsItems.setAdapter(helper.readMedicationsWithIconFromDB(context));
     }
 
     private void saveToDB(View view) {

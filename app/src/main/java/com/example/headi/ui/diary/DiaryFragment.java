@@ -24,8 +24,10 @@ import com.example.headi.R;
 import com.example.headi.db.DiaryCourserAdapter;
 import com.example.headi.db.HeadiDBContract;
 import com.example.headi.db.HeadiDBSQLiteHelper;
+import com.example.headi.db.PainsCourserCheckboxAdapter;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class DiaryFragment extends Fragment {
@@ -81,16 +83,61 @@ public class DiaryFragment extends Fragment {
         final View saveView = getLayoutInflater().inflate(R.layout.fragment_diary_filter_dialog, null);
         builder.setView(saveView);
 
+        // populate Pains in ListView
+        ListView PainsItems = (ListView) saveView.findViewById(R.id.filter_pains_list);
+
+        // Attach cursor adapter to the ListView
+        HeadiDBSQLiteHelper helper = new HeadiDBSQLiteHelper(context);
+        PainsCourserCheckboxAdapter painsCbAdapter = helper.readPainsWithCheckboxFromDB(context);
+        PainsItems.setAdapter(painsCbAdapter);
+
         registerDatePickerListeners(saveView);
+
+        ArrayList<String> checkedPains = new ArrayList<String>();
 
         // add apply button
         builder.setPositiveButton(context.getString(R.string.apply_button), (dialog, which) -> {
-            // apply date filter
-            if (!fromDateFilter.isEmpty() && !toDateFilter.isEmpty()) {
-                String selection = HeadiDBContract.Diary.COLUMN_START_DATE + " >= ? AND " +
-                                   HeadiDBContract.Diary.COLUMN_END_DATE + " <= ?";
+            String timeSelection = "";
+            String painSelection = "";
+            ArrayList<String> timeArgs = new ArrayList<>();
+            ArrayList<String> painArgs = new ArrayList<>();
+            String selection = "";
+            String[] selectionArgs = new String[0];
 
-                String[] selectionArgs = {fromDateFilter, toDateFilter};
+
+            // time filter is set
+            if (fromDateFilter != null && toDateFilter != null) {
+                timeSelection = HeadiDBContract.Diary.COLUMN_START_DATE + " >= ? AND " + HeadiDBContract.Diary.COLUMN_END_DATE + " <= ?";
+                timeArgs.add(fromDateFilter);
+                timeArgs.add(toDateFilter);
+            }
+
+            // pains filter is set
+            if (!painsCbAdapter.getSelectedString().isEmpty()) {
+                painSelection = HeadiDBContract.Diary.COLUMN_PAIN + " = ?";
+                painArgs = painsCbAdapter.getSelectedString();
+                if (painArgs.size() > 1) {
+                    for (String arg : painArgs){
+                        painSelection = painSelection + " OR " + HeadiDBContract.Diary.COLUMN_PAIN + " = ?";
+                    }
+                }
+            }
+
+            if (!timeSelection.isEmpty() && !painSelection.isEmpty()) {
+                selection =  timeSelection + " AND (" + painSelection + ")";
+                timeArgs.addAll(painArgs);
+                selectionArgs = timeArgs.toArray(new String[0]);
+            }
+            else if (!timeSelection.isEmpty()) {
+                selection =  timeSelection;
+                selectionArgs = timeArgs.toArray(new String[0]);
+            }
+            else if (!painSelection.isEmpty()) {
+                selection =  painSelection;
+                selectionArgs = painArgs.toArray(new String[0]);
+            }
+
+            if (!selection.isEmpty()) {
                 readFromDB(selection, selectionArgs);
             }
 
@@ -100,7 +147,7 @@ public class DiaryFragment extends Fragment {
         builder.setNegativeButton(context.getString(R.string.cancel_button), (dialog, which) -> { });
 
         // add delete filter button
-        builder.setNeutralButton(context.getString(R.string.delete_filter_button), (dialog, which) -> {
+        builder.setNeutralButton(context.getString(R.string.remove_filter_button), (dialog, which) -> {
             readFromDB(null, null);
         });
 

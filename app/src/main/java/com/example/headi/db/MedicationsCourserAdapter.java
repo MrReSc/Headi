@@ -11,9 +11,9 @@ import androidx.cursoradapter.widget.CursorAdapter;
 
 import com.example.headi.R;
 
-public class PainsCourserAdapter extends CursorAdapter {
+public class MedicationsCourserAdapter extends CursorAdapter {
 
-    public PainsCourserAdapter(Context context, Cursor c, int flags) {
+    public MedicationsCourserAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
     }
 
@@ -21,7 +21,7 @@ public class PainsCourserAdapter extends CursorAdapter {
     // you don't bind any data to the view at this point.
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.fragment_pains_mediactions_list_item, parent, false);
+        return LayoutInflater.from(context).inflate(R.layout.fragment_pains_mediactions_item, parent, false);
     }
 
     // The bindView method is used to bind all data to a given view
@@ -32,7 +32,7 @@ public class PainsCourserAdapter extends CursorAdapter {
         TextView pains_name = (TextView) view.findViewById(R.id.pains_name);
 
         // Extract properties from cursor
-        String pain = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Pains.COLUMN_PAIN));
+        String pain = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Medication.COLUMN_MEDICATION));
 
         // Populate fields with extracted properties
         pains_name.setText(pain);

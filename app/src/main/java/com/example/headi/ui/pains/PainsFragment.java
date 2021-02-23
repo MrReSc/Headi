@@ -10,7 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -102,7 +101,7 @@ public class PainsFragment extends Fragment {
 
         // Attach cursor adapter to the ListView
         HeadiDBSQLiteHelper helper = new HeadiDBSQLiteHelper(context);
-        PainsItems.setAdapter(helper.readPainsFromDB(context));
+        PainsItems.setAdapter(helper.readPainsWithIconFromDB(context));
     }
 
     private void deleteFromDB(long id) {

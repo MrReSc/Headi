@@ -33,8 +33,8 @@ import com.example.headi.R;
 import com.example.headi.TimerForegroundService;
 import com.example.headi.db.HeadiDBContract;
 import com.example.headi.db.HeadiDBSQLiteHelper;
-import com.example.headi.db.MedicationsSpinnerCourserAdapter;
-import com.example.headi.db.PainsCourserAdapter;
+import com.example.headi.db.MedicationsCourserAdapter;
+import com.example.headi.db.PainsCourserIconAdapter;
 
 import java.io.ByteArrayOutputStream;
 
@@ -169,7 +169,7 @@ public class TimerFragment extends Fragment {
 
         // Attach cursor adapter to the ListView
         HeadiDBSQLiteHelper helper = new HeadiDBSQLiteHelper(context);
-        PainsCourserAdapter adapter = helper.readPainsFromDB(context);
+        PainsCourserIconAdapter adapter = helper.readPainsWithIconFromDB(context);
         pains_items.setAdapter(adapter);
 
         // Set saved pain
@@ -282,11 +282,11 @@ public class TimerFragment extends Fragment {
 
         // Attach cursor adapter to the ListView
         HeadiDBSQLiteHelper helper = new HeadiDBSQLiteHelper(context);
-        MedicationsSpinnerCourserAdapter adapter = helper.readMedicationsSpinnerFromDB(context);
+        MedicationsCourserAdapter adapter = helper.readMedicationsWithoutIconFromDB(context);
         medication_items.setAdapter(adapter);
     }
 
-    private void setSpinnerPain(PainsCourserAdapter adapter) {
+    private void setSpinnerPain(PainsCourserIconAdapter adapter) {
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         long id = sharedPref.getLong(Constants.SHAREDPREFS.TIMER_SPINNER_PAINS, 0);
 

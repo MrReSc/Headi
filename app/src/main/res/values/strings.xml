@@ -47,7 +47,7 @@
     <string name="apply_button">Apply</string>
     <string name="filter_from_hint">From date</string>
     <string name="filter_to_hint">To date</string>
-    <string name="delete_filter_button">Delete filter</string>
+    <string name="remove_filter_button">Remove all filters</string>
     <string name="add_new_item">Add new item</string>
     <string name="add_new_item_title">Add new item</string>
 

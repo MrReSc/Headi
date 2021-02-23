@@ -50,9 +50,15 @@
             app:layout_constraintStart_toStartOf="@+id/guideline_1"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ListView
+            android:id="@+id/filter_pains_list"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/filter_from_date" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 </LinearLayout>
