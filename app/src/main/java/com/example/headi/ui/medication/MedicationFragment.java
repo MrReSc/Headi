@@ -5,6 +5,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -14,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.headi.R;
@@ -31,19 +35,57 @@ public class MedicationFragment extends Fragment {
 
         Context context = getActivity();
         view = inflater.inflate(R.layout.fragment_pains_medications, container, false);
-
         MedicationsItems = (ListView) view.findViewById(R.id.pains_list);
-
-        // Setup text for medication fragment
-        EditText add_new_medication = view.findViewById(R.id.pains_add_new_pain);
-        add_new_medication.setHint(getString(R.string.new_medications_hint));
-        add_new_medication.setAutofillHints(getString(R.string.new_medications_hint));
-        TextView list_tile = view.findViewById(R.id.pains_list_tile);
-        list_tile.setText(getString(R.string.types_of_medication));
+        setHasOptionsMenu(true);
 
         registerListeners(context);
         readFromDB();
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_pains_medications, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_add_item:  {
+                openAddItemDialog();
+                return true;
+            }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void openAddItemDialog() {
+        Context context = requireActivity();
+
+        // Create an alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(context.getString(R.string.add_new_item_title));
+
+        // set the save layout
+        final View saveView = getLayoutInflater().inflate(R.layout.fragment_pains_medication_add_dialog, null);
+        builder.setView(saveView);
+
+        // add add button
+        builder.setPositiveButton(context.getString(R.string.add_button), (dialog, which) -> {
+            saveToDB(saveView);
+        });
+
+        // add cancel button
+        builder.setNegativeButton(context.getString(R.string.cancel_button), (dialog, which) -> { });
+
+        //replace hint text
+        EditText pains_add_new_pain = (EditText) saveView.findViewById(R.id.pains_add_new_pain);
+        pains_add_new_pain.setHint(context.getString(R.string.new_medications_hint));
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void readFromDB() {
@@ -54,7 +96,7 @@ public class MedicationFragment extends Fragment {
         MedicationsItems.setAdapter(helper.readMedicationsListFromDB(context));
     }
 
-    private void saveToDB() {
+    private void saveToDB(View view) {
         Context context = requireActivity();
         SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -64,7 +106,6 @@ public class MedicationFragment extends Fragment {
         database.insert(HeadiDBContract.Medication.TABLE_NAME, null, values);
 
         Toast.makeText(context, context.getString(R.string.new_item_added), Toast.LENGTH_SHORT).show();
-        mEdit.setText("");
         readFromDB();
     }
 
@@ -80,11 +121,6 @@ public class MedicationFragment extends Fragment {
     }
 
     private void registerListeners(Context context) {
-        // Add Button listener
-        final Button button = view.findViewById(R.id.pains_add_button);
-        button.setOnClickListener(v -> saveToDB());
-
-        // Find ListView to populate
         MedicationsItems.setOnItemLongClickListener((adapterView, view, position, id) -> {
 
             new MaterialAlertDialogBuilder(context)

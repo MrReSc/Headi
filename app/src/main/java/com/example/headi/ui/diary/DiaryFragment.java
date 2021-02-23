@@ -2,7 +2,6 @@ package com.example.headi.ui.diary;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
@@ -16,13 +15,10 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SeekBar;
-import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.headi.R;
 import com.example.headi.db.DiaryCourserAdapter;
@@ -59,7 +55,7 @@ public class DiaryFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_filter, menu);
+        inflater.inflate(R.menu.menu_diary, menu);
     }
 
     @Override
