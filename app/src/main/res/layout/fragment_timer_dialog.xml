@@ -124,13 +124,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="284dp" />
+            app:layout_constraintGuide_percent="0.22" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.26" />
 
         <Spinner
             android:id="@+id/diary_medication"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
+            android:paddingStart="20dp"
+            app:layout_constraintStart_toStartOf="@+id/guideline_2"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
@@ -144,6 +152,42 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/diary_medication" />
+
+        <ImageView
+            android:id="@+id/button_decrease"
+            android:layout_width="20dp"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_menu_minus"
+            app:tint="@color/purple_200"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground"
+            app:layout_constraintBottom_toTopOf="@+id/diary_description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/diary_medication_amount"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="1"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            app:layout_constraintBottom_toTopOf="@+id/diary_description"
+            app:layout_constraintEnd_toStartOf="@+id/button_increase"
+            app:layout_constraintStart_toEndOf="@+id/button_decrease"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/button_increase"
+            android:layout_width="20dp"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_menu_plus"
+            app:tint="@color/purple_200"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground"
+            app:layout_constraintBottom_toTopOf="@+id/diary_description"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

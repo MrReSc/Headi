@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -176,7 +177,7 @@ public class TimerFragment extends Fragment {
         setSpinnerPain(adapter);
     }
 
-    private void saveToDB(Drawable region, String description, String medication, int strength) {
+    private void saveToDB(Drawable region, String description, String medication, int strength, int medicationAmount) {
         Context context = requireActivity();
         timerForegroundServiceEndAction();
 
@@ -190,6 +191,7 @@ public class TimerFragment extends Fragment {
         values.put(HeadiDBContract.Diary.COLUMN_REGION, getDrawableAsByteArray(region));
         values.put(HeadiDBContract.Diary.COLUMN_DESCRIPTION, description);
         values.put(HeadiDBContract.Diary.COLUMN_MEDICATION, medication);
+        values.put(HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT, medicationAmount);
         values.put(HeadiDBContract.Diary.COLUMN_STRENGTH, strength);
         String pain = ((Cursor) pains_items.getSelectedItem()).getString(1);
         values.put(HeadiDBContract.Diary.COLUMN_PAIN, pain);
@@ -227,7 +229,6 @@ public class TimerFragment extends Fragment {
         TextView button_clear = saveView.findViewById(R.id.button_clear);
 
         button_undo.setOnClickListener(v -> finger.undo());
-
         button_clear.setOnClickListener(v -> finger.clear());
 
         // add save button
@@ -236,8 +237,10 @@ public class TimerFragment extends Fragment {
             Spinner medication = saveView.findViewById(R.id.diary_medication);
             String diaryMedication = ((Cursor) medication.getSelectedItem()).getString(1);
             SeekBar strength = saveView.findViewById(R.id.diary_strength);
+            TextView diary_medication_amount = saveView.findViewById(R.id.diary_medication_amount);
+            int diaryMedicationAmount = Integer.parseInt(diary_medication_amount.getText().toString());
             saveToDB(finger.getDrawable(), diaryDescription.getText().toString(), diaryMedication,
-                    strength.getProgress());
+                    strength.getProgress(), diaryMedicationAmount);
         });
 
         // add delete button
@@ -251,6 +254,12 @@ public class TimerFragment extends Fragment {
 
         // populate medication spinner
         populateMedicationSpinner(saveView);
+
+        // increase and decrease medication amount buttons
+        ImageView button_increase = saveView.findViewById(R.id.button_increase);
+        ImageView button_decrease = saveView.findViewById(R.id.button_decrease);
+        button_increase.setOnClickListener(v -> increaseMedicationAmount(saveView));
+        button_decrease.setOnClickListener(v -> decreaseMedicationAmount(saveView));
 
         // Set pain strength text
         TextView pain_strength_text = saveView.findViewById(R.id.diary_strength_text);
@@ -274,6 +283,18 @@ public class TimerFragment extends Fragment {
         // create and show the alert dialog
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void increaseMedicationAmount(View view) {
+        TextView medication_amount = view.findViewById(R.id.diary_medication_amount);
+        int newVal = Integer.parseInt(medication_amount.getText().toString()) + 1;
+        medication_amount.setText(Integer.toString(newVal));
+    }
+
+    private void decreaseMedicationAmount(View view) {
+        TextView medication_amount = view.findViewById(R.id.diary_medication_amount);
+        int newVal = Integer.parseInt(medication_amount.getText().toString()) - 1;
+        medication_amount.setText(Integer.toString(newVal));
     }
 
     private void populateMedicationSpinner(View view) {

@@ -70,6 +70,7 @@ public class DiaryCourserAdapter extends CursorAdapter {
 
         String description = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DESCRIPTION));
         String medication = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_MEDICATION));
+        String medication_amount = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT));
         String strength = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_STRENGTH));
 
         // Populate fields with extracted properties
@@ -80,7 +81,7 @@ public class DiaryCourserAdapter extends CursorAdapter {
         diary_pain_duration.setText(pain_duration);
         diary_region.setImageBitmap(region);
         diary_description.setText(description);
-        diary_medication.setText(medication);
+        diary_medication.setText(medication_amount + " " + context.getString(R.string.pieces) + " " + medication);
         diary_strength.setProgress(Integer.parseInt(strength));
         diary_strength_text.setText(strength + " / 10");
     }

@@ -36,6 +36,7 @@ public final class HeadiDBContract {
         public static final String COLUMN_STRENGTH = "strength";
         public static final String COLUMN_REGION = "region";
         public static final String COLUMN_MEDICATION = "medication";
+        public static final String COLUMN_MEDICATION_AMOUNT = "medication_amount";
         public static final String COLUMN_DESCRIPTION = "description";
 
         public static final String CREATE_TABLE = "CREATE TABLE " +
@@ -47,6 +48,7 @@ public final class HeadiDBContract {
                 COLUMN_STRENGTH + " INTEGER, " +
                 COLUMN_REGION + " BLOB, " +
                 COLUMN_MEDICATION + " TEXT, " +
+                COLUMN_MEDICATION_AMOUNT + " INTEGER, " +
                 COLUMN_DESCRIPTION + " TEXT, " +
                 COLUMN_PAIN + " TEXT " + ")";
     }

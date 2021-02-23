@@ -24,9 +24,11 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + HeadiDBContract.Pains.TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + HeadiDBContract.Diary.TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + HeadiDBContract.Medication.TABLE_NAME);
+        //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + HeadiDBContract.Pains.TABLE_NAME);
+        //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + HeadiDBContract.Diary.TABLE_NAME);
+        //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + HeadiDBContract.Medication.TABLE_NAME);
+        //String sql = "ALTER TABLE " + HeadiDBContract.Diary.TABLE_NAME + " ADD COLUMN " + HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT + " INTEGER";
+        //sqLiteDatabase.execSQL(sql);
         onCreate(sqLiteDatabase);
     }
 
@@ -109,6 +111,7 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
                 HeadiDBContract.Diary.COLUMN_STRENGTH,
                 HeadiDBContract.Diary.COLUMN_REGION,
                 HeadiDBContract.Diary.COLUMN_MEDICATION,
+                HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT,
                 HeadiDBContract.Diary.COLUMN_START_DATE,
         };
 
