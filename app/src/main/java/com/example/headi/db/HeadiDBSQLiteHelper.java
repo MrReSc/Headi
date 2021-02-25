@@ -131,4 +131,33 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         return new DiaryCourserAdapter(context, cursor, 0);
     }
 
+    public Cursor readDiaryStatsFromDB(Context context, String selection, String[] selectionArgs) {
+        SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getReadableDatabase();
+
+        String[] projection = {
+                HeadiDBContract.Diary._ID,
+                HeadiDBContract.Diary.COLUMN_DURATION,
+                HeadiDBContract.Diary.COLUMN_END_DATE,
+                HeadiDBContract.Diary.COLUMN_PAIN,
+                HeadiDBContract.Diary.COLUMN_STRENGTH,
+                HeadiDBContract.Diary.COLUMN_MEDICATION,
+                HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT,
+                HeadiDBContract.Diary.COLUMN_START_DATE,
+        };
+
+        String orderBy = HeadiDBContract.Diary.COLUMN_START_DATE + " DESC";
+
+        Cursor cursor = database.query(
+                HeadiDBContract.Diary.TABLE_NAME,         // The table to query
+                projection,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                null,                             // don't group the rows
+                null,                              // don't filter by row groups
+                orderBy                                   // sort
+        );
+
+        return cursor;
+    }
+
 }

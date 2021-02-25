@@ -52,6 +52,10 @@
     <string name="add_new_item_title">Add new item</string>
     <string name="pieces">pcs of</string>
     <string name="medication_amount">0</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_stats">Statistics</string>
+    <string name="stats_set_date_title">Set date</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
