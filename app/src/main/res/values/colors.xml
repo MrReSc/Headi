@@ -7,9 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="play">#4CAF50</color>
-    <color name="stop">#E91E63</color>
-    <color name="region_mark">#94E91E63</color>
-    <color name="pain_name">#009688</color>
-    <color name="medication_name">#4CAF50</color>
+    <color name="button_play">#4CAF50</color>
+    <color name="button_stop">#E91E63</color>
+    <color name="region_marking">#94E91E63</color>
+    <color name="pain_icon">#009688</color>
+    <color name="medication_icon">#4CAF50</color> 0192ea
+    <color name="background">#0192EA</color>
+    <color name="background_darker">#005D95</color>
 </resources>

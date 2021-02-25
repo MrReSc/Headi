@@ -95,7 +95,7 @@ public class TimerForegroundService extends Service {
         return new NotificationCompat.Builder(this, Constants.SERVICE.NOTIFICATION_CHANEL_ID)
                 .setContentTitle(getText(R.string.notification_title))
                 .setContentText(time)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.ic_notification_icon)
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setOnlyAlertOnce(true) // so when data is updated don't make sound and alert in android 8.0+

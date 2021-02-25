@@ -29,7 +29,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:text="Migraine"
-            android:textColor="@color/teal_200"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
     </RelativeLayout>
@@ -98,8 +97,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
                 android:text="02H 23M"
-                android:textColor="@color/teal_200"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
 
         </RelativeLayout>
 
@@ -166,7 +164,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.25" />
+            app:layout_constraintGuide_percent="0.32" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_80"
@@ -180,6 +178,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/paint_strength"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textAlignment="center"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/diary_strength" />
@@ -210,6 +209,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/diary_medication"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textAlignment="center"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -219,6 +219,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/diary_medication_hint"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -227,6 +228,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/diary_description"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textAlignment="center"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/diary_description" />
@@ -236,6 +238,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/diary_description_hint"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/diary_medication" />
 

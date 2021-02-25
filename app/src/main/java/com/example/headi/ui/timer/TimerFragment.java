@@ -149,11 +149,11 @@ public class TimerFragment extends Fragment {
         switch (action) {
             case Constants.ACTION.STOP_ACTION:
                 start.setText(requireActivity().getString(R.string.timer_start));
-                start.setBackgroundColor(requireActivity().getColor(R.color.play));
+                start.setBackgroundColor(requireActivity().getColor(R.color.button_play));
                 break;
             case Constants.ACTION.START_ACTION:
                 start.setText(requireActivity().getString(R.string.timer_stop));
-                start.setBackgroundColor(requireActivity().getColor(R.color.stop));
+                start.setBackgroundColor(requireActivity().getColor(R.color.button_stop));
                 break;
             default:
                 break;
@@ -221,7 +221,7 @@ public class TimerFragment extends Fragment {
 
         // set up finger paint view
         FingerPaintImageView finger = saveView.findViewById(R.id.diary_region);
-        finger.setStrokeColor(requireActivity().getColor(R.color.region_mark));
+        finger.setStrokeColor(requireActivity().getColor(R.color.region_marking));
         finger.setStrokeWidth(20);
         finger.setTouchTolerance(1);
 
@@ -294,7 +294,7 @@ public class TimerFragment extends Fragment {
     private void decreaseMedicationAmount(View view) {
         TextView medication_amount = view.findViewById(R.id.diary_medication_amount);
         int newVal = Integer.parseInt(medication_amount.getText().toString()) - 1;
-        medication_amount.setText(Integer.toString(newVal));
+        medication_amount.setText(newVal < 0 ? "0" : Integer.toString(newVal));
     }
 
     private void populateMedicationSpinner(View view) {

@@ -43,6 +43,6 @@ public class MedicationsIconCourserAdapter extends CursorAdapter {
         // Populate fields with extracted properties
         pains_name.setText(pain);
         pains_image.setImageResource(R.drawable.ic_menu_medication);
-        ImageViewCompat.setImageTintList(pains_image, ColorStateList.valueOf(getColor(context, R.color.medication_name)));
+        ImageViewCompat.setImageTintList(pains_image, ColorStateList.valueOf(getColor(context, R.color.medication_icon)));
     }
 }

@@ -36,6 +36,6 @@
         android:gravity="center"
         android:text="@string/timer_start"
         android:textSize="20dp"
-        app:backgroundTint="@color/play" />
+        app:backgroundTint="@color/button_play" />
 
 </LinearLayout>

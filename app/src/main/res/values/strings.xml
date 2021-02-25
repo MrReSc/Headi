@@ -2,7 +2,7 @@
     <string name="app_name">Headi</string>
 
     <string name="nav_header_title">Headi</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_subtitle">Your headache diary</string>
     <string name="nav_header_desc">Navigation header</string>
 
     <string name="action_delete">Delete</string>
@@ -51,6 +51,7 @@
     <string name="add_new_item">Add new item</string>
     <string name="add_new_item_title">Add new item</string>
     <string name="pieces">pcs of</string>
+    <string name="medication_amount">0</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
