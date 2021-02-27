@@ -96,6 +96,7 @@ public class TimerForegroundService extends Service {
                 .setContentTitle(getText(R.string.notification_title))
                 .setContentText(time)
                 .setSmallIcon(R.drawable.ic_notification_icon)
+                .setColor(getColor(R.color.primaryColor))
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setOnlyAlertOnce(true) // so when data is updated don't make sound and alert in android 8.0+

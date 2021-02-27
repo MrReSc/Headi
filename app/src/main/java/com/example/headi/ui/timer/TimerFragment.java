@@ -45,6 +45,9 @@ import tech.picnic.fingerpaintview.FingerPaintImageView;
 public class TimerFragment extends Fragment {
 
     private View view;
+    private Spinner pains_items;
+    private Button button_start;
+
     final BroadcastReceiver broadcastReceiverTimer = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -52,8 +55,6 @@ public class TimerFragment extends Fragment {
             mTimerView.setText(intent.getExtras().get(Constants.BROADCAST.DATA_CURRENT_TIME).toString());
         }
     };
-    private Spinner pains_items;
-    private Button button_start;
 
     public static byte[] getDrawableAsByteArray(Drawable d) {
         Bitmap bitmap;
@@ -234,11 +235,18 @@ public class TimerFragment extends Fragment {
         // add save button
         builder.setPositiveButton(context.getString(R.string.save_button), (dialog, which) -> {
             EditText diaryDescription = saveView.findViewById(R.id.diary_description);
+            SeekBar strength = saveView.findViewById(R.id.diary_strength);
+
             Spinner medication = saveView.findViewById(R.id.diary_medication);
             String diaryMedication = ((Cursor) medication.getSelectedItem()).getString(1);
-            SeekBar strength = saveView.findViewById(R.id.diary_strength);
+
             TextView diary_medication_amount = saveView.findViewById(R.id.diary_medication_amount);
             int diaryMedicationAmount = Integer.parseInt(diary_medication_amount.getText().toString());
+
+            if (diaryMedicationAmount == 0) {
+                diaryMedication = "";
+            }
+
             saveToDB(finger.getDrawable(), diaryDescription.getText().toString(), diaryMedication,
                     strength.getProgress(), diaryMedicationAmount);
         });

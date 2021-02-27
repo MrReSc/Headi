@@ -80,10 +80,22 @@ public class DiaryCourserAdapter extends CursorAdapter {
         diary_pain_name.setText(pain_name);
         diary_pain_duration.setText(pain_duration);
         diary_region.setImageBitmap(region);
-        diary_description.setText(description);
-        diary_medication.setText(medication_amount + " " + context.getString(R.string.pieces) + " " + medication);
         diary_strength.setProgress(Integer.parseInt(strength));
         diary_strength_text.setText(strength + " / 10");
+
+        if (description.isEmpty()) {
+            diary_description.setText(context.getString(R.string.none));
+        }
+        else {
+            diary_description.setText(description);
+        }
+
+        if (medication.isEmpty() || medication_amount.equals("0") || medication_amount.equals("null")) {
+            diary_medication.setText(context.getString(R.string.none));
+        }
+        else {
+            diary_medication.setText(medication_amount + " " + context.getString(R.string.pieces) + " " + medication);
+        }
     }
 
     private String getFormattedTime(SimpleDateFormat formatter, String date) {

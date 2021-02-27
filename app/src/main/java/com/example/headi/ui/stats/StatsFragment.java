@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.Bundle;
@@ -12,6 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,12 +29,18 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.headi.R;
+import com.example.headi.db.DiaryStats;
 import com.example.headi.db.HeadiDBContract;
 import com.example.headi.db.HeadiDBSQLiteHelper;
 import com.example.headi.db.PainsCourserCheckboxAdapter;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 
 public class StatsFragment extends Fragment {
@@ -41,6 +52,8 @@ public class StatsFragment extends Fragment {
     private String toDateFilter;
     private DatePickerDialog fromDatePickerDialog;
     private DatePickerDialog toDatePickerDialog;
+    private DiaryStats diaryStats;
+    private PieChart piePainDuration;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -49,7 +62,9 @@ public class StatsFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_stats, container, false);
 
         setHasOptionsMenu(true);
+        setupCharts();
 
+        readFromDB(null, null);
         return view;
     }
 
@@ -68,6 +83,26 @@ public class StatsFragment extends Fragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void setupCharts() {
+        Context context = getActivity();
+
+        // Pie Chart Pain - Duration
+        piePainDuration = view.findViewById(R.id.stats_pie_pain_duration);
+        piePainDuration.getDescription().setEnabled(false);
+        piePainDuration.setUsePercentValues(true);
+        piePainDuration.setCenterText("Ratio of pains");
+        piePainDuration.getLegend().setEnabled(false);
+        piePainDuration.setRotationEnabled(false);
+        piePainDuration.setHighlightPerTapEnabled(false);
+        piePainDuration.setExtraOffsets(30.f, 0.f, 30.f, 0.f);
+
+        // radius of the center hole in percent of maximum radius
+        piePainDuration.setHoleRadius(40f);
+        piePainDuration.setTransparentCircleRadius(44f);
+
+
     }
 
     private void openFilterDialog() {
@@ -154,7 +189,20 @@ public class StatsFragment extends Fragment {
     }
 
     private void readFromDB(String selection, String[] selectionArgs) {
+        Context context = getActivity();
 
+        // Attach cursor adapter to the ListView
+        HeadiDBSQLiteHelper helper = new HeadiDBSQLiteHelper(context);
+        diaryStats = helper.readDiaryStatsFromDB(context, selection, selectionArgs);
+
+        populateCharts();
+    }
+
+    private void populateCharts() {
+        piePainDuration.setData(diaryStats.getPainAndDurationPieData(piePainDuration));
+
+        piePainDuration.invalidate();
 
     }
+
 }

@@ -24,11 +24,9 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-        //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + HeadiDBContract.Pains.TABLE_NAME);
-        //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + HeadiDBContract.Diary.TABLE_NAME);
-        //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + HeadiDBContract.Medication.TABLE_NAME);
-        //String sql = "ALTER TABLE " + HeadiDBContract.Diary.TABLE_NAME + " ADD COLUMN " + HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT + " INTEGER";
-        //sqLiteDatabase.execSQL(sql);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + HeadiDBContract.Pains.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + HeadiDBContract.Diary.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + HeadiDBContract.Medication.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 
@@ -131,7 +129,7 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         return new DiaryCourserAdapter(context, cursor, 0);
     }
 
-    public Cursor readDiaryStatsFromDB(Context context, String selection, String[] selectionArgs) {
+    public DiaryStats readDiaryStatsFromDB(Context context, String selection, String[] selectionArgs) {
         SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getReadableDatabase();
 
         String[] projection = {
@@ -157,7 +155,7 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
                 orderBy                                   // sort
         );
 
-        return cursor;
+        return new DiaryStats(context, cursor);
     }
 
 }
