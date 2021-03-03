@@ -14,4 +14,6 @@
     <color name="medication_icon">#4CAF50</color> 0192ea
     <color name="primaryColor">#0192EA</color>
     <color name="primaryColorVariant">#006CAE</color>
+    <color name="dim_foreground_dark">#80bebebe</color>
+    <color name="dim_foreground_light">#80323232</color>
 </resources>

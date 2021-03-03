@@ -50,17 +50,14 @@ public class DiaryCourserAdapter extends CursorAdapter {
         TextView diary_strength_text = (TextView) view.findViewById(R.id.diary_strength_text);
 
         // Extract properties from cursor
-        SimpleDateFormat date_formatter = new SimpleDateFormat("E dd. MMM yyyy", Locale.getDefault());
-        String date = getFormattedTime(date_formatter,
-                cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
+        SimpleDateFormat df = new SimpleDateFormat("E dd. MMM yyyy", Locale.getDefault());
+        String date = df.format(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
 
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm", Locale.getDefault());
-        String pain_start = getFormattedTime(formatter,
-                cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
-        String pain_end = getFormattedTime(formatter,
-                cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_END_DATE)));
+        SimpleDateFormat tf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        String pain_start = tf.format(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
+        String pain_end = tf.format(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_END_DATE)));
 
-        Long s = Long.parseLong(cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DURATION))) / 1000;
+        Long s = cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DURATION)) / 1000;
         String pain_duration = String.format(Locale.getDefault(), "%02dH %02dM", s / 3600, (s % 3600) / 60);
 
         String pain_name = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_PAIN));
@@ -97,10 +94,4 @@ public class DiaryCourserAdapter extends CursorAdapter {
             diary_medication.setText(medication_amount + " " + context.getString(R.string.pieces) + " " + medication);
         }
     }
-
-    private String getFormattedTime(SimpleDateFormat formatter, String date) {
-        Long dateAsLong = Long.parseLong(date);
-        return formatter.format(new Date(dateAsLong));
-    }
-
 }

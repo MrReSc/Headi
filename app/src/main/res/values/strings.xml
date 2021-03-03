@@ -57,6 +57,9 @@
     <string name="menu_stats">Statistics</string>
     <string name="stats_set_date_title">Set date</string>
     <string name="none">none</string>
+    <string name="stats_pain_duration_ratio_desc">This graph shows the distribution of pain types in percent during the given period.</string>
+    <string name="stats_count_strength_ratio_desc">This graph shows for each pain strength the number that occurred in the indicated time period.</string>
+    <string name="stats_duration_over_time_desc">This graph shows the number of headache minutes over the indicated time period.</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

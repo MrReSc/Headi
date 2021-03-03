@@ -1,11 +1,9 @@
 package com.example.headi.ui.stats;
 
 import android.app.DatePickerDialog;
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
-import android.graphics.Typeface;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.Bundle;
@@ -14,9 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,22 +21,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.example.headi.R;
 import com.example.headi.db.DiaryStats;
 import com.example.headi.db.HeadiDBContract;
 import com.example.headi.db.HeadiDBSQLiteHelper;
-import com.example.headi.db.PainsCourserCheckboxAdapter;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 
+import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Locale;
 
 public class StatsFragment extends Fragment {
@@ -53,7 +47,10 @@ public class StatsFragment extends Fragment {
     private DatePickerDialog fromDatePickerDialog;
     private DatePickerDialog toDatePickerDialog;
     private DiaryStats diaryStats;
-    private PieChart piePainDuration;
+    private PieChart piePainDurationRatio;
+    private BarChart barCountStrengthRatio;
+    private LineChart lineDurationOverTime;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -64,7 +61,12 @@ public class StatsFragment extends Fragment {
         setHasOptionsMenu(true);
         setupCharts();
 
-        readFromDB(null, null);
+        try {
+            readFromDB(null, null);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         return view;
     }
 
@@ -88,20 +90,64 @@ public class StatsFragment extends Fragment {
     private void setupCharts() {
         Context context = getActivity();
 
-        // Pie Chart Pain - Duration
-        piePainDuration = view.findViewById(R.id.stats_pie_pain_duration);
-        piePainDuration.getDescription().setEnabled(false);
-        piePainDuration.setUsePercentValues(true);
-        piePainDuration.setCenterText("Ratio of pains");
-        piePainDuration.getLegend().setEnabled(false);
-        piePainDuration.setRotationEnabled(false);
-        piePainDuration.setHighlightPerTapEnabled(false);
-        piePainDuration.setExtraOffsets(30.f, 0.f, 30.f, 0.f);
+        // Pie Chart: Pain - Duration ratio
+        piePainDurationRatio = view.findViewById(R.id.stats_pain_duration_ratio);
+        piePainDurationRatio.getDescription().setEnabled(false);
+        piePainDurationRatio.setUsePercentValues(true);
+        piePainDurationRatio.setCenterText("Ratio of pains");
+        piePainDurationRatio.getLegend().setEnabled(false);
+        piePainDurationRatio.setRotationEnabled(false);
+        piePainDurationRatio.setHighlightPerTapEnabled(false);
+        piePainDurationRatio.setExtraOffsets(30.f, 0.f, 30.f, 0.f);
+        piePainDurationRatio.setHoleRadius(35f);
+        piePainDurationRatio.setTransparentCircleRadius(44f);
+        piePainDurationRatio.animateXY(1000, 1000);
 
-        // radius of the center hole in percent of maximum radius
-        piePainDuration.setHoleRadius(40f);
-        piePainDuration.setTransparentCircleRadius(44f);
+        // Bar Chart: Count - Strength ratio
+        barCountStrengthRatio = view.findViewById(R.id.stats_count_strength_ratio);
+        barCountStrengthRatio.getDescription().setEnabled(false);
+        barCountStrengthRatio.setScaleEnabled(false);
+        barCountStrengthRatio.setDrawBarShadow(false);
+        barCountStrengthRatio.setDrawGridBackground(false);
+        barCountStrengthRatio.getLegend().setEnabled(false);
+        barCountStrengthRatio.setHighlightPerTapEnabled(false);
+        barCountStrengthRatio.animateXY(1000, 1000);
+        barCountStrengthRatio.setTouchEnabled(false);
 
+        XAxis xAxis = barCountStrengthRatio.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setTextColor(getPrimaryTextColor());
+        xAxis.setLabelCount(10);
+
+        YAxis yAxis = barCountStrengthRatio.getAxisLeft();
+        yAxis.setDrawGridLines(false);
+        yAxis.setTextColor(getPrimaryTextColor());
+        yAxis.setGranularity(1.0f);
+        yAxis.setGranularityEnabled(true); // Required to enable granularity
+        barCountStrengthRatio.getAxisRight().setDrawLabels(false);
+
+        // Line Chart: Pain minutes over time
+        lineDurationOverTime = view.findViewById(R.id.stats_duration_over_time);
+        lineDurationOverTime.getDescription().setEnabled(false);
+        lineDurationOverTime.setScaleEnabled(false);
+        lineDurationOverTime.setDragEnabled(false);
+        lineDurationOverTime.setTouchEnabled(false);
+        lineDurationOverTime.setPinchZoom(false);
+        lineDurationOverTime.animateXY(1000, 1000);
+        lineDurationOverTime.getLegend().setEnabled(false);
+        lineDurationOverTime.setHighlightPerTapEnabled(false);
+        lineDurationOverTime.getXAxis().setValueFormatter(new DiaryStats.LineChartXAxisValueFormatter());
+
+        xAxis = lineDurationOverTime.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setTextColor(getPrimaryTextColor());
+
+        yAxis = lineDurationOverTime.getAxisLeft();
+        yAxis.setDrawGridLines(false);
+        yAxis.setTextColor(getPrimaryTextColor());
+        lineDurationOverTime.getAxisRight().setDrawLabels(false);
 
     }
 
@@ -138,7 +184,11 @@ public class StatsFragment extends Fragment {
             }
 
             if (!selection.isEmpty()) {
-                readFromDB(selection, selectionArgs);
+                try {
+                    readFromDB(selection, selectionArgs);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -147,7 +197,11 @@ public class StatsFragment extends Fragment {
 
         // add delete filter button
         builder.setNeutralButton(context.getString(R.string.remove_filter_button), (dialog, which) -> {
-            readFromDB(null, null);
+            try {
+                readFromDB(null, null);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         });
 
         // create and show the alert dialog
@@ -188,7 +242,7 @@ public class StatsFragment extends Fragment {
         toDate.setOnClickListener(v -> toDatePickerDialog.show());
     }
 
-    private void readFromDB(String selection, String[] selectionArgs) {
+    private void readFromDB(String selection, String[] selectionArgs) throws ParseException {
         Context context = getActivity();
 
         // Attach cursor adapter to the ListView
@@ -196,13 +250,38 @@ public class StatsFragment extends Fragment {
         diaryStats = helper.readDiaryStatsFromDB(context, selection, selectionArgs);
 
         populateCharts();
+        setStatsFromAndToDate();
     }
 
-    private void populateCharts() {
-        piePainDuration.setData(diaryStats.getPainAndDurationPieData(piePainDuration));
-
-        piePainDuration.invalidate();
-
+    private void setStatsFromAndToDate() {
+        TextView fromAndTo = (TextView) view.findViewById(R.id.stats_date_from_to);
+        String from = diaryStats.getStatsFromDate();
+        String to = diaryStats.getStatsToDate();
+        fromAndTo.setText(from + " - " + to);
     }
+
+    private void populateCharts() throws ParseException {
+        piePainDurationRatio.setData(diaryStats.getPainAndDurationRatio(piePainDurationRatio));
+        piePainDurationRatio.invalidate();
+
+        barCountStrengthRatio.setData(diaryStats.getCountAndStrengthRatio());
+        barCountStrengthRatio.setFitBars(true);
+        barCountStrengthRatio.invalidate();
+
+        lineDurationOverTime.setData(diaryStats.getDurationOverTime());
+        lineDurationOverTime.invalidate();
+    }
+
+    private int getPrimaryTextColor() {
+        Context context = getActivity();
+        // Get the primary text color of the theme
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(android.R.attr.textColorPrimary, typedValue, true);
+        TypedArray arr = context.obtainStyledAttributes(typedValue.data, new int[]{android.R.attr.textColorPrimary});
+        int primaryColor = arr.getColor(0, -1);
+        return primaryColor;
+    }
+
 
 }
