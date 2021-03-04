@@ -97,19 +97,14 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public DiaryCourserAdapter readDiaryFromDB(Context context, String selection, String[] selectionArgs) {
+    public DiaryCourserTreeAdapter readDiaryGroupFromDB(Context context, String selection, String[] selectionArgs) {
         SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getReadableDatabase();
 
         String[] projection = {
                 HeadiDBContract.Diary._ID,
-                HeadiDBContract.Diary.COLUMN_DESCRIPTION,
                 HeadiDBContract.Diary.COLUMN_DURATION,
                 HeadiDBContract.Diary.COLUMN_END_DATE,
                 HeadiDBContract.Diary.COLUMN_PAIN,
-                HeadiDBContract.Diary.COLUMN_STRENGTH,
-                HeadiDBContract.Diary.COLUMN_REGION,
-                HeadiDBContract.Diary.COLUMN_MEDICATION,
-                HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT,
                 HeadiDBContract.Diary.COLUMN_START_DATE,
         };
 
@@ -126,7 +121,35 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         );
 
         // Setup cursor adapter using cursor from last step
-        return new DiaryCourserAdapter(context, cursor, 0);
+        return new DiaryCourserTreeAdapter(cursor, context);
+    }
+
+    public Cursor getDiaryChildrenCursor(Context context, String id) {
+        SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getReadableDatabase();
+
+        String[] projection = {
+                HeadiDBContract.Diary._ID,
+                HeadiDBContract.Diary.COLUMN_REGION,
+                HeadiDBContract.Diary.COLUMN_STRENGTH,
+                HeadiDBContract.Diary.COLUMN_MEDICATION,
+                HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT,
+                HeadiDBContract.Diary.COLUMN_DESCRIPTION,
+        };
+
+        String selection = HeadiDBContract.Diary._ID + " = ?";
+        String[] selectionArgs = {id};
+
+        Cursor cursor = database.query(
+                HeadiDBContract.Diary.TABLE_NAME,         // The table to query
+                projection,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                null,                             // don't group the rows
+                null,                              // don't filter by row groups
+                null                              // sort
+        );
+
+        return cursor;
     }
 
     public DiaryStats readDiaryStatsFromDB(Context context, String selection, String[] selectionArgs) {

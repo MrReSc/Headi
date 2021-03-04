@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -21,7 +22,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.headi.R;
-import com.example.headi.db.DiaryCourserAdapter;
+import com.example.headi.db.DiaryCourserTreeAdapter;
 import com.example.headi.db.HeadiDBContract;
 import com.example.headi.db.HeadiDBSQLiteHelper;
 import com.example.headi.db.PainsCourserCheckboxAdapter;
@@ -33,7 +34,7 @@ import java.util.Locale;
 public class DiaryFragment extends Fragment {
 
     private View view;
-    private ListView DiaryItems;
+    private ExpandableListView DiaryItems;
     private EditText fromDate;
     private EditText toDate;
     private String fromDateFilter;
@@ -46,7 +47,7 @@ public class DiaryFragment extends Fragment {
 
         Context context = getActivity();
         view = inflater.inflate(R.layout.fragment_diary, container, false);
-        DiaryItems = (ListView) view.findViewById(R.id.diary_list);
+        DiaryItems = (ExpandableListView) view.findViewById(R.id.diary_list);
         setHasOptionsMenu(true);
 
         registerListeners(context);
@@ -194,7 +195,7 @@ public class DiaryFragment extends Fragment {
 
         // Attach cursor adapter to the ListView
         HeadiDBSQLiteHelper helper = new HeadiDBSQLiteHelper(context);
-        DiaryCourserAdapter adapter = helper.readDiaryFromDB(context, selection, selectionArgs);
+        DiaryCourserTreeAdapter adapter = helper.readDiaryGroupFromDB(context, selection, selectionArgs);
         DiaryItems.setAdapter(adapter);
     }
 

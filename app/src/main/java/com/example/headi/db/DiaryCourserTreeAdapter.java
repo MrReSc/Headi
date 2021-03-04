@@ -8,46 +8,45 @@ import android.icu.text.SimpleDateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filterable;
+import android.widget.CursorTreeAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.cursoradapter.widget.CursorAdapter;
-
 import com.example.headi.R;
 
-import java.util.Date;
 import java.util.Locale;
 
-public class DiaryCourserAdapter extends CursorAdapter {
+public class DiaryCourserTreeAdapter extends CursorTreeAdapter {
 
-    public DiaryCourserAdapter(Context context, Cursor c, int flags) {
-        super(context, c, flags);
+    private Context context;
+
+
+    public DiaryCourserTreeAdapter(Cursor cursor, Context context) {
+        super(cursor, context);
+        this.context = context;
     }
 
-    // The newView method is used to inflate a new view and return it,
-    // you don't bind any data to the view at this point.
     @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.fragment_diary_item, parent, false);
+    protected Cursor getChildrenCursor(Cursor groupCursor) {
+        HeadiDBSQLiteHelper helper = new HeadiDBSQLiteHelper(context);
+        String groupId = groupCursor.getString(groupCursor.getColumnIndexOrThrow(HeadiDBContract.Diary._ID));
+        return helper.getDiaryChildrenCursor(context, groupId);
     }
 
-    // The bindView method is used to bind all data to a given view
-    // such as setting the text on a TextView.
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    protected View newGroupView(Context context, Cursor cursor, boolean isExpanded, ViewGroup parent) {
+        return LayoutInflater.from(context).inflate(R.layout.fragment_diary_list_group, parent, false);
+    }
+
+    @Override
+    protected void bindGroupView(View view, Context context, Cursor cursor, boolean isExpanded) {
         // Find fields to populate in inflated template
         TextView diary_date = (TextView) view.findViewById(R.id.diary_date);
         TextView diary_pain_start = (TextView) view.findViewById(R.id.diary_pain_start);
         TextView diary_pain_end = (TextView) view.findViewById(R.id.diary_pain_end);
         TextView diary_pain_name = (TextView) view.findViewById(R.id.diary_pain_name);
         TextView diary_pain_duration = (TextView) view.findViewById(R.id.diary_pain_duration);
-        ImageView diary_region = (ImageView) view.findViewById(R.id.diary_region);
-        TextView diary_description = (TextView) view.findViewById(R.id.diary_description);
-        TextView diary_medication = (TextView) view.findViewById(R.id.diary_medication);
-        ProgressBar diary_strength = (ProgressBar) view.findViewById(R.id.diary_strength);
-        TextView diary_strength_text = (TextView) view.findViewById(R.id.diary_strength_text);
 
         // Extract properties from cursor
         SimpleDateFormat df = new SimpleDateFormat("E dd. MMM yyyy", Locale.getDefault());
@@ -62,6 +61,27 @@ public class DiaryCourserAdapter extends CursorAdapter {
 
         String pain_name = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_PAIN));
 
+        // Populate fields with extracted properties
+        diary_date.setText(date);
+        diary_pain_start.setText(pain_start);
+        diary_pain_end.setText(pain_end);
+        diary_pain_name.setText(pain_name);
+        diary_pain_duration.setText(pain_duration);
+    }
+
+    @Override
+    protected View newChildView(Context context, Cursor cursor, boolean isLastChild, ViewGroup parent) {
+        return LayoutInflater.from(context).inflate(R.layout.fragment_diary_list_child, parent, false);    }
+
+    @Override
+    protected void bindChildView(View view, Context context, Cursor cursor, boolean isLastChild) {
+        // Find fields to populate in inflated template
+        ImageView diary_region = (ImageView) view.findViewById(R.id.diary_region);
+        TextView diary_description = (TextView) view.findViewById(R.id.diary_description);
+        TextView diary_medication = (TextView) view.findViewById(R.id.diary_medication);
+        ProgressBar diary_strength = (ProgressBar) view.findViewById(R.id.diary_strength);
+        TextView diary_strength_text = (TextView) view.findViewById(R.id.diary_strength_text);
+
         byte[] region_blob = cursor.getBlob(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_REGION));
         Bitmap region = BitmapFactory.decodeByteArray(region_blob, 0, region_blob.length);
 
@@ -71,11 +91,6 @@ public class DiaryCourserAdapter extends CursorAdapter {
         String strength = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_STRENGTH));
 
         // Populate fields with extracted properties
-        diary_date.setText(date);
-        diary_pain_start.setText(pain_start);
-        diary_pain_end.setText(pain_end);
-        diary_pain_name.setText(pain_name);
-        diary_pain_duration.setText(pain_duration);
         diary_region.setImageBitmap(region);
         diary_strength.setProgress(Integer.parseInt(strength));
         diary_strength_text.setText(strength + " / 10");
