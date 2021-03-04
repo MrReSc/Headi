@@ -181,4 +181,29 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         return new DiaryStats(context, cursor);
     }
 
+    public Long getPainIdFromName(Context context, String name) {
+        SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getReadableDatabase();
+
+        String[] projection = {
+                HeadiDBContract.Pains._ID,
+                HeadiDBContract.Pains.COLUMN_PAIN,
+        };
+
+        String selection = HeadiDBContract.Pains.COLUMN_PAIN + " = ?";
+        String[] selectionArgs = {name};
+
+        Cursor cursor = database.query(
+                HeadiDBContract.Pains.TABLE_NAME,         // The table to query
+                projection,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                null,                             // don't group the rows
+                null,                              // don't filter by row groups
+                null                              // sort
+        );
+
+        cursor.moveToFirst();
+        return cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Pains._ID));
+    }
+
 }

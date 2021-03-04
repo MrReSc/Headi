@@ -27,10 +27,10 @@ public class Constants {
     }
 
     public static final int[] MATERIAL_COLORS_500 = {
-            rgb("#ff5722"), rgb("#3f51b5"), rgb("#009688"), rgb("#00bcd4"),
-            rgb("#e91e63"), rgb("#5677fc"), rgb("#ffeb3b"), rgb("#607d8b"),
-            rgb("#9e9e9e"), rgb("#259b24"), rgb("#8bc34a"), rgb("#cddc39"),
-            rgb("#cddc39"), rgb("#ff9800"), rgb("#03a9f4"), rgb("#795548"),
+            rgb("#ff5722"), rgb("#3f51b5"), rgb("#009688"), /*rgb("#00bcd4"),*/
+            rgb("#e91e63"), /*rgb("#5677fc"),*/ /*rgb("#ffeb3b"),*/ rgb("#607d8b"),
+            /*rgb("#9e9e9e"),*/ rgb("#259b24"), /*rgb("#8bc34a"),*/ rgb("#cddc39"),
+            /*rgb("#cddc39"),*/ /*rgb("#ff9800"),*/ /*rgb("#03a9f4"),*/ rgb("#795548"),
             rgb("#673ab7"), rgb("#e51c23")
     };
 
@@ -40,6 +40,10 @@ public class Constants {
         int g = (color >> 8) & 0xFF;
         int b = (color >> 0) & 0xFF;
         return Color.rgb(r, g, b);
+    }
+
+    public static int getColorById(long id) {
+        return MATERIAL_COLORS_500[(int)id % MATERIAL_COLORS_500.length];
     }
 
 }

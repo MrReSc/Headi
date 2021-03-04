@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.cursoradapter.widget.CursorAdapter;
 
+import com.example.headi.Constants;
 import com.example.headi.R;
 
 public class MedicationsCourserAdapter extends CursorAdapter {

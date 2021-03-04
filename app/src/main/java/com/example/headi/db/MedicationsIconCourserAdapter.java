@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.core.widget.ImageViewCompat;
 import androidx.cursoradapter.widget.CursorAdapter;
 
+import com.example.headi.Constants;
 import com.example.headi.R;
 
 import static androidx.core.content.ContextCompat.getColor;
@@ -39,10 +40,12 @@ public class MedicationsIconCourserAdapter extends CursorAdapter {
 
         // Extract properties from cursor
         String pain = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Medication.COLUMN_MEDICATION));
+        Long id = cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Medication._ID));
+        int color = Constants.getColorById(id);
 
         // Populate fields with extracted properties
         pains_name.setText(pain);
         pains_image.setImageResource(R.drawable.ic_menu_medication);
-        ImageViewCompat.setImageTintList(pains_image, ColorStateList.valueOf(getColor(context, R.color.medication_icon)));
+        ImageViewCompat.setImageTintList(pains_image, ColorStateList.valueOf(color));
     }
 }

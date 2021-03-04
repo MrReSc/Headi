@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.headi.Constants;
 import com.example.headi.R;
 
 import java.util.Locale;
@@ -61,11 +62,16 @@ public class DiaryCourserTreeAdapter extends CursorTreeAdapter {
 
         String pain_name = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_PAIN));
 
+        HeadiDBSQLiteHelper helper = new HeadiDBSQLiteHelper(context);
+        Long id = helper.getPainIdFromName(context, pain_name);
+        int color = Constants.getColorById(id);
+
         // Populate fields with extracted properties
         diary_date.setText(date);
         diary_pain_start.setText(pain_start);
         diary_pain_end.setText(pain_end);
         diary_pain_name.setText(pain_name);
+        diary_pain_name.setTextColor(color);
         diary_pain_duration.setText(pain_duration);
     }
 
