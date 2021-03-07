@@ -60,6 +60,22 @@
     <string name="stats_pain_duration_ratio_desc">This graph shows the distribution of pain types in percent during the given period.</string>
     <string name="stats_count_strength_ratio_desc">This graph shows for each pain strength the number that occurred in the indicated time period.</string>
     <string name="stats_duration_over_time_desc">This graph shows the number of headache minutes over the indicated time period.</string>
+    <string name="menu_backup_restore">Backup and Restore</string>
+    <string name="menu_backup_and_restore">Backup and Restore</string>
+    <string name="backup_database">Backup your current database to your device.</string>
+    <string name="button_backup">Backup</string>
+    <string name="restore_database">Restore a backup of the database stored on your device.</string>
+    <string name="button_restore">Restore</string>
+    <string name="export_to_csv">Export your database to a CSV file. With this file you can make further analyses.</string>
+    <string name="button_export">Export</string>
+    <string name="backup_name">Backup name</string>
+    <string name="create_folder_error">Unable to create directory.</string>
+    <string name="backup_complete">Backup Completed</string>
+    <string name="backup_error">Unable to backup database.</string>
+    <string name="restore_complete">Restore Completed</string>
+    <string name="restore_error">Unable to restore database.</string>
+    <string name="title_restore">Restore Database</string>
+    <string name="ask_for_restore_database">Do you want to restore the selected database? The current data will be deleted.</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

@@ -33,4 +33,11 @@
         android:name="com.example.headi.ui.stats.StatsFragment"
         android:label="@string/menu_stats"
         tools:layout="@layout/fragment_stats" />
+
+    <fragment
+        android:id="@+id/nav_backup_restore"
+        android:name="com.example.headi.ui.backupAndRestore.BackupAndRestore"
+        android:label="@string/menu_backup_and_restore"
+        tools:layout="@layout/fragment_backup_restore" />
+
 </navigation>

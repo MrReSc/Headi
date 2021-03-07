@@ -15,8 +15,6 @@ import androidx.cursoradapter.widget.CursorAdapter;
 import com.example.headi.Constants;
 import com.example.headi.R;
 
-import static androidx.core.content.ContextCompat.getColor;
-
 public class MedicationsIconCourserAdapter extends CursorAdapter {
 
     public MedicationsIconCourserAdapter(Context context, Cursor c, int flags) {

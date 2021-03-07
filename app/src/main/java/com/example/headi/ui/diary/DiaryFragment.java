@@ -26,7 +26,6 @@ import com.example.headi.db.DiaryCourserTreeAdapter;
 import com.example.headi.db.HeadiDBContract;
 import com.example.headi.db.HeadiDBSQLiteHelper;
 import com.example.headi.db.PainsCourserCheckboxAdapter;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -202,7 +201,7 @@ public class DiaryFragment extends Fragment {
     private void registerListeners(Context context) {
         // Find ListView to populate
         DiaryItems.setOnItemLongClickListener((adapterView, view, position, id) -> {
-            new MaterialAlertDialogBuilder(context)
+            new AlertDialog.Builder(context)
                     .setTitle(context.getString(R.string.action_delete))
                     .setMessage(context.getString(R.string.delete_diary))
                     .setPositiveButton(context.getString(R.string.delete_button),

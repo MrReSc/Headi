@@ -21,7 +21,6 @@ import androidx.fragment.app.Fragment;
 import com.example.headi.R;
 import com.example.headi.db.HeadiDBContract;
 import com.example.headi.db.HeadiDBSQLiteHelper;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class MedicationFragment extends Fragment {
 
@@ -121,7 +120,7 @@ public class MedicationFragment extends Fragment {
     private void registerListeners(Context context) {
         MedicationsItems.setOnItemLongClickListener((adapterView, view, position, id) -> {
 
-            new MaterialAlertDialogBuilder(context)
+            new AlertDialog.Builder(context)
                     .setTitle(context.getString(R.string.action_delete))
                     .setMessage(context.getString(R.string.delete_pains))
                     .setPositiveButton(context.getString(R.string.delete_button),

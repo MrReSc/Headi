@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group android:id="@+id/menu_top"
+           android:checkableBehavior="single">
+
         <item
             android:id="@+id/nav_timer"
             android:icon="@drawable/ic_menu_timer"
@@ -29,5 +31,15 @@
             android:icon="@drawable/ic_menu_medication"
             android:title="@string/menu_medication" />
 
+    </group>
+
+    <group android:id="@+id/menu_bottom"
+        android:checkableBehavior="none">
+
+        <item
+            android:id="@+id/nav_backup_restore"
+            android:icon="@drawable/ic_menu_backup_restore"
+            android:title="@string/menu_backup_restore" >
+        </item>
     </group>
 </menu>

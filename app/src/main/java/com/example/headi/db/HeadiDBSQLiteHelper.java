@@ -1,9 +1,29 @@
 package com.example.headi.db;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.icu.text.SimpleDateFormat;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.DocumentsContract;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+
+import com.example.headi.MainActivity;
+import com.example.headi.R;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.util.Date;
 
 public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
 
@@ -205,5 +225,144 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
         return cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Pains._ID));
     }
+
+    public void performBackup(Context context) {
+        // TODO new Rework to new Storage API
+        MainActivity activity = (MainActivity) context;
+        verifyStoragePermissions(activity);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String outFileName = sdf.format(new Date()) + ".db";
+
+        File folder = new File(Environment.getExternalStorageDirectory() + File.separator + context.getString(R.string.app_name));
+        String outFile = Environment.getExternalStorageDirectory() + File.separator + context.getString(R.string.app_name) + File.separator + outFileName;
+
+        boolean success = true;
+        if (!folder.exists())
+            success = folder.mkdirs();
+
+        if (success) {
+            backup(activity, outFileName, outFile);
+        } else
+            Toast.makeText(activity, context.getString(R.string.create_folder_error), Toast.LENGTH_SHORT).show();
+    }
+
+    private void backup(MainActivity activity, String outFileName, String outFile) {
+
+        //database path
+        final String inFileName = activity.getDatabasePath(DATABASE_NAME).toString();
+
+        try {
+
+            File dbFile = new File(inFileName);
+            FileInputStream fis = new FileInputStream(dbFile);
+
+            // Open the empty db as the output stream
+            OutputStream output = new FileOutputStream(outFile);
+
+            // Transfer bytes from the input file to the output file
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = fis.read(buffer)) > 0) {
+                output.write(buffer, 0, length);
+            }
+
+            // Close the streams
+            output.flush();
+            output.close();
+            fis.close();
+
+            Toast.makeText(activity, activity.getString(R.string.backup_complete) + "\n" + outFileName, Toast.LENGTH_LONG).show();
+
+        } catch (Exception e) {
+            Toast.makeText(activity, activity.getString(R.string.backup_error), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    public void performRestore(Context context, Uri inFileUri) {
+        // TODO new Rework to new Storage API
+        MainActivity activity = (MainActivity) context;
+        verifyStoragePermissions(activity);
+
+        // Create an alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(context.getString(R.string.title_restore));
+        builder.setMessage(context.getString(R.string.ask_for_restore_database));
+
+        builder.setPositiveButton(context.getString(R.string.button_restore), (dialog, which) -> {
+            restore(context, inFileUri);
+        });
+
+        // add cancel button
+        builder.setNegativeButton(context.getString(R.string.cancel_button), (dialog, which) -> {
+            dialog.dismiss();
+        });
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void restore(Context context, Uri inFileUri) {
+        // TODO new Rework to new Storage API
+        final String outFileName = context.getDatabasePath(DATABASE_NAME).toString();
+
+        final String docId = DocumentsContract.getDocumentId(inFileUri);
+        final String[] split = docId.split(":");
+        final String type = split[0];
+        String inFileName = "";
+        if ("primary".equalsIgnoreCase(type)) {
+            inFileName = Environment.getExternalStorageDirectory() + "/" + split[1];
+        }
+
+        try {
+            File dbFile = new File(inFileName);
+            FileInputStream fis = new FileInputStream(dbFile);
+
+            // Open the empty db as the output stream
+            OutputStream output = new FileOutputStream(outFileName);
+
+            // Transfer bytes from the input file to the output file
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = fis.read(buffer)) > 0) {
+                output.write(buffer, 0, length);
+            }
+
+            // Close the streams /storage/self/primary/Headi/20210306_060423.db
+            output.flush();
+            output.close();
+            fis.close();
+
+            Toast.makeText(context, context.getString(R.string.restore_complete), Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(context, context.getString(R.string.restore_error), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    private void verifyStoragePermissions(Activity activity) {
+        // Check if we have read or write permission
+        int writePermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int readPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
+
+        if (writePermission != PackageManager.PERMISSION_GRANTED || readPermission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_CODE_PERMISSIONS
+            );
+        }
+    }
+
+    // Storage Permissions variables
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
+    private static final int REQUEST_CODE_PERMISSIONS = 2;
 
 }
