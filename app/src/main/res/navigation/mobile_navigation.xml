@@ -40,4 +40,11 @@
         android:label="@string/menu_backup_and_restore"
         tools:layout="@layout/fragment_backup_restore" />
 
+    <fragment
+        android:id="@+id/nav_about"
+        android:name="com.example.headi.ui.about.about"
+        android:label="@string/menu_about"
+        tools:layout="@layout/fragment_about" />
+
+
 </navigation>

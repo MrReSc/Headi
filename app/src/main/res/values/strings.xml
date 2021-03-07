@@ -76,6 +76,17 @@
     <string name="restore_error">Unable to restore database.</string>
     <string name="title_restore">Restore Database</string>
     <string name="ask_for_restore_database">Do you want to restore the selected database? The current data will be deleted.</string>
+    <string name="menu_about">About</string>
+    <string name="app_description">Headi (Headache Diary) is a privacy-friendly app to log your headaches. No data is transferred to any cloud services. All data is stored locally only. Headi also offers a simple analysis of the recorded data. You can also export your logs as a CSV file for further analysis of the data.</string>
+    <string name="contact_group">Contact</string>
+    <string name="title_email">Email</string>
+    <string name="contact_email">headi@mailbox.org</string>
+    <string name="contact_github">MrReSc</string>
+    <string name="title_github">GitHub</string>
+    <string name="title_website">Website</string>
+    <string name="contact_website">https://github.com/MrReSc/Headi</string>
+    <string name="app_information_group">Application information</string>
+    <string name="copy_right">Copyright</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

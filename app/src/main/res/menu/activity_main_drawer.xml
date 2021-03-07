@@ -39,7 +39,12 @@
         <item
             android:id="@+id/nav_backup_restore"
             android:icon="@drawable/ic_menu_backup_restore"
-            android:title="@string/menu_backup_restore" >
-        </item>
+            android:title="@string/menu_backup_restore" />
+
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_menu_about"
+            android:title="@string/menu_about" />
+
     </group>
 </menu>
