@@ -358,7 +358,7 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
     }
 
     // Storage Permissions variables
-    private static String[] PERMISSIONS_STORAGE = {
+    private static final String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };

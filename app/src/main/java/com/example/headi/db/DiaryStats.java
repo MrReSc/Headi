@@ -33,9 +33,9 @@ import java.util.TreeMap;
 
 public class DiaryStats {
 
-    private Cursor cursor;
-    private Context context;
-    private SimpleDateFormat date_formatter = new SimpleDateFormat("E dd. MMM yyyy", Locale.getDefault());
+    private final Cursor cursor;
+    private final Context context;
+    private final SimpleDateFormat date_formatter = new SimpleDateFormat("E dd. MMM yyyy", Locale.getDefault());
 
     public DiaryStats(Context context, Cursor cursor) {
         this.cursor = cursor;

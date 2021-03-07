@@ -20,7 +20,7 @@ import java.util.Locale;
 
 public class DiaryCourserTreeAdapter extends CursorTreeAdapter {
 
-    private Context context;
+    private final Context context;
 
 
     public DiaryCourserTreeAdapter(Cursor cursor, Context context) {
