@@ -93,7 +93,6 @@
             android:background="?attr/selectableItemBackground"
             android:textAppearance="?android:attr/textAppearanceButton"
             android:textColor="?attr/colorPrimary"
-            android:onClick="onClick"
             android:clickable="true"
             android:textAllCaps="true"
             android:text="@string/button_undo" />
@@ -106,7 +105,6 @@
             android:background="?attr/selectableItemBackground"
             android:textAppearance="?android:attr/textAppearanceButton"
             android:textColor="?attr/colorPrimary"
-            android:onClick="onClick"
             android:clickable="true"
             android:textAllCaps="true"
             android:text="@string/button_clear" />
