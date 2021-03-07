@@ -201,11 +201,14 @@ public class DiaryFragment extends Fragment {
     private void registerListeners(Context context) {
         // Find ListView to populate
         DiaryItems.setOnItemLongClickListener((adapterView, view, position, id) -> {
+
+            long groupId = DiaryItems.getExpandableListAdapter().getGroupId(position);
+
             new AlertDialog.Builder(context)
                     .setTitle(context.getString(R.string.action_delete))
                     .setMessage(context.getString(R.string.delete_diary))
                     .setPositiveButton(context.getString(R.string.delete_button),
-                            (dialogInterface, i) -> deleteFromDB(id))
+                            (dialogInterface, i) -> deleteFromDB(groupId))
                     .setNegativeButton(context.getString(R.string.cancel_button), (dialogInterface, i) -> {
                     })
                     .show();

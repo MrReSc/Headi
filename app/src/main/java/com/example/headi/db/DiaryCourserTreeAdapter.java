@@ -36,6 +36,12 @@ public class DiaryCourserTreeAdapter extends CursorTreeAdapter {
     }
 
     @Override
+    public long getGroupId(int groupPosition) {
+        getCursor().moveToPosition(groupPosition);
+        return getCursor().getLong(0);
+    }
+
+    @Override
     protected View newGroupView(Context context, Cursor cursor, boolean isExpanded, ViewGroup parent) {
         return LayoutInflater.from(context).inflate(R.layout.fragment_diary_list_group, parent, false);
     }
