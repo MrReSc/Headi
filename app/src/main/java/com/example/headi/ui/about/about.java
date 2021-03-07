@@ -50,7 +50,7 @@ public class about extends Fragment {
 
     Element getCopyRightsElement() {
         Element copyRightsElement = new Element();
-        final String copyrights = getString(R.string.copy_right + Calendar.getInstance().get(Calendar.YEAR));
+        String copyrights = getString(R.string.copy_right) + " " + Calendar.getInstance().get(Calendar.YEAR);
         copyRightsElement.setTitle(copyrights);
         copyRightsElement.setIconDrawable(R.drawable.about_item_icon_color);
         copyRightsElement.setAutoApplyIconTint(true);
@@ -60,8 +60,8 @@ public class about extends Fragment {
         copyRightsElement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
-                //startActivity(browserIntent);
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/MrReSc/Headi#license"));
+                startActivity(browserIntent);
             }
         });
         return copyRightsElement;
