@@ -24,7 +24,6 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -49,6 +48,7 @@ public class DiaryStats {
         theme.resolveAttribute(android.R.attr.textColorPrimary, typedValue, true);
         TypedArray arr = context.obtainStyledAttributes(typedValue.data, new int[]{android.R.attr.textColorPrimary});
         int primaryColor = arr.getColor(0, -1);
+        arr.recycle();
         return primaryColor;
     }
 
@@ -137,17 +137,17 @@ public class DiaryStats {
         return new BarData(dataSets);
     }
 
-    public LineData getDurationOverTime() throws ParseException {
+    public LineData getDurationOverTime() {
         TreeMap<Long, Long> result = new TreeMap<>();
         ArrayList<Entry> entries = new ArrayList<>();
 
         cursor.moveToLast();
-        Long startDate = getDateFromTimestamp(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
+        long startDate = getDateFromTimestamp(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
         cursor.moveToFirst();
-        Long endDate = getDateFromTimestamp(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
+        long endDate = getDateFromTimestamp(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
 
         // generate list for every day between start and end date
-        for (Long i = startDate; i < endDate; i += 86400000 ) {
+        for (long i = startDate; i < endDate; i += 86400000 ) {
             result.put(i, 0L);
         }
 

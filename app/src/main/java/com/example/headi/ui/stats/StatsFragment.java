@@ -14,7 +14,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -32,7 +31,6 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -54,18 +52,11 @@ public class StatsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        Context context = getActivity();
         view = inflater.inflate(R.layout.fragment_stats, container, false);
 
         setHasOptionsMenu(true);
         setupCharts();
-
-        try {
-            readFromDB(null, null);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
+        readFromDB(null, null);
         return view;
     }
 
@@ -76,19 +67,14 @@ public class StatsFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_stats_filter:  {
-                openFilterDialog();
-                return true;
-            }
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.action_stats_filter) {
+            openFilterDialog();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setupCharts() {
-        Context context = getActivity();
-
         // Pie Chart: Pain - Duration ratio
         piePainDurationRatio = view.findViewById(R.id.stats_pain_duration_ratio);
         piePainDurationRatio.getDescription().setEnabled(false);
@@ -183,11 +169,7 @@ public class StatsFragment extends Fragment {
             }
 
             if (!selection.isEmpty()) {
-                try {
-                    readFromDB(selection, selectionArgs);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                readFromDB(selection, selectionArgs);
             }
         });
 
@@ -195,13 +177,7 @@ public class StatsFragment extends Fragment {
         builder.setNegativeButton(context.getString(R.string.cancel_button), (dialog, which) -> { });
 
         // add delete filter button
-        builder.setNeutralButton(context.getString(R.string.remove_filter_button), (dialog, which) -> {
-            try {
-                readFromDB(null, null);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        });
+        builder.setNeutralButton(context.getString(R.string.remove_filter_button), (dialog, which) -> readFromDB(null, null));
 
         // create and show the alert dialog
         AlertDialog dialog = builder.create();
@@ -215,33 +191,25 @@ public class StatsFragment extends Fragment {
         toDate = (EditText) view.findViewById(R.id.filter_to_date);
 
         Calendar newCalendar = Calendar.getInstance();
-        fromDatePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth, 0,0,0);
-                fromDate.setText(date_formatter.format(newDate.getTime()));
-                fromDateFilter = Long.toString(newDate.getTimeInMillis());
-            }
-
+        fromDatePickerDialog = new DatePickerDialog(context, (view12, year, monthOfYear, dayOfMonth) -> {
+            Calendar newDate = Calendar.getInstance();
+            newDate.set(year, monthOfYear, dayOfMonth, 0,0,0);
+            fromDate.setText(date_formatter.format(newDate.getTime()));
+            fromDateFilter = Long.toString(newDate.getTimeInMillis());
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
-        toDatePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth, 23, 59, 59);
-                toDate.setText(date_formatter.format(newDate.getTime()));
-                toDateFilter = Long.toString(newDate.getTimeInMillis());
-            }
-
+        toDatePickerDialog = new DatePickerDialog(context, (view1, year, monthOfYear, dayOfMonth) -> {
+            Calendar newDate = Calendar.getInstance();
+            newDate.set(year, monthOfYear, dayOfMonth, 23, 59, 59);
+            toDate.setText(date_formatter.format(newDate.getTime()));
+            toDateFilter = Long.toString(newDate.getTimeInMillis());
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
         fromDate.setOnClickListener(v -> fromDatePickerDialog.show());
         toDate.setOnClickListener(v -> toDatePickerDialog.show());
     }
 
-    private void readFromDB(String selection, String[] selectionArgs) throws ParseException {
+    private void readFromDB(String selection, String[] selectionArgs) {
         Context context = getActivity();
 
         // Attach cursor adapter to the ListView
@@ -253,13 +221,14 @@ public class StatsFragment extends Fragment {
     }
 
     private void setStatsFromAndToDate() {
+        Context context = requireActivity();
         TextView fromAndTo = (TextView) view.findViewById(R.id.stats_date_from_to);
         String from = diaryStats.getStatsFromDate();
         String to = diaryStats.getStatsToDate();
-        fromAndTo.setText(from + " - " + to);
+        fromAndTo.setText(context.getString(R.string.from_to, from, to));
     }
 
-    private void populateCharts() throws ParseException {
+    private void populateCharts() {
         piePainDurationRatio.setData(diaryStats.getPainAndDurationRatio(piePainDurationRatio));
         piePainDurationRatio.invalidate();
 
@@ -279,6 +248,7 @@ public class StatsFragment extends Fragment {
         theme.resolveAttribute(android.R.attr.textColorPrimary, typedValue, true);
         TypedArray arr = context.obtainStyledAttributes(typedValue.data, new int[]{android.R.attr.textColorPrimary});
         int primaryColor = arr.getColor(0, -1);
+        arr.recycle();
         return primaryColor;
     }
 

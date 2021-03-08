@@ -11,10 +11,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.headi.BuildConfig;
 import com.example.headi.R;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
 
@@ -24,7 +25,7 @@ import mehdi.sakout.aboutpage.Element;
 public class about extends Fragment {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         Element versionElement = new Element();
@@ -57,12 +58,9 @@ public class about extends Fragment {
         copyRightsElement.setIconTint(mehdi.sakout.aboutpage.R.color.about_item_icon_color);
         copyRightsElement.setIconNightTint(android.R.color.white);
         copyRightsElement.setGravity(Gravity.CENTER);
-        copyRightsElement.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/MrReSc/Headi#license"));
-                startActivity(browserIntent);
-            }
+        copyRightsElement.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/MrReSc/Headi#license"));
+            startActivity(browserIntent);
         });
         return copyRightsElement;
     }

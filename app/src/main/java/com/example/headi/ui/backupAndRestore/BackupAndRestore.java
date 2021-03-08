@@ -17,7 +17,6 @@ public class BackupAndRestore extends Fragment {
 
     private View view;
     private HeadiDBSQLiteHelper helper;
-    private Uri fileUri;
     private static final int FILE_SELECT_CODE = 0;
 
     @Override
@@ -32,38 +31,28 @@ public class BackupAndRestore extends Fragment {
 
     private void registerListeners() {
 
-        view.findViewById(R.id.button_backup).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                helper.performBackup(getActivity());
-            }
+        view.findViewById(R.id.button_backup).setOnClickListener(v -> helper.performBackup(getActivity()));
+
+        view.findViewById(R.id.button_restore).setOnClickListener(v -> {
+            Intent chooseFileIntent = new Intent(Intent.ACTION_GET_CONTENT);
+            chooseFileIntent.setType("*/*");
+            chooseFileIntent.addCategory(Intent.CATEGORY_OPENABLE);
+            chooseFileIntent = Intent.createChooser(chooseFileIntent, "Choose a file");
+            startActivityForResult(chooseFileIntent, FILE_SELECT_CODE);
         });
 
-        view.findViewById(R.id.button_restore).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent chooseFileIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                chooseFileIntent.setType("*/*");
-                chooseFileIntent.addCategory(Intent.CATEGORY_OPENABLE);
-                chooseFileIntent = Intent.createChooser(chooseFileIntent, "Choose a file");
-                startActivityForResult(chooseFileIntent, FILE_SELECT_CODE);
-            }
-        });
-
-        view.findViewById(R.id.button_export).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-            }
+        view.findViewById(R.id.button_export).setOnClickListener(v -> {
+            // TODO Auto-generated method stub
         });
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case FILE_SELECT_CODE:
-                if (resultCode == -1) {
-                    fileUri = data.getData();
-                    helper.performRestore(getActivity(), fileUri);
-                }
-                break;
+        if (requestCode == FILE_SELECT_CODE) {
+            if (resultCode == -1) {
+                Uri fileUri = data.getData();
+                helper.performRestore(getActivity(), fileUri);
+            }
         }
     }
 }

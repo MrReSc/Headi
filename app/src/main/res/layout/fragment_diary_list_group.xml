@@ -1,8 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="40dp"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingStart="40dp"
+    android:paddingEnd="@dimen/activity_horizontal_margin"
     android:paddingTop="8dp"
     android:orientation="vertical">
 
@@ -18,7 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:text="MO, 15. FEB. 2021"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/diary_pain_name"
@@ -26,7 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:text="Migraine"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            tools:ignore="HardcodedText" />
 
     </RelativeLayout>
 
@@ -47,7 +50,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:ignore="RelativeOverlap">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -70,13 +74,15 @@
                     android:id="@+id/diary_pain_start"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="08:16" />
+                    android:text="08:16"
+                    tools:ignore="HardcodedText" />
 
                 <TextView
                     android:id="@+id/diary_pain_end"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="10:45" />
+                    android:text="10:45"
+                    tools:ignore="HardcodedText" />
             </LinearLayout>
 
         </RelativeLayout>
@@ -94,7 +100,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
                 android:text="02H 23M"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                tools:ignore="HardcodedText" />
 
         </RelativeLayout>
 

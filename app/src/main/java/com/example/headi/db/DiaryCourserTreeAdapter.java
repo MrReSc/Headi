@@ -63,7 +63,7 @@ public class DiaryCourserTreeAdapter extends CursorTreeAdapter {
         String pain_start = tf.format(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
         String pain_end = tf.format(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_END_DATE)));
 
-        Long s = cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DURATION)) / 1000;
+        long s = cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DURATION)) / 1000;
         String pain_duration = String.format(Locale.getDefault(), "%02dH %02dM", s / 3600, (s % 3600) / 60);
 
         String pain_name = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_PAIN));
@@ -105,7 +105,7 @@ public class DiaryCourserTreeAdapter extends CursorTreeAdapter {
         // Populate fields with extracted properties
         diary_region.setImageBitmap(region);
         diary_strength.setProgress(Integer.parseInt(strength));
-        diary_strength_text.setText(strength + " / 10");
+        diary_strength_text.setText(context.getString(R.string.strength_of_10, strength));
 
         if (description.isEmpty()) {
             diary_description.setText(context.getString(R.string.none));
@@ -118,7 +118,7 @@ public class DiaryCourserTreeAdapter extends CursorTreeAdapter {
             diary_medication.setText(context.getString(R.string.none));
         }
         else {
-            diary_medication.setText(medication_amount + " " + context.getString(R.string.pieces) + " " + medication);
+            diary_medication.setText(context.getString(R.string.pieces, medication_amount, medication));
         }
     }
 }

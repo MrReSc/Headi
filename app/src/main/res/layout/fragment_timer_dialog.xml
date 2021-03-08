@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -49,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="210dp"
         android:layout_marginTop="2dp"
-        android:src="@drawable/ic_pain_region_2"
+        android:src="@drawable/ic_pain_region"
         app:inEditMode="true" />
 
     <LinearLayout
@@ -136,7 +137,8 @@
             android:layout_height="wrap_content"
             android:paddingStart="20dp"
             app:layout_constraintStart_toStartOf="@+id/guideline_2"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlSymmetry" />
 
         <EditText
             android:id="@+id/diary_description"
@@ -160,7 +162,8 @@
             android:background="?attr/selectableItemBackground"
             app:layout_constraintBottom_toTopOf="@+id/diary_description"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription"/>
 
         <TextView
             android:id="@+id/diary_medication_amount"
@@ -184,7 +187,8 @@
             android:background="?attr/selectableItemBackground"
             app:layout_constraintBottom_toTopOf="@+id/diary_description"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

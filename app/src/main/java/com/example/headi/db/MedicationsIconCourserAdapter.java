@@ -38,7 +38,7 @@ public class MedicationsIconCourserAdapter extends CursorAdapter {
 
         // Extract properties from cursor
         String pain = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Medication.COLUMN_MEDICATION));
-        Long id = cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Medication._ID));
+        long id = cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Medication._ID));
         int color = Constants.getColorById(id);
 
         // Populate fields with extracted properties

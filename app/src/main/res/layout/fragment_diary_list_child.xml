@@ -13,8 +13,8 @@
         android:id="@+id/diary_region"
         android:layout_width="match_parent"
         android:layout_height="210dp"
-        android:contentDescription="TODO"
-        app:srcCompat="@drawable/ic_pain_region_2" />
+        android:contentDescription="@string/pain_region"
+        app:srcCompat="@drawable/ic_pain_region" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,20 +42,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-    </LinearLayout>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -75,7 +61,6 @@
             app:layout_constraintGuide_percent="0.85" />
 
         <TextView
-            android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/paint_strength"
@@ -106,7 +91,6 @@
             app:layout_constraintTop_toTopOf="@+id/diary_strength" />
 
         <TextView
-            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/diary_medication"
@@ -125,7 +109,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/diary_description"

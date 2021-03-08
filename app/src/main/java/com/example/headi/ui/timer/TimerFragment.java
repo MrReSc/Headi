@@ -38,6 +38,7 @@ import com.example.headi.db.MedicationsCourserAdapter;
 import com.example.headi.db.PainsCourserIconAdapter;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Locale;
 
 import tech.picnic.fingerpaintview.FingerPaintImageView;
 
@@ -140,8 +141,6 @@ public class TimerFragment extends Fragment {
                 setButton(button_start, Constants.ACTION.START_ACTION);
                 break;
             case Constants.ACTION.STOP_ACTION:
-                setButton(button_start, Constants.ACTION.STOP_ACTION);
-                break;
             default:
                 setButton(button_start, Constants.ACTION.STOP_ACTION);
                 break;
@@ -234,10 +233,11 @@ public class TimerFragment extends Fragment {
         button_undo.setOnClickListener(v -> finger.undo());
         button_clear.setOnClickListener(v -> finger.clear());
 
+        SeekBar strength = saveView.findViewById(R.id.diary_strength);
+
         // add save button
         builder.setPositiveButton(context.getString(R.string.save_button), (dialog, which) -> {
             EditText diaryDescription = saveView.findViewById(R.id.diary_description);
-            SeekBar strength = saveView.findViewById(R.id.diary_strength);
 
             Spinner medication = saveView.findViewById(R.id.diary_medication);
             String diaryMedication = ((Cursor) medication.getSelectedItem()).getString(1);
@@ -273,15 +273,13 @@ public class TimerFragment extends Fragment {
 
         // Set pain strength text
         TextView pain_strength_text = saveView.findViewById(R.id.diary_strength_text);
-        SeekBar pain_strength = saveView.findViewById(R.id.diary_strength);
+        pain_strength_text.setText(context.getString(R.string.strength_of_10, Integer.toString(strength.getProgress())));
 
-        pain_strength_text.setText(pain_strength.getProgress() + " / 10");
-
-        pain_strength.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        strength.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress,
                                           boolean fromUser) {
-                pain_strength_text.setText(progress + " / 10");
+                pain_strength_text.setText(context.getString(R.string.strength_of_10, Integer.toString(strength.getProgress())));
             }
 
             @Override
@@ -298,7 +296,7 @@ public class TimerFragment extends Fragment {
     private void increaseMedicationAmount(View view) {
         TextView medication_amount = view.findViewById(R.id.diary_medication_amount);
         int newVal = Integer.parseInt(medication_amount.getText().toString()) + 1;
-        medication_amount.setText(Integer.toString(newVal));
+        medication_amount.setText(String.format(Locale.getDefault(), "%d", newVal));
     }
 
     private void decreaseMedicationAmount(View view) {

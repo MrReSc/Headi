@@ -24,6 +24,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.Date;
+import java.util.Locale;
 
 public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
 
@@ -70,7 +71,8 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
 
         String orderBy = HeadiDBContract.Pains.COLUMN_PAIN + " ASC";
 
-        Cursor cursor = database.query(
+        // Setup cursor adapter using cursor from last step
+        return database.query(
                 HeadiDBContract.Pains.TABLE_NAME,         // The table to query
                 projection,                               // The columns to return
                 null,                            // The columns for the WHERE clause
@@ -79,9 +81,6 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
                 null,                              // don't filter by row groups
                 orderBy                                   // sort
         );
-
-        // Setup cursor adapter using cursor from last step
-        return cursor;
     }
 
     public MedicationsIconCourserAdapter readMedicationsWithIconFromDB(Context context) {
@@ -104,7 +103,7 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
 
         String orderBy = HeadiDBContract.Medication.COLUMN_MEDICATION + " ASC";
 
-        Cursor cursor = database.query(
+        return database.query(
                 HeadiDBContract.Medication.TABLE_NAME,    // The table to query
                 projection,                               // The columns to return
                 null,                            // The columns for the WHERE clause
@@ -113,8 +112,6 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
                 null,                              // don't filter by row groups
                 orderBy                                   // sort
         );
-
-        return cursor;
     }
 
     public DiaryCourserTreeAdapter readDiaryGroupFromDB(Context context, String selection, String[] selectionArgs) {
@@ -159,7 +156,7 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         String selection = HeadiDBContract.Diary._ID + " = ?";
         String[] selectionArgs = {id};
 
-        Cursor cursor = database.query(
+        return database.query(
                 HeadiDBContract.Diary.TABLE_NAME,         // The table to query
                 projection,                               // The columns to return
                 selection,                                // The columns for the WHERE clause
@@ -168,8 +165,6 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
                 null,                              // don't filter by row groups
                 null                              // sort
         );
-
-        return cursor;
     }
 
     public DiaryStats readDiaryStatsFromDB(Context context, String selection, String[] selectionArgs) {
@@ -223,15 +218,18 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         );
 
         cursor.moveToFirst();
-        return cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Pains._ID));
+        long id = cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Pains._ID));
+        cursor.close();
+        return id;
     }
 
+    @SuppressWarnings("SpellCheckingInspection")
     public void performBackup(Context context) {
         // TODO new Rework to new Storage API
         MainActivity activity = (MainActivity) context;
         verifyStoragePermissions(activity);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
         String outFileName = sdf.format(new Date()) + ".db";
 
         File folder = new File(Environment.getExternalStorageDirectory() + File.separator + context.getString(R.string.app_name));
@@ -290,14 +288,10 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         builder.setTitle(context.getString(R.string.title_restore));
         builder.setMessage(context.getString(R.string.ask_for_restore_database));
 
-        builder.setPositiveButton(context.getString(R.string.button_restore), (dialog, which) -> {
-            restore(context, inFileUri);
-        });
+        builder.setPositiveButton(context.getString(R.string.button_restore), (dialog, which) -> restore(context, inFileUri));
 
         // add cancel button
-        builder.setNegativeButton(context.getString(R.string.cancel_button), (dialog, which) -> {
-            dialog.dismiss();
-        });
+        builder.setNegativeButton(context.getString(R.string.cancel_button), (dialog, which) -> dialog.dismiss());
 
         // create and show the alert dialog
         AlertDialog dialog = builder.create();

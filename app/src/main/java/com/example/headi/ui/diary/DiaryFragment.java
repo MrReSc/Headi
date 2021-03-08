@@ -12,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
@@ -32,7 +31,6 @@ import java.util.Locale;
 
 public class DiaryFragment extends Fragment {
 
-    private View view;
     private ExpandableListView DiaryItems;
     private EditText fromDate;
     private EditText toDate;
@@ -45,7 +43,7 @@ public class DiaryFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         Context context = getActivity();
-        view = inflater.inflate(R.layout.fragment_diary, container, false);
+        View view = inflater.inflate(R.layout.fragment_diary, container, false);
         DiaryItems = (ExpandableListView) view.findViewById(R.id.diary_list);
         setHasOptionsMenu(true);
 
@@ -62,14 +60,11 @@ public class DiaryFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_diary_filter_list:  {
-                openFilterDialog();
-                return true;
-            }
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.action_diary_filter_list) {
+            openFilterDialog();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void openFilterDialog() {
@@ -93,12 +88,10 @@ public class DiaryFragment extends Fragment {
 
         registerDatePickerListeners(saveView);
 
-        ArrayList<String> checkedPains = new ArrayList<String>();
-
         // add apply button
         builder.setPositiveButton(context.getString(R.string.apply_button), (dialog, which) -> {
             String timeSelection = "";
-            String painSelection = "";
+            StringBuilder painSelection = new StringBuilder();
             ArrayList<String> timeArgs = new ArrayList<>();
             ArrayList<String> painArgs = new ArrayList<>();
             String selection = "";
@@ -114,16 +107,16 @@ public class DiaryFragment extends Fragment {
 
             // pains filter is set
             if (!painsCbAdapter.getSelectedString().isEmpty()) {
-                painSelection = HeadiDBContract.Diary.COLUMN_PAIN + " = ?";
+                painSelection = new StringBuilder(HeadiDBContract.Diary.COLUMN_PAIN + " = ?");
                 painArgs = painsCbAdapter.getSelectedString();
                 if (painArgs.size() > 1) {
                     for (String arg : painArgs){
-                        painSelection = painSelection + " OR " + HeadiDBContract.Diary.COLUMN_PAIN + " = ?";
+                        painSelection.append(" OR ").append(HeadiDBContract.Diary.COLUMN_PAIN).append(" = ?");
                     }
                 }
             }
 
-            if (!timeSelection.isEmpty() && !painSelection.isEmpty()) {
+            if (!timeSelection.isEmpty() && (painSelection.length() > 0)) {
                 selection =  timeSelection + " AND (" + painSelection + ")";
                 timeArgs.addAll(painArgs);
                 selectionArgs = timeArgs.toArray(new String[0]);
@@ -132,8 +125,8 @@ public class DiaryFragment extends Fragment {
                 selection =  timeSelection;
                 selectionArgs = timeArgs.toArray(new String[0]);
             }
-            else if (!painSelection.isEmpty()) {
-                selection =  painSelection;
+            else if (painSelection.length() > 0) {
+                selection = painSelection.toString();
                 selectionArgs = painArgs.toArray(new String[0]);
             }
 
@@ -147,9 +140,7 @@ public class DiaryFragment extends Fragment {
         builder.setNegativeButton(context.getString(R.string.cancel_button), (dialog, which) -> { });
 
         // add delete filter button
-        builder.setNeutralButton(context.getString(R.string.remove_filter_button), (dialog, which) -> {
-            readFromDB(null, null);
-        });
+        builder.setNeutralButton(context.getString(R.string.remove_filter_button), (dialog, which) -> readFromDB(null, null));
 
         // create and show the alert dialog
         AlertDialog dialog = builder.create();
@@ -163,26 +154,18 @@ public class DiaryFragment extends Fragment {
         toDate = (EditText) view.findViewById(R.id.filter_to_date);
 
         Calendar newCalendar = Calendar.getInstance();
-        fromDatePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth, 0,0,0);
-                fromDate.setText(date_formatter.format(newDate.getTime()));
-                fromDateFilter = Long.toString(newDate.getTimeInMillis());
-            }
-
+        fromDatePickerDialog = new DatePickerDialog(context, (view12, year, monthOfYear, dayOfMonth) -> {
+            Calendar newDate = Calendar.getInstance();
+            newDate.set(year, monthOfYear, dayOfMonth, 0,0,0);
+            fromDate.setText(date_formatter.format(newDate.getTime()));
+            fromDateFilter = Long.toString(newDate.getTimeInMillis());
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
-        toDatePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth, 23, 59, 59);
-                toDate.setText(date_formatter.format(newDate.getTime()));
-                toDateFilter = Long.toString(newDate.getTimeInMillis());
-            }
-
+        toDatePickerDialog = new DatePickerDialog(context, (view1, year, monthOfYear, dayOfMonth) -> {
+            Calendar newDate = Calendar.getInstance();
+            newDate.set(year, monthOfYear, dayOfMonth, 23, 59, 59);
+            toDate.setText(date_formatter.format(newDate.getTime()));
+            toDateFilter = Long.toString(newDate.getTimeInMillis());
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
         fromDate.setOnClickListener(v -> fromDatePickerDialog.show());

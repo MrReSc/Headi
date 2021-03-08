@@ -24,14 +24,13 @@ import com.example.headi.db.HeadiDBSQLiteHelper;
 
 public class MedicationFragment extends Fragment {
 
-    private View view;
     private ListView MedicationsItems;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         Context context = getActivity();
-        view = inflater.inflate(R.layout.fragment_pains_medications, container, false);
+        View view = inflater.inflate(R.layout.fragment_pains_medications, container, false);
         MedicationsItems = (ListView) view.findViewById(R.id.pains_list);
         setHasOptionsMenu(true);
 
@@ -47,14 +46,11 @@ public class MedicationFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_add_item:  {
-                openAddItemDialog();
-                return true;
-            }
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.action_add_item) {
+            openAddItemDialog();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void openAddItemDialog() {
@@ -69,9 +65,7 @@ public class MedicationFragment extends Fragment {
         builder.setView(saveView);
 
         // add add button
-        builder.setPositiveButton(context.getString(R.string.add_button), (dialog, which) -> {
-            saveToDB(saveView);
-        });
+        builder.setPositiveButton(context.getString(R.string.add_button), (dialog, which) -> saveToDB(saveView));
 
         // add cancel button
         builder.setNegativeButton(context.getString(R.string.cancel_button), (dialog, which) -> { });

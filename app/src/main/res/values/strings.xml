@@ -33,14 +33,12 @@
     <string name="to">to:</string>
     <string name="menu_medication">Medication</string>
     <string name="add_button">Add</string>
-    <string name="types_of_pain">Types of pain</string>
     <string name="new_medications_hint">Enter new medication</string>
-    <string name="types_of_medication">Medications</string>
     <string name="diary_medication">Medication:</string>
-    <string name="diary_medication_hint">Medication...</string>
-    <string name="notification_title">Timer is running...</string>
+    <string name="diary_medication_hint">Medication…</string>
+    <string name="notification_title">Timer is running…</string>
     <string name="paint_strength">Pain strength:</string>
-    <string name="diary_description_hint">Descrition...</string>
+    <string name="diary_description_hint">Description…</string>
     <string name="diary_strength_text">3 / 10</string>
     <string name="diary_filter_list">Filter list</string>
     <string name="title_diary_filter">Filter list</string>
@@ -50,10 +48,9 @@
     <string name="remove_filter_button">Remove all filters</string>
     <string name="add_new_item">Add new item</string>
     <string name="add_new_item_title">Add new item</string>
-    <string name="pieces">pcs of</string>
+    <string name="pieces">%1$s pcs of %2$s</string>
     <string name="medication_amount">0</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="menu_stats">Statistics</string>
     <string name="stats_set_date_title">Set date</string>
     <string name="none">none</string>
@@ -68,7 +65,6 @@
     <string name="button_restore">Restore</string>
     <string name="export_to_csv">Export your database to a CSV file. With this file you can make further analyses.</string>
     <string name="button_export">Export</string>
-    <string name="backup_name">Backup name</string>
     <string name="create_folder_error">Unable to create directory.</string>
     <string name="backup_complete">Backup Completed</string>
     <string name="backup_error">Unable to backup database.</string>
@@ -87,6 +83,9 @@
     <string name="contact_website">https://github.com/MrReSc/Headi</string>
     <string name="app_information_group">Application information</string>
     <string name="copy_right">Copyright</string>
+    <string name="pain_region">Pain region on the head</string>
+    <string name="strength_of_10">%1$s / 10</string>
+    <string name="from_to">%1$s - %2$s</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

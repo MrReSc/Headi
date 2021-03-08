@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.stats.StatsFragment">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    tools:context=".ui.stats.StatsFragment"
+    android:orientation="vertical">
 
         <TextView
             android:id="@+id/stats_date_from_to"
@@ -18,7 +14,8 @@
             android:layout_marginBottom="10dp"
             android:text="Mi. 24. Feb. 2021 - Sa. 27. Feb. 2021"
             android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            tools:ignore="HardcodedText" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -26,7 +23,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -89,10 +86,8 @@
 
                 </LinearLayout>
 
-
             </LinearLayout>
 
-
         </ScrollView>
-    </LinearLayout>
-</FrameLayout>
+
+</LinearLayout>

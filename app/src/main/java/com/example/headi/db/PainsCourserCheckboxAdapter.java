@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
 import androidx.cursoradapter.widget.CursorAdapter;
 
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 
 public class PainsCourserCheckboxAdapter extends CursorAdapter {
 
-    ArrayList<String> selectedStrings = new ArrayList<String>();
+    final ArrayList<String> selectedStrings = new ArrayList<>();
 
     public PainsCourserCheckboxAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
@@ -42,15 +41,11 @@ public class PainsCourserCheckboxAdapter extends CursorAdapter {
         // Populate fields with extracted properties
         pains_name.setText(pain);
 
-        pains_name.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    selectedStrings.add(pains_name.getText().toString());
-                } else {
-                    selectedStrings.remove(pains_name.getText().toString());
-                }
+        pains_name.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                selectedStrings.add(pains_name.getText().toString());
+            } else {
+                selectedStrings.remove(pains_name.getText().toString());
             }
         });
     }
