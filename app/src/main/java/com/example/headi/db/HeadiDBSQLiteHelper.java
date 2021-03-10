@@ -22,6 +22,7 @@ import com.example.headi.R;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.Locale;
@@ -224,31 +225,8 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
     }
 
     @SuppressWarnings("SpellCheckingInspection")
-    public void performBackup(Context context) {
-        // TODO new Rework to new Storage API
-        MainActivity activity = (MainActivity) context;
-        verifyStoragePermissions(activity);
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
-        String outFileName = sdf.format(new Date()) + ".db";
-
-        File folder = new File(Environment.getExternalStorageDirectory() + File.separator + context.getString(R.string.app_name));
-        String outFile = Environment.getExternalStorageDirectory() + File.separator + context.getString(R.string.app_name) + File.separator + outFileName;
-
-        boolean success = true;
-        if (!folder.exists())
-            success = folder.mkdirs();
-
-        if (success) {
-            backup(activity, outFileName, outFile);
-        } else
-            Toast.makeText(activity, context.getString(R.string.create_folder_error), Toast.LENGTH_SHORT).show();
-    }
-
-    private void backup(MainActivity activity, String outFileName, String outFile) {
-
-        //database path
-        final String inFileName = activity.getDatabasePath(DATABASE_NAME).toString();
+    public void performBackup(Context context, Uri path, String name) {
+        final String inFileName = context.getDatabasePath(DATABASE_NAME).toString();
 
         try {
 
@@ -256,7 +234,7 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
             FileInputStream fis = new FileInputStream(dbFile);
 
             // Open the empty db as the output stream
-            OutputStream output = new FileOutputStream(outFile);
+            OutputStream output = context.getContentResolver().openOutputStream(path);
 
             // Transfer bytes from the input file to the output file
             byte[] buffer = new byte[1024];
@@ -270,19 +248,15 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
             output.close();
             fis.close();
 
-            Toast.makeText(activity, activity.getString(R.string.backup_complete) + "\n" + outFileName, Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.backup_complete) + "\n" + name, Toast.LENGTH_LONG).show();
 
         } catch (Exception e) {
-            Toast.makeText(activity, activity.getString(R.string.backup_error), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.backup_error), Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }
 
     public void performRestore(Context context, Uri inFileUri) {
-        // TODO new Rework to new Storage API
-        MainActivity activity = (MainActivity) context;
-        verifyStoragePermissions(activity);
-
         // Create an alert builder
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(context.getString(R.string.title_restore));
@@ -298,21 +272,13 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         dialog.show();
     }
 
-    private void restore(Context context, Uri inFileUri) {
-        // TODO new Rework to new Storage API
+    private void restore(Context context, Uri path) {
+
         final String outFileName = context.getDatabasePath(DATABASE_NAME).toString();
 
-        final String docId = DocumentsContract.getDocumentId(inFileUri);
-        final String[] split = docId.split(":");
-        final String type = split[0];
-        String inFileName = "";
-        if ("primary".equalsIgnoreCase(type)) {
-            inFileName = Environment.getExternalStorageDirectory() + "/" + split[1];
-        }
-
         try {
-            File dbFile = new File(inFileName);
-            FileInputStream fis = new FileInputStream(dbFile);
+
+            InputStream fis = context.getContentResolver().openInputStream(path);
 
             // Open the empty db as the output stream
             OutputStream output = new FileOutputStream(outFileName);
@@ -324,7 +290,7 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
                 output.write(buffer, 0, length);
             }
 
-            // Close the streams /storage/self/primary/Headi/20210306_060423.db
+            // Close the streams
             output.flush();
             output.close();
             fis.close();
@@ -335,28 +301,4 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
             e.printStackTrace();
         }
     }
-
-    private void verifyStoragePermissions(Activity activity) {
-        // Check if we have read or write permission
-        int writePermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        int readPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
-
-        if (writePermission != PackageManager.PERMISSION_GRANTED || readPermission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(
-                    activity,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_CODE_PERMISSIONS
-            );
-        }
-    }
-
-    // Storage Permissions variables
-    private static final String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
-
-    private static final int REQUEST_CODE_PERMISSIONS = 2;
-
 }

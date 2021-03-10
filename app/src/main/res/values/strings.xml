@@ -86,6 +86,7 @@
     <string name="pain_region">Pain region on the head</string>
     <string name="strength_of_10">%1$s / 10</string>
     <string name="from_to">%1$s - %2$s</string>
+    <string name="choose_backup">Choose backup database</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
