@@ -1,20 +1,15 @@
 <resources>
     <string name="app_name">Headi</string>
-
     <string name="nav_header_title">Headi</string>
     <string name="nav_header_subtitle">Your headache diary</string>
     <string name="nav_header_desc">Navigation header</string>
-
     <string name="action_delete">Delete</string>
-
     <string name="menu_timer">Timer</string>
     <string name="menu_pains">Pains</string>
     <string name="menu_diary">Diary</string>
-
     <string name="save_button">Save</string>
     <string name="delete_button">Delete</string>
     <string name="cancel_button">Cancel</string>
-
     <string name="new_pains_hint">Enter new pain</string>
     <string name="new_item_added">New item added</string>
     <string name="new_diary_added">New record saved</string>
@@ -50,7 +45,6 @@
     <string name="add_new_item_title">Add new item</string>
     <string name="pieces">%1$s pcs of %2$s</string>
     <string name="medication_amount">0</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="menu_stats">Statistics</string>
     <string name="stats_set_date_title">Set date</string>
     <string name="none">none</string>
@@ -63,10 +57,11 @@
     <string name="button_backup">Backup</string>
     <string name="restore_database">Restore a backup of the database stored on your device.</string>
     <string name="button_restore">Restore</string>
-    <string name="export_to_csv">Export your database to a CSV file. With this file you can make further analyses.</string>
+    <string name="export_to_csv">Export your database to a CSV file. With this file you can make further analyses. All times are Unix time stamps in milliseconds.</string>
     <string name="button_export">Export</string>
-    <string name="backup_complete">Backup Completed</string>
+    <string name="backup_complete">Backup completed</string>
     <string name="backup_error">Unable to backup database.</string>
+    <string name="export_error">Unable to export database to csv file.</string>
     <string name="restore_complete">Restore Completed</string>
     <string name="restore_error">Unable to restore database.</string>
     <string name="title_restore">Restore Database</string>
@@ -86,7 +81,5 @@
     <string name="strength_of_10">%1$s / 10</string>
     <string name="from_to">%1$s - %2$s</string>
     <string name="choose_backup">Choose backup database</string>
-
-
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="export_complete">Export completed</string>
 </resources>

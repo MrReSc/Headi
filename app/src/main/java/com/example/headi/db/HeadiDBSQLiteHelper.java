@@ -11,11 +11,13 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.example.headi.R;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 
 public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
 
@@ -212,6 +214,73 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         long id = cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Pains._ID));
         cursor.close();
         return id;
+    }
+
+    public void performCsvExport(Context context, Uri path, String name) {
+
+        try {
+
+            SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getReadableDatabase();
+
+            String[] projection = {
+                    HeadiDBContract.Diary._ID,
+                    HeadiDBContract.Diary.COLUMN_DURATION,
+                    HeadiDBContract.Diary.COLUMN_END_DATE,
+                    HeadiDBContract.Diary.COLUMN_PAIN,
+                    HeadiDBContract.Diary.COLUMN_STRENGTH,
+                    HeadiDBContract.Diary.COLUMN_MEDICATION,
+                    HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT,
+                    HeadiDBContract.Diary.COLUMN_START_DATE,
+            };
+
+            String orderBy = HeadiDBContract.Diary.COLUMN_START_DATE + " ASC";
+
+            Cursor cursor = database.query(
+                    HeadiDBContract.Diary.TABLE_NAME,         // The table to query
+                    projection,                               // The columns to return
+                    null,                            // The columns for the WHERE clause
+                    null,                         // The values for the WHERE clause
+                    null,                             // don't group the rows
+                    null,                              // don't filter by row groups
+                    orderBy                                   // sort
+            );
+
+            OutputStream output = context.getContentResolver().openOutputStream(path);
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(output));
+
+            String header = HeadiDBContract.Diary._ID + "," +
+                    HeadiDBContract.Diary.COLUMN_PAIN + "," +
+                    HeadiDBContract.Diary.COLUMN_START_DATE + "," +
+                    HeadiDBContract.Diary.COLUMN_END_DATE + "," +
+                    HeadiDBContract.Diary.COLUMN_DURATION + "," +
+                    HeadiDBContract.Diary.COLUMN_STRENGTH + "," +
+                    HeadiDBContract.Diary.COLUMN_MEDICATION + "," +
+                    HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT;
+
+            writer.write(header);
+            writer.newLine();
+
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                String data = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary._ID)) + "," +
+                        cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_PAIN)) + "," +
+                        cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)) + "," +
+                        cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_END_DATE)) + "," +
+                        cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DURATION)) + "," +
+                        cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_STRENGTH)) + "," +
+                        cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_MEDICATION)) + "," +
+                        cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT));
+
+                writer.write(data);
+                writer.newLine();
+            }
+
+            writer.close();
+            Toast.makeText(context, context.getString(R.string.export_complete) + "\n" + name, Toast.LENGTH_LONG).show();
+
+        } catch (Exception e) {
+            Toast.makeText(context, context.getString(R.string.export_error), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
     }
 
     public void performBackup(Context context, Uri path, String name) {

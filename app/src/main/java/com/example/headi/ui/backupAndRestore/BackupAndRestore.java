@@ -22,8 +22,10 @@ public class BackupAndRestore extends Fragment {
 
     private View view;
     private HeadiDBSQLiteHelper helper;
-    private static final int FILE_SELECT_CODE = 0;
-    private static final int FILE_CREATE_CODE = 1;
+    private static final int FILE_SELECT_DB_CODE = 0;
+    private static final int FILE_CREATE_DB_CODE = 1;
+    private static final int FILE_CREATE_CSV_CODE = 2;
+
     private String outFileName;
 
     @Override
@@ -47,7 +49,7 @@ public class BackupAndRestore extends Fragment {
             intent.setType("application/x-sqlite3");
             intent.putExtra(Intent.EXTRA_TITLE, outFileName);
 
-            startActivityForResult(intent, FILE_CREATE_CODE);
+            startActivityForResult(intent, FILE_CREATE_DB_CODE);
         });
 
         view.findViewById(R.id.button_restore).setOnClickListener(v -> {
@@ -56,28 +58,43 @@ public class BackupAndRestore extends Fragment {
             intent.setType("application/octet-stream");
             intent = Intent.createChooser(intent, getActivity().getString(R.string.choose_backup));
 
-            startActivityForResult(intent, FILE_SELECT_CODE);
+            startActivityForResult(intent, FILE_SELECT_DB_CODE);
         });
 
         view.findViewById(R.id.button_export).setOnClickListener(v -> {
-            // TODO Auto-generated method stub
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
+            outFileName = sdf.format(new Date()) + "_headi_diary.csv";
+
+            Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("text/csv");
+            intent.putExtra(Intent.EXTRA_TITLE, outFileName);
+
+            startActivityForResult(intent, FILE_CREATE_CSV_CODE);
         });
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
 
-        if (requestCode == FILE_CREATE_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == FILE_CREATE_DB_CODE && resultCode == Activity.RESULT_OK) {
             if (resultData != null) {
                 Uri uri = resultData.getData();
                 helper.performBackup(getActivity(), uri, outFileName);
             }
         }
 
-        if (requestCode == FILE_SELECT_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == FILE_SELECT_DB_CODE && resultCode == Activity.RESULT_OK) {
             if (resultData != null) {
                 Uri uri = resultData.getData();
                 helper.performRestore(getActivity(), uri);
+            }
+        }
+
+        if (requestCode == FILE_CREATE_CSV_CODE && resultCode == Activity.RESULT_OK) {
+            if (resultData != null) {
+                Uri uri = resultData.getData();
+                helper.performCsvExport(getActivity(), uri, outFileName);
             }
         }
     }

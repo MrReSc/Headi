@@ -62,10 +62,8 @@ public class TimerFragment extends Fragment {
 
         if (d instanceof BitmapDrawable) {
             bitmap = ((BitmapDrawable) d).getBitmap();
-            bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth() / 3, bitmap.getHeight() / 3, false);
         } else {
             bitmap = Bitmap.createBitmap(d.getIntrinsicWidth(), d.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-            bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth() / 3, bitmap.getHeight() / 3, false);
             Canvas canvas = new Canvas(bitmap);
             d.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
             d.draw(canvas);
