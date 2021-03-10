@@ -65,7 +65,6 @@
     <string name="button_restore">Restore</string>
     <string name="export_to_csv">Export your database to a CSV file. With this file you can make further analyses.</string>
     <string name="button_export">Export</string>
-    <string name="create_folder_error">Unable to create directory.</string>
     <string name="backup_complete">Backup Completed</string>
     <string name="backup_error">Unable to backup database.</string>
     <string name="restore_complete">Restore Completed</string>

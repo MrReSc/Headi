@@ -1,22 +1,14 @@
 package com.example.headi.db;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
-import android.os.Environment;
-import android.provider.DocumentsContract;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.ActivityCompat;
 
-import com.example.headi.MainActivity;
 import com.example.headi.R;
 
 import java.io.File;
@@ -24,8 +16,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Date;
-import java.util.Locale;
 
 public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
 
@@ -224,7 +214,6 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         return id;
     }
 
-    @SuppressWarnings("SpellCheckingInspection")
     public void performBackup(Context context, Uri path, String name) {
         final String inFileName = context.getDatabasePath(DATABASE_NAME).toString();
 

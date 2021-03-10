@@ -67,18 +67,16 @@ public class BackupAndRestore extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
 
-        Uri uri = null;
-
         if (requestCode == FILE_CREATE_CODE && resultCode == Activity.RESULT_OK) {
             if (resultData != null) {
-                uri = resultData.getData();
+                Uri uri = resultData.getData();
                 helper.performBackup(getActivity(), uri, outFileName);
             }
         }
 
         if (requestCode == FILE_SELECT_CODE && resultCode == Activity.RESULT_OK) {
             if (resultData != null) {
-                uri = resultData.getData();
+                Uri uri = resultData.getData();
                 helper.performRestore(getActivity(), uri);
             }
         }
