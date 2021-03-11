@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 
 import com.example.headi.R;
 
@@ -214,6 +215,35 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         long id = cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Pains._ID));
         cursor.close();
         return id;
+    }
+
+    public Cursor getDiaryDataForGroupId(Context context, String id) {
+        SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getReadableDatabase();
+
+        String[] projection = {
+                HeadiDBContract.Diary._ID,
+                HeadiDBContract.Diary.COLUMN_DURATION,
+                HeadiDBContract.Diary.COLUMN_START_DATE,
+                HeadiDBContract.Diary.COLUMN_END_DATE,
+                HeadiDBContract.Diary.COLUMN_PAIN,
+                HeadiDBContract.Diary.COLUMN_STRENGTH,
+                HeadiDBContract.Diary.COLUMN_MEDICATION,
+                HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT,
+                HeadiDBContract.Diary.COLUMN_DESCRIPTION,
+        };
+
+        String selection = HeadiDBContract.Diary._ID + " = ?";
+        String[] selectionArgs = {id};
+
+        return database.query(
+                HeadiDBContract.Diary.TABLE_NAME,         // The table to query
+                projection,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                null,                             // don't group the rows
+                null,                              // don't filter by row groups
+                null                              // sort
+        );
     }
 
     public void performCsvExport(Context context, Uri path, String name) {

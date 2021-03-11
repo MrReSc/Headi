@@ -15,7 +15,7 @@
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
+            android:id="@+id/guideline_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/filter_from_hint"
             android:focusable="false"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:inputType="date"

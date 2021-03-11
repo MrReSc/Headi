@@ -118,7 +118,7 @@
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
+            android:id="@+id/guideline_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -154,8 +154,8 @@
 
         <ImageView
             android:id="@+id/button_decrease"
-            android:layout_width="20dp"
-            android:layout_height="0dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:src="@drawable/ic_menu_minus"
             app:tint="?attr/colorPrimary"
             android:clickable="true"
@@ -179,14 +179,14 @@
 
         <ImageView
             android:id="@+id/button_increase"
-            android:layout_width="20dp"
-            android:layout_height="0dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:src="@drawable/ic_menu_plus"
             app:tint="?attr/colorPrimary"
             android:clickable="true"
             android:background="?attr/selectableItemBackground"
             app:layout_constraintBottom_toTopOf="@+id/diary_description"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_3"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription"/>
 

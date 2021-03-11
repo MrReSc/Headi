@@ -47,7 +47,7 @@
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
+            android:id="@+id/guideline_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -78,7 +78,7 @@
             android:progress="3"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/guideline_80"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintStart_toStartOf="@+id/guideline_3"
             app:layout_constraintTop_toBottomOf="@+id/diary_description" />
 
         <TextView
@@ -105,7 +105,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/diary_medication_hint"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintStart_toStartOf="@+id/guideline_3"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -123,7 +123,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/diary_description_hint"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintStart_toStartOf="@+id/guideline_3"
             app:layout_constraintTop_toBottomOf="@+id/diary_medication" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

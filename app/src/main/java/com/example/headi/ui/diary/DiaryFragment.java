@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.headi.R;
 import com.example.headi.db.DiaryCourserTreeAdapter;
+import com.example.headi.db.DiaryEditViewHelper;
 import com.example.headi.db.HeadiDBContract;
 import com.example.headi.db.HeadiDBSQLiteHelper;
 import com.example.headi.db.PainsCourserCheckboxAdapter;
@@ -187,17 +188,55 @@ public class DiaryFragment extends Fragment {
 
             long groupId = DiaryItems.getExpandableListAdapter().getGroupId(position);
 
-            new AlertDialog.Builder(context)
-                    .setTitle(context.getString(R.string.action_delete))
-                    .setMessage(context.getString(R.string.delete_diary))
-                    .setPositiveButton(context.getString(R.string.delete_button),
-                            (dialogInterface, i) -> deleteFromDB(groupId))
-                    .setNegativeButton(context.getString(R.string.cancel_button), (dialogInterface, i) -> {
-                    })
-                    .show();
+            // Create an alert builder
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle(context.getString(R.string.title_diary_item));
+            builder.setMessage(context.getString(R.string.action_for_diary_item));
+
+            builder.setNeutralButton(context.getString(R.string.edit_restore), (dialog, which) -> openItemUpdateDialog(groupId));
+            builder.setPositiveButton(context.getString(R.string.delete_button), (dialog, which) -> deleteFromDB(groupId));
+
+            // add cancel button
+            builder.setNegativeButton(context.getString(R.string.cancel_button), (dialog, which) -> dialog.dismiss());
+
+            // create and show the alert dialog
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
             return true;
         });
 
+    }
+
+    private void openItemUpdateDialog(long groupId) {
+
+        Context context = getActivity();
+
+        // Create an alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(context.getString(R.string.title_edit_diary_item));
+
+        // set the edit layout
+        final View editView = getLayoutInflater().inflate(R.layout.fragment_diary_edit_dialog, null);
+        builder.setView(editView);
+
+        builder.setPositiveButton(context.getString(R.string.save_button), (dialog, which) -> updateItemInDB(groupId, editView));
+        builder.setNegativeButton(context.getString(R.string.cancel_button), (dialog, which) -> dialog.dismiss());
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        populateEditView(groupId, editView);
+        dialog.show();
+    }
+
+    private void updateItemInDB(long groupId, View editView) {
+
+
+    }
+
+    private void populateEditView(long groupId, View editView) {
+        DiaryEditViewHelper adapter = new DiaryEditViewHelper(getActivity(), editView, groupId);
+        adapter.populateView();
     }
 
     private void deleteFromDB(long id) {

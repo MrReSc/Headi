@@ -82,4 +82,10 @@
     <string name="from_to">%1$s - %2$s</string>
     <string name="choose_backup">Choose backup database</string>
     <string name="export_complete">Export completed</string>
+    <string name="title_diary_item">Diary item</string>
+    <string name="action_for_diary_item">What do you want to do with the diary entry?</string>
+    <string name="edit_restore">Edit</string>
+    <string name="title_edit_diary_item">Edit diary item</string>
+    <string name="filter_from_time_hint">From time</string>
+    <string name="filter_to_time_hint">To time</string>
 </resources>
