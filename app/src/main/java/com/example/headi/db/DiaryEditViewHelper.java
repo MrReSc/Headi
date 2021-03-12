@@ -10,6 +10,8 @@ import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +46,7 @@ public class DiaryEditViewHelper {
     private long toDateAndTimeUnedited;
     private Calendar fromCalUnedited;
     private Calendar toCalUnedited;
+    private SeekBar diary_edit_strength;
 
     public DiaryEditViewHelper(Context context, View view, long groupId) {
         this.context = context;
@@ -106,7 +109,24 @@ public class DiaryEditViewHelper {
         medication_spinner.setSelection(getMedicationIndex(medications_adapter, medication));
 
         // Strength
-        // TODO Strength edit is missing
+        diary_edit_strength = view.findViewById(R.id.diary_edit_strength);
+        TextView diary_edit_strength_text = view.findViewById(R.id.diary_edit_strength_text);
+        int strength = cursor.getInt(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_STRENGTH));
+        diary_edit_strength.setProgress(strength);
+        diary_edit_strength_text.setText(context.getString(R.string.strength_of_10, Integer.toString(strength)));
+
+        diary_edit_strength.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                diary_edit_strength_text.setText(context.getString(R.string.strength_of_10, Integer.toString(diary_edit_strength.getProgress())));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
     }
 
     private int getPainIndex(PainsCourserIconAdapter adapter, String searchString) {
@@ -165,7 +185,7 @@ public class DiaryEditViewHelper {
 
         DatePickerDialog toDatePickerDialog = new DatePickerDialog(context, (view1, year, monthOfYear, dayOfMonth) -> {
             Calendar newDate = Calendar.getInstance();
-            newDate.set(year, monthOfYear, dayOfMonth, 23, 59, 59);
+            newDate.set(year, monthOfYear, dayOfMonth, 0, 0, 0);
             toDate.setText(df.format(newDate.getTime()));
             toDateEdited = newDate.getTimeInMillis();
         }, toCalUnedited.get(Calendar.YEAR), toCalUnedited.get(Calendar.MONTH), toCalUnedited.get(Calendar.DAY_OF_MONTH));
@@ -179,6 +199,8 @@ public class DiaryEditViewHelper {
         toDate.setOnClickListener(v -> {
             // TODO erneutes setzten des MinDate funktioniert nicht
             toDatePickerDialog.getDatePicker().setMinDate(fromDateEdited != 0 ? fromDateEdited : fromDateAndTimeUnedited);
+            Calendar cal = Calendar.getInstance();
+            toDatePickerDialog.getDatePicker().setMaxDate(cal.getTimeInMillis());
             toDatePickerDialog.show();
         });
 
@@ -257,7 +279,7 @@ public class DiaryEditViewHelper {
         values.put(HeadiDBContract.Diary.COLUMN_DESCRIPTION, diary_edit_description.getText().toString());
         values.put(HeadiDBContract.Diary.COLUMN_MEDICATION, diaryMedication);
         values.put(HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT, diaryMedicationAmount);
-        //values.put(HeadiDBContract.Diary.COLUMN_STRENGTH, strength);
+        values.put(HeadiDBContract.Diary.COLUMN_STRENGTH, diary_edit_strength.getProgress());
         values.put(HeadiDBContract.Diary.COLUMN_PAIN, pain);
 
         database.update(HeadiDBContract.Diary.TABLE_NAME, values, selection, selectionArgs);

@@ -28,6 +28,7 @@
             android:layout_height="30dp"
             android:max="10"
             android:progress="3"
+            android:paddingStart="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintStart_toStartOf="parent"
