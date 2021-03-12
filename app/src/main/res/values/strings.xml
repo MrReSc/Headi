@@ -88,4 +88,6 @@
     <string name="title_edit_diary_item">Edit diary item</string>
     <string name="filter_from_time_hint">From time</string>
     <string name="filter_to_time_hint">To time</string>
+    <string name="new_time_not_valid">Time entered is not valid.</string>
+    <string name="diary_item_updated">Diary entry saved.</string>
 </resources>

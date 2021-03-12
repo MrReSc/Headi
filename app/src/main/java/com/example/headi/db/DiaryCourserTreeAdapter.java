@@ -29,6 +29,11 @@ public class DiaryCourserTreeAdapter extends CursorTreeAdapter {
     }
 
     @Override
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
+        return false;
+    }
+
+    @Override
     protected Cursor getChildrenCursor(Cursor groupCursor) {
         HeadiDBSQLiteHelper helper = new HeadiDBSQLiteHelper(context);
         String groupId = groupCursor.getString(groupCursor.getColumnIndexOrThrow(HeadiDBContract.Diary._ID));

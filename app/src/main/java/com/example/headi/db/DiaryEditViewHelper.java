@@ -2,15 +2,17 @@ package com.example.headi.db;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.headi.R;
 
@@ -23,10 +25,25 @@ public class DiaryEditViewHelper {
     private long groupId;
     private SimpleDateFormat df = new SimpleDateFormat("E dd. MMM yyyy", Locale.getDefault());
     private SimpleDateFormat tf = new SimpleDateFormat("HH:mm", Locale.getDefault());
-    private String fromDateEdited;
-    private String toDateEdited;
-    private String fromTimeEdited;
-    private String toTimeEdited;
+    private long fromDateEdited = 0;
+    private long toDateEdited = 0;
+    private long fromTimeEdited = 0;
+    private long toTimeEdited = 0;
+    private Cursor cursor;
+    private final String FROM_TIME = "from_time";
+    private final String TO_TIME = "to_time";
+    private Spinner pain_spinner;
+    private TextView diary_edit_from_date;
+    private TextView diary_edit_from_time;
+    private TextView diary_edit_to_date;
+    private TextView diary_edit_to_time;
+    private TextView diary_edit_description;
+    private TextView diary_edit_medication_amount;
+    private Spinner medication_spinner;
+    private long fromDateAndTimeUnedited;
+    private long toDateAndTimeUnedited;
+    private Calendar fromCalUnedited;
+    private Calendar toCalUnedited;
 
     public DiaryEditViewHelper(Context context, View view, long groupId) {
         this.context = context;
@@ -37,27 +54,27 @@ public class DiaryEditViewHelper {
     public void populateView() {
         // Get cursor for groupId
         HeadiDBSQLiteHelper helper = new HeadiDBSQLiteHelper(context);
-        Cursor cursor = helper.getDiaryDataForGroupId(context, Long.toString(groupId));
+        cursor = helper.getDiaryDataForGroupId(context, Long.toString(groupId));
         cursor.moveToFirst();
 
         // Pain spinner
-        Spinner pain_spinner = view.findViewById(R.id.diary_edit_pain);
+        pain_spinner = view.findViewById(R.id.diary_edit_pain);
         PainsCourserIconAdapter pains_adapter = helper.readPainsWithIconFromDB(context);
         pain_spinner.setAdapter(pains_adapter);
         String pain = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_PAIN));
         pain_spinner.setSelection(getPainIndex(pains_adapter, pain));
 
         // From time and date
-        TextView diary_edit_from_date = view.findViewById(R.id.diary_edit_from_date);
-        TextView diary_edit_from_time = view.findViewById(R.id.diary_edit_from_time);
+        diary_edit_from_date = view.findViewById(R.id.diary_edit_from_date);
+        diary_edit_from_time = view.findViewById(R.id.diary_edit_from_time);
         String from_date = df.format(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
         String from_time = tf.format(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
         diary_edit_from_date.setText(from_date);
         diary_edit_from_time.setText(from_time);
 
         // To time and date
-        TextView diary_edit_to_date = view.findViewById(R.id.diary_edit_to_date);
-        TextView diary_edit_to_time = view.findViewById(R.id.diary_edit_to_time);
+        diary_edit_to_date = view.findViewById(R.id.diary_edit_to_date);
+        diary_edit_to_time = view.findViewById(R.id.diary_edit_to_time);
         String to_date = df.format(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_END_DATE)));
         String to_time = tf.format(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_END_DATE)));
         diary_edit_to_date.setText(to_date);
@@ -66,12 +83,12 @@ public class DiaryEditViewHelper {
         registerDateAndTimePickerListeners(diary_edit_from_date, diary_edit_to_date, diary_edit_from_time, diary_edit_to_time);
 
         // Description
-        TextView diary_edit_description = view.findViewById(R.id.diary_edit_description);
+        diary_edit_description = view.findViewById(R.id.diary_edit_description);
         String description = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DESCRIPTION));
         diary_edit_description.setText(description);
 
         //Medication amount
-        TextView diary_edit_medication_amount = view.findViewById(R.id.diary_edit_medication_amount);
+        diary_edit_medication_amount = view.findViewById(R.id.diary_edit_medication_amount);
         String medication_amount = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT));
         diary_edit_medication_amount.setText(medication_amount);
 
@@ -82,13 +99,14 @@ public class DiaryEditViewHelper {
         button_decrease.setOnClickListener(v -> decreaseMedicationAmount());
 
         // Medication spinner
-        Spinner medication_spinner = view.findViewById(R.id.diary_edit_medication);
+        medication_spinner = view.findViewById(R.id.diary_edit_medication);
         MedicationsCourserAdapter medications_adapter = helper.readMedicationsWithoutIconFromDB(context);
         medication_spinner.setAdapter(medications_adapter);
         String medication = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_MEDICATION));
         medication_spinner.setSelection(getMedicationIndex(medications_adapter, medication));
 
-
+        // Strength
+        // TODO Strength edit is missing
     }
 
     private int getPainIndex(PainsCourserIconAdapter adapter, String searchString) {
@@ -118,59 +136,159 @@ public class DiaryEditViewHelper {
     }
 
     private void increaseMedicationAmount() {
-        TextView diary_edit_medication_amount = view.findViewById(R.id.diary_edit_medication_amount);
         int newVal = Integer.parseInt(diary_edit_medication_amount.getText().toString()) + 1;
         diary_edit_medication_amount.setText(String.format(Locale.getDefault(), "%d", newVal));
     }
 
     private void decreaseMedicationAmount() {
-        TextView diary_edit_medication_amount = view.findViewById(R.id.diary_edit_medication_amount);
         int newVal = Integer.parseInt(diary_edit_medication_amount.getText().toString()) - 1;
         diary_edit_medication_amount.setText(newVal < 0 ? "0" : Integer.toString(newVal));
     }
 
     private void registerDateAndTimePickerListeners(TextView fromDate, TextView toDate, TextView fromTime, TextView toTime) {
 
-        Calendar newCalendar = Calendar.getInstance();
+        fromCalUnedited = Calendar.getInstance();
+        fromDateAndTimeUnedited = cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE));
+        fromCalUnedited.setTimeInMillis(fromDateAndTimeUnedited);
+
+        toCalUnedited = Calendar.getInstance();
+        toDateAndTimeUnedited = cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_END_DATE));
+        toCalUnedited.setTimeInMillis(toDateAndTimeUnedited);
 
         // Date picker
         DatePickerDialog fromDatePickerDialog = new DatePickerDialog(context, (view12, year, monthOfYear, dayOfMonth) -> {
             Calendar newDate = Calendar.getInstance();
             newDate.set(year, monthOfYear, dayOfMonth, 0,0,0);
             fromDate.setText(df.format(newDate.getTime()));
-            fromDateEdited = Long.toString(newDate.getTimeInMillis());
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
-        fromDate.setOnClickListener(v -> fromDatePickerDialog.show());
+            fromDateEdited = newDate.getTimeInMillis();
+        }, fromCalUnedited.get(Calendar.YEAR), fromCalUnedited.get(Calendar.MONTH), fromCalUnedited.get(Calendar.DAY_OF_MONTH));
 
         DatePickerDialog toDatePickerDialog = new DatePickerDialog(context, (view1, year, monthOfYear, dayOfMonth) -> {
             Calendar newDate = Calendar.getInstance();
             newDate.set(year, monthOfYear, dayOfMonth, 23, 59, 59);
             toDate.setText(df.format(newDate.getTime()));
-            toDateEdited = Long.toString(newDate.getTimeInMillis());
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+            toDateEdited = newDate.getTimeInMillis();
+        }, toCalUnedited.get(Calendar.YEAR), toCalUnedited.get(Calendar.MONTH), toCalUnedited.get(Calendar.DAY_OF_MONTH));
 
-        toDate.setOnClickListener(v -> toDatePickerDialog.show());
+        fromDate.setOnClickListener(v -> {
+            // TODO erneutes setzten des MaxDate funktioniert nicht
+            fromDatePickerDialog.getDatePicker().setMaxDate(toDateEdited != 0 ? toDateEdited : toDateAndTimeUnedited);
+            fromDatePickerDialog.show();
+        });
+
+        toDate.setOnClickListener(v -> {
+            // TODO erneutes setzten des MinDate funktioniert nicht
+            toDatePickerDialog.getDatePicker().setMinDate(fromDateEdited != 0 ? fromDateEdited : fromDateAndTimeUnedited);
+            toDatePickerDialog.show();
+        });
 
         // Time picker
         TimePickerDialog fromTimePickerDialog = new TimePickerDialog(context, (view, hourOfDay, minute) -> {
             Calendar newDate = Calendar.getInstance();
             newDate.set(0, 0, 0, hourOfDay, minute,0);
-            fromTime.setText(tf.format(newDate.getTime()));
-            long mills = (hourOfDay * 3600) + (minute * 60) * 1000;
-            fromTimeEdited = Long.toString(mills);
-        },newCalendar.get(Calendar.HOUR_OF_DAY), newCalendar.get(Calendar.MINUTE), true);
+            long newTime = ((hourOfDay * 3600) + (minute * 60)) * 1000;
+            // Check for valid time
+            checkTimeForValidity(fromDatePickerDialog, newTime, fromTime, newDate, FROM_TIME);
+        }, fromCalUnedited.get(Calendar.HOUR_OF_DAY), fromCalUnedited.get(Calendar.MINUTE), true);
 
         fromTime.setOnClickListener(v -> fromTimePickerDialog.show());
 
         TimePickerDialog toTimePickerDialog = new TimePickerDialog(context, (view, hourOfDay, minute) -> {
             Calendar newDate = Calendar.getInstance();
             newDate.set(0, 0, 0, hourOfDay, minute,0);
-            toTime.setText(tf.format(newDate.getTime()));
-            long mills = (hourOfDay * 3600) + (minute * 60) * 1000;
-            toTimeEdited = Long.toString(mills);
-        },newCalendar.get(Calendar.HOUR_OF_DAY), newCalendar.get(Calendar.MINUTE), true);
+            long newTime = ((hourOfDay * 3600) + (minute * 60)) * 1000;
+            // Check for valid time
+            checkTimeForValidity(toDatePickerDialog, newTime, toTime, newDate, TO_TIME);
+        }, toCalUnedited.get(Calendar.HOUR_OF_DAY), toCalUnedited.get(Calendar.MINUTE), true);
 
         toTime.setOnClickListener(v -> toTimePickerDialog.show());
+    }
+
+    private void checkTimeForValidity(DatePickerDialog datePicker, long newTime, TextView timeTextView, Calendar newDate, String whichTime) {
+
+        int day = datePicker.getDatePicker().getDayOfMonth();
+        int month = datePicker.getDatePicker().getMonth();
+        int year =  datePicker.getDatePicker().getYear();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day, 0, 0);
+
+        long newTimeStamp = calendar.getTimeInMillis() + newTime;
+        long startDate = getCalcEditedDateAndTime(fromDateEdited, fromTimeEdited, fromDateAndTimeUnedited, fromCalUnedited);
+        long endDate = getCalcEditedDateAndTime(toDateEdited, toTimeEdited, toDateAndTimeUnedited, toCalUnedited);
+
+        if (newTimeStamp < endDate && whichTime.equals(FROM_TIME)) {
+            timeTextView.setText(tf.format(newDate.getTime()));
+            fromTimeEdited = newTime;
+        }
+        else if (newTimeStamp > startDate && whichTime.equals(TO_TIME)) {
+            timeTextView.setText(tf.format(newDate.getTime()));
+            toTimeEdited = newTime;
+        }
+        else {
+            Toast.makeText(context, context.getString(R.string.new_time_not_valid), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void updateDataBase() {
+        // Save to DB
+        SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        String selection = HeadiDBContract.Diary._ID + " = ?";
+        String[] selectionArgs = {Long.toString(groupId)};
+
+        long startDate = getCalcEditedDateAndTime(fromDateEdited, fromTimeEdited, fromDateAndTimeUnedited, fromCalUnedited);
+        long endDate = getCalcEditedDateAndTime(toDateEdited, toTimeEdited, toDateAndTimeUnedited, toCalUnedited);
+
+        String diaryMedication = ((Cursor) medication_spinner.getSelectedItem()).getString(1);
+
+        int diaryMedicationAmount = Integer.parseInt(diary_edit_medication_amount.getText().toString());
+
+        if (diaryMedicationAmount == 0) {
+            diaryMedication = "";
+        }
+
+        String pain = ((Cursor) pain_spinner.getSelectedItem()).getString(1);
+
+        values.put(HeadiDBContract.Diary.COLUMN_START_DATE, startDate);
+        values.put(HeadiDBContract.Diary.COLUMN_END_DATE, endDate);
+        values.put(HeadiDBContract.Diary.COLUMN_DURATION, endDate - startDate);
+        values.put(HeadiDBContract.Diary.COLUMN_DESCRIPTION, diary_edit_description.getText().toString());
+        values.put(HeadiDBContract.Diary.COLUMN_MEDICATION, diaryMedication);
+        values.put(HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT, diaryMedicationAmount);
+        //values.put(HeadiDBContract.Diary.COLUMN_STRENGTH, strength);
+        values.put(HeadiDBContract.Diary.COLUMN_PAIN, pain);
+
+        database.update(HeadiDBContract.Diary.TABLE_NAME, values, selection, selectionArgs);
+
+        Toast.makeText(context, context.getString(R.string.diary_item_updated), Toast.LENGTH_SHORT).show();
+
+    }
+
+    private long getCalcEditedDateAndTime(long dateEdited, long timeEdited, long dateAndTimeUnedited, Calendar calUnedited) {
+        if (dateEdited != 0 || timeEdited != 0) {
+            if (dateEdited != 0 && timeEdited != 0) {
+                return dateEdited + timeEdited;
+            }
+
+            if (dateEdited != 0 && timeEdited == 0) {
+                long hour = calUnedited.get(Calendar.HOUR_OF_DAY) * 3600 * 1000;
+                long minute = calUnedited.get(Calendar.MINUTE) * 60 * 1000;
+                return dateEdited + (hour + minute);
+            }
+
+            if (dateEdited == 0 && timeEdited != 0) {
+                int year = calUnedited.get(Calendar.HOUR_OF_DAY);
+                int month = calUnedited.get(Calendar.MINUTE);
+                int day = calUnedited.get(Calendar.MINUTE);
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(year, month, day, 0, 0);
+
+                return timeEdited + calendar.getTimeInMillis();
+            }
+        }
+        return dateAndTimeUnedited;
     }
 }
