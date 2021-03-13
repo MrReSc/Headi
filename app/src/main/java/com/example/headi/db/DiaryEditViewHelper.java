@@ -301,9 +301,9 @@ public class DiaryEditViewHelper {
             }
 
             if (dateEdited == 0 && timeEdited != 0) {
-                int year = calUnedited.get(Calendar.HOUR_OF_DAY);
-                int month = calUnedited.get(Calendar.MINUTE);
-                int day = calUnedited.get(Calendar.MINUTE);
+                int year = calUnedited.get(Calendar.YEAR);
+                int month = calUnedited.get(Calendar.MONTH);
+                int day = calUnedited.get(Calendar.DAY_OF_MONTH);
 
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(year, month, day, 0, 0);

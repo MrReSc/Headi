@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -13,7 +13,11 @@
     <Spinner
         android:id="@+id/diary_edit_pain"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -40,14 +44,15 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.32" />
 
+
         <SeekBar
             android:id="@+id/diary_edit_strength"
             style="@style/Widget.AppCompat.SeekBar.Discrete"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:max="10"
-            android:progress="3"
             android:paddingStart="5dp"
+            android:progress="3"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +70,16 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/diary_times"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -141,15 +155,16 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <EditText
-        android:id="@+id/diary_edit_description"
+    <Space
         android:layout_width="match_parent"
+        android:layout_height="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/diary_description_hint"
-        android:autofillHints="@string/diary_description"
-        android:inputType="textMultiLine|textCapSentences"
-        android:scrollHorizontally="false"
-        android:importantForAutofill="no" />
+        android:text="@string/diary_medication"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -207,15 +222,36 @@
             android:id="@+id/button_increase"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@drawable/ic_menu_plus"
-            app:tint="?attr/colorPrimary"
-            android:clickable="true"
             android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:src="@drawable/ic_menu_plus"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline_3"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:ignore="ContentDescription"/>
+            app:tint="?attr/colorPrimary"
+            tools:ignore="ContentDescription" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/diary_description"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/diary_edit_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/diary_description"
+        android:hint="@string/diary_description_hint"
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine|textCapSentences"
+        android:scrollHorizontally="false" />
 
 </LinearLayout>

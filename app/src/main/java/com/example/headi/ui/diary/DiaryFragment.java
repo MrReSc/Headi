@@ -6,12 +6,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
@@ -48,7 +50,7 @@ public class DiaryFragment extends Fragment {
         DiaryItems = (ExpandableListView) view.findViewById(R.id.diary_list);
         setHasOptionsMenu(true);
 
-        registerListeners(context);
+        registerForContextMenu(DiaryItems);
         readFromDB(null, null);
 
         return view;
@@ -60,12 +62,37 @@ public class DiaryFragment extends Fragment {
     }
 
     @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
+    {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getActivity().getMenuInflater().inflate(R.menu.menu_diary_context, menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_diary_filter_list) {
             openFilterDialog();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo) item.getMenuInfo();
+        int position = ExpandableListView.getPackedPositionGroup(info.packedPosition);
+        long groupId = DiaryItems.getExpandableListAdapter().getGroupId(position);
+
+        if (item.getItemId() == R.id.action_diary_edit) {
+            openItemUpdateDialog(groupId);
+            return true;
+        }
+
+        if (item.getItemId() == R.id.action_diary_delete) {
+            deleteFromDB(groupId);
+            return true;
+        }
+        return super.onContextItemSelected(item);
     }
 
     private void openFilterDialog() {
@@ -180,32 +207,6 @@ public class DiaryFragment extends Fragment {
         HeadiDBSQLiteHelper helper = new HeadiDBSQLiteHelper(context);
         DiaryCourserTreeAdapter adapter = helper.readDiaryGroupFromDB(context, selection, selectionArgs);
         DiaryItems.setAdapter(adapter);
-    }
-
-    private void registerListeners(Context context) {
-        // Find ListView to populate
-        DiaryItems.setOnItemLongClickListener((adapterView, view, position, id) -> {
-
-            long groupId = DiaryItems.getExpandableListAdapter().getGroupId(position);
-
-            // Create an alert builder
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle(context.getString(R.string.title_diary_item));
-            builder.setMessage(context.getString(R.string.action_for_diary_item));
-
-            builder.setNeutralButton(context.getString(R.string.edit_restore), (dialog, which) -> openItemUpdateDialog(groupId));
-            builder.setPositiveButton(context.getString(R.string.delete_button), (dialog, which) -> deleteFromDB(groupId));
-
-            // add cancel button
-            builder.setNegativeButton(context.getString(R.string.cancel_button), (dialog, which) -> dialog.dismiss());
-
-            // create and show the alert dialog
-            AlertDialog dialog = builder.create();
-            dialog.show();
-
-            return true;
-        });
-
     }
 
     private void openItemUpdateDialog(long groupId) {
