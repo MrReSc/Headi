@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 
 import com.example.headi.R;
 
@@ -305,6 +304,7 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
             }
 
             writer.close();
+            cursor.close();
             Toast.makeText(context, context.getString(R.string.export_complete) + "\n" + name, Toast.LENGTH_LONG).show();
 
         } catch (Exception e) {

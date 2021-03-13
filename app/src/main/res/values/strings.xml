@@ -15,7 +15,6 @@
     <string name="new_diary_added">New record saved</string>
     <string name="title_diary_save">Save record</string>
     <string name="delete_pains">Do you want to delete the entry?</string>
-    <string name="delete_diary">Do you want to delete the record?</string>
     <string name="timer_time">00:00:00</string>
     <string name="timer_start">Start</string>
     <string name="timer_stop">Stop</string>
@@ -41,7 +40,6 @@
     <string name="filter_from_hint">From date</string>
     <string name="filter_to_hint">To date</string>
     <string name="remove_filter_button">Remove all filters</string>
-    <string name="add_new_item">Add new item</string>
     <string name="add_new_item_title">Add new item</string>
     <string name="pieces">%1$s pcs of %2$s</string>
     <string name="medication_amount">0</string>
@@ -82,8 +80,6 @@
     <string name="from_to">%1$s - %2$s</string>
     <string name="choose_backup">Choose backup database</string>
     <string name="export_complete">Export completed</string>
-    <string name="title_diary_item">Diary item</string>
-    <string name="action_for_diary_item">What do you want to do with the diary entry?</string>
     <string name="edit_button">Edit</string>
     <string name="title_edit_diary_item">Edit diary item</string>
     <string name="filter_from_time_hint">From time</string>

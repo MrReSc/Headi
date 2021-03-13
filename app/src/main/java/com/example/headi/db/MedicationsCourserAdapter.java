@@ -29,7 +29,7 @@ public class MedicationsCourserAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         // Find fields to populate in inflated template
-        TextView pains_name = (TextView) view.findViewById(R.id.pains_name);
+        TextView pains_name = view.findViewById(R.id.pains_name);
 
         // Extract properties from cursor
         String pain = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Medication.COLUMN_MEDICATION));

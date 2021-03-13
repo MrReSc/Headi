@@ -57,12 +57,12 @@ public class DiaryCourserTreeAdapter extends CursorTreeAdapter {
     @Override
     protected void bindGroupView(View view, Context context, Cursor cursor, boolean isExpanded) {
         // Find fields to populate in inflated template
-        TextView diary_date = (TextView) view.findViewById(R.id.diary_date);
-        TextView diary_pain_start = (TextView) view.findViewById(R.id.diary_pain_start);
-        TextView diary_pain_end = (TextView) view.findViewById(R.id.diary_pain_end);
-        TextView diary_pain_name = (TextView) view.findViewById(R.id.diary_pain_name);
-        TextView diary_pain_duration = (TextView) view.findViewById(R.id.diary_pain_duration);
-        ImageView pains_image = (ImageView) view.findViewById(R.id.pains_image);
+        TextView diary_date = view.findViewById(R.id.diary_date);
+        TextView diary_pain_start = view.findViewById(R.id.diary_pain_start);
+        TextView diary_pain_end = view.findViewById(R.id.diary_pain_end);
+        TextView diary_pain_name = view.findViewById(R.id.diary_pain_name);
+        TextView diary_pain_duration = view.findViewById(R.id.diary_pain_duration);
+        ImageView pains_image = view.findViewById(R.id.pains_image);
 
         // Extract properties from cursor
         SimpleDateFormat df = new SimpleDateFormat("E dd. MMM yyyy", Locale.getDefault());
@@ -98,11 +98,11 @@ public class DiaryCourserTreeAdapter extends CursorTreeAdapter {
     @Override
     protected void bindChildView(View view, Context context, Cursor cursor, boolean isLastChild) {
         // Find fields to populate in inflated template
-        ImageView diary_region = (ImageView) view.findViewById(R.id.diary_region);
-        TextView diary_description = (TextView) view.findViewById(R.id.diary_description);
-        TextView diary_medication = (TextView) view.findViewById(R.id.diary_medication);
-        ProgressBar diary_strength = (ProgressBar) view.findViewById(R.id.diary_strength);
-        TextView diary_strength_text = (TextView) view.findViewById(R.id.diary_strength_text);
+        ImageView diary_region = view.findViewById(R.id.diary_region);
+        TextView diary_description = view.findViewById(R.id.diary_description);
+        TextView diary_medication = view.findViewById(R.id.diary_medication);
+        ProgressBar diary_strength = view.findViewById(R.id.diary_strength);
+        TextView diary_strength_text = view.findViewById(R.id.diary_strength_text);
 
         byte[] region_blob = cursor.getBlob(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_REGION));
         Bitmap region = BitmapFactory.decodeByteArray(region_blob, 0, region_blob.length);

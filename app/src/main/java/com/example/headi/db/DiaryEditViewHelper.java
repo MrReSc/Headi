@@ -10,7 +10,6 @@ import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -22,11 +21,11 @@ import java.util.Locale;
 
 public class DiaryEditViewHelper {
 
-    private Context context;
-    private View view;
-    private long groupId;
-    private SimpleDateFormat df = new SimpleDateFormat("E dd. MMM yyyy", Locale.getDefault());
-    private SimpleDateFormat tf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+    private final Context context;
+    private final View view;
+    private final long groupId;
+    private final SimpleDateFormat df = new SimpleDateFormat("E dd. MMM yyyy", Locale.getDefault());
+    private final SimpleDateFormat tf = new SimpleDateFormat("HH:mm", Locale.getDefault());
     private long fromDateEdited = 0;
     private long toDateEdited = 0;
     private long fromTimeEdited = 0;
@@ -35,10 +34,6 @@ public class DiaryEditViewHelper {
     private final String FROM_TIME = "from_time";
     private final String TO_TIME = "to_time";
     private Spinner pain_spinner;
-    private TextView diary_edit_from_date;
-    private TextView diary_edit_from_time;
-    private TextView diary_edit_to_date;
-    private TextView diary_edit_to_time;
     private TextView diary_edit_description;
     private TextView diary_edit_medication_amount;
     private Spinner medication_spinner;
@@ -68,16 +63,16 @@ public class DiaryEditViewHelper {
         pain_spinner.setSelection(getPainIndex(pains_adapter, pain));
 
         // From time and date
-        diary_edit_from_date = view.findViewById(R.id.diary_edit_from_date);
-        diary_edit_from_time = view.findViewById(R.id.diary_edit_from_time);
+        TextView diary_edit_from_date = view.findViewById(R.id.diary_edit_from_date);
+        TextView diary_edit_from_time = view.findViewById(R.id.diary_edit_from_time);
         String from_date = df.format(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
         String from_time = tf.format(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
         diary_edit_from_date.setText(from_date);
         diary_edit_from_time.setText(from_time);
 
         // To time and date
-        diary_edit_to_date = view.findViewById(R.id.diary_edit_to_date);
-        diary_edit_to_time = view.findViewById(R.id.diary_edit_to_time);
+        TextView diary_edit_to_date = view.findViewById(R.id.diary_edit_to_date);
+        TextView diary_edit_to_time = view.findViewById(R.id.diary_edit_to_time);
         String to_date = df.format(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_END_DATE)));
         String to_time = tf.format(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_END_DATE)));
         diary_edit_to_date.setText(to_date);
@@ -294,22 +289,20 @@ public class DiaryEditViewHelper {
                 return dateEdited + timeEdited;
             }
 
-            if (dateEdited != 0 && timeEdited == 0) {
+            if (dateEdited != 0) {
                 long hour = calUnedited.get(Calendar.HOUR_OF_DAY) * 3600 * 1000;
                 long minute = calUnedited.get(Calendar.MINUTE) * 60 * 1000;
                 return dateEdited + (hour + minute);
             }
 
-            if (dateEdited == 0 && timeEdited != 0) {
-                int year = calUnedited.get(Calendar.YEAR);
-                int month = calUnedited.get(Calendar.MONTH);
-                int day = calUnedited.get(Calendar.DAY_OF_MONTH);
+            int year = calUnedited.get(Calendar.YEAR);
+            int month = calUnedited.get(Calendar.MONTH);
+            int day = calUnedited.get(Calendar.DAY_OF_MONTH);
 
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(year, month, day, 0, 0);
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(year, month, day, 0, 0);
 
-                return timeEdited + calendar.getTimeInMillis();
-            }
+            return timeEdited + calendar.getTimeInMillis();
         }
         return dateAndTimeUnedited;
     }

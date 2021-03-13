@@ -17,7 +17,7 @@
         android:text="Mi. 24. Feb. 2021 - Sa. 27. Feb. 2021"
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        tools:ignore="HardcodedText"></TextView>
+        tools:ignore="HardcodedText" />
 
 
     <ScrollView

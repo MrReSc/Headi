@@ -5,9 +5,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -33,7 +30,7 @@ public class MedicationFragment extends Fragment {
 
         Context context = getActivity();
         view = inflater.inflate(R.layout.fragment_pains_medications, container, false);
-        MedicationsItems = (ListView) view.findViewById(R.id.pains_list);
+        MedicationsItems = view.findViewById(R.id.pains_list);
 
         registerListeners(context);
         readFromDB();
@@ -58,7 +55,7 @@ public class MedicationFragment extends Fragment {
         builder.setNegativeButton(context.getString(R.string.cancel_button), (dialog, which) -> { });
 
         //replace hint text
-        EditText pains_add_new_pain = (EditText) saveView.findViewById(R.id.pains_add_new_pain);
+        EditText pains_add_new_pain = saveView.findViewById(R.id.pains_add_new_pain);
         pains_add_new_pain.setHint(context.getString(R.string.new_medications_hint));
 
         // create and show the alert dialog
@@ -79,7 +76,7 @@ public class MedicationFragment extends Fragment {
         SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        EditText mEdit = (EditText) view.findViewById(R.id.pains_add_new_pain);
+        EditText mEdit = view.findViewById(R.id.pains_add_new_pain);
         values.put(HeadiDBContract.Medication.COLUMN_MEDICATION, mEdit.getText().toString());
         database.insert(HeadiDBContract.Medication.TABLE_NAME, null, values);
 
@@ -113,11 +110,6 @@ public class MedicationFragment extends Fragment {
         });
 
         FloatingActionButton fab = view.findViewById(R.id.floatingActionButton);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openAddItemDialog();
-            }
-        });
+        fab.setOnClickListener(view -> openAddItemDialog());
     }
 }

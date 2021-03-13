@@ -5,9 +5,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -34,7 +31,7 @@ public class PainsFragment extends Fragment {
 
         Context context = getActivity();
         view = inflater.inflate(R.layout.fragment_pains_medications, container, false);
-        PainsItems = (ListView) view.findViewById(R.id.pains_list);
+        PainsItems = view.findViewById(R.id.pains_list);
 
         registerListeners(context);
         readFromDB();
@@ -68,7 +65,7 @@ public class PainsFragment extends Fragment {
         SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        EditText mEdit = (EditText) view.findViewById(R.id.pains_add_new_pain);
+        EditText mEdit = view.findViewById(R.id.pains_add_new_pain);
         values.put(HeadiDBContract.Pains.COLUMN_PAIN, mEdit.getText().toString());
         database.insert(HeadiDBContract.Pains.TABLE_NAME, null, values);
 
@@ -111,11 +108,6 @@ public class PainsFragment extends Fragment {
         });
 
         FloatingActionButton fab = view.findViewById(R.id.floatingActionButton);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openAddItemDialog();
-            }
-        });
+        fab.setOnClickListener(view -> openAddItemDialog());
     }
 }

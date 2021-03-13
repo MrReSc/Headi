@@ -13,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
@@ -45,9 +44,8 @@ public class DiaryFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        Context context = getActivity();
         View view = inflater.inflate(R.layout.fragment_diary, container, false);
-        DiaryItems = (ExpandableListView) view.findViewById(R.id.diary_list);
+        DiaryItems = view.findViewById(R.id.diary_list);
         setHasOptionsMenu(true);
 
         registerForContextMenu(DiaryItems);
@@ -107,7 +105,7 @@ public class DiaryFragment extends Fragment {
         builder.setView(saveView);
 
         // populate Pains in ListView
-        ListView PainsItems = (ListView) saveView.findViewById(R.id.filter_pains_list);
+        ListView PainsItems = saveView.findViewById(R.id.filter_pains_list);
 
         // Attach cursor adapter to the ListView
         HeadiDBSQLiteHelper helper = new HeadiDBSQLiteHelper(context);
@@ -178,8 +176,8 @@ public class DiaryFragment extends Fragment {
     private void registerDatePickerListeners(View view) {
         Context context = requireActivity();
         SimpleDateFormat date_formatter = new SimpleDateFormat("E dd. MMM yyyy", Locale.getDefault());
-        fromDate = (EditText) view.findViewById(R.id.filter_from_date);
-        toDate = (EditText) view.findViewById(R.id.filter_to_date);
+        fromDate = view.findViewById(R.id.filter_from_date);
+        toDate = view.findViewById(R.id.filter_to_date);
 
         Calendar newCalendar = Calendar.getInstance();
         fromDatePickerDialog = new DatePickerDialog(context, (view12, year, monthOfYear, dayOfMonth) -> {

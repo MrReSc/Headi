@@ -186,8 +186,8 @@ public class StatsFragment extends Fragment {
     private void registerDatePickerListeners(View view) {
         Context context = requireActivity();
         SimpleDateFormat date_formatter = new SimpleDateFormat("E dd. MMM yyyy", Locale.getDefault());
-        fromDate = (EditText) view.findViewById(R.id.filter_from_date);
-        toDate = (EditText) view.findViewById(R.id.filter_to_date);
+        fromDate = view.findViewById(R.id.filter_from_date);
+        toDate = view.findViewById(R.id.filter_to_date);
 
         Calendar newCalendar = Calendar.getInstance();
         fromDatePickerDialog = new DatePickerDialog(context, (view12, year, monthOfYear, dayOfMonth) -> {
@@ -221,7 +221,7 @@ public class StatsFragment extends Fragment {
 
     private void setStatsFromAndToDate() {
         Context context = requireActivity();
-        TextView fromAndTo = (TextView) view.findViewById(R.id.stats_date_from_to);
+        TextView fromAndTo = view.findViewById(R.id.stats_date_from_to);
         String from = diaryStats.getStatsFromDate();
         String to = diaryStats.getStatsToDate();
         fromAndTo.setText(context.getString(R.string.from_to, from, to));
