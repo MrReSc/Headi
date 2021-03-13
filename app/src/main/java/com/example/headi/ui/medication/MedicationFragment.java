@@ -21,36 +21,23 @@ import androidx.fragment.app.Fragment;
 import com.example.headi.R;
 import com.example.headi.db.HeadiDBContract;
 import com.example.headi.db.HeadiDBSQLiteHelper;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MedicationFragment extends Fragment {
 
     private ListView MedicationsItems;
+    private View view;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         Context context = getActivity();
-        View view = inflater.inflate(R.layout.fragment_pains_medications, container, false);
+        view = inflater.inflate(R.layout.fragment_pains_medications, container, false);
         MedicationsItems = (ListView) view.findViewById(R.id.pains_list);
-        setHasOptionsMenu(true);
 
         registerListeners(context);
         readFromDB();
         return view;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_pains_medications, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.action_add_item) {
-            openAddItemDialog();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void openAddItemDialog() {
@@ -123,6 +110,14 @@ public class MedicationFragment extends Fragment {
                     })
                     .show();
             return true;
+        });
+
+        FloatingActionButton fab = view.findViewById(R.id.floatingActionButton);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openAddItemDialog();
+            }
         });
     }
 }

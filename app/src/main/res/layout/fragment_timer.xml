@@ -17,7 +17,7 @@
         android:layout_marginTop="150dp"
         android:gravity="center"
         android:text="@string/timer_time"
-        android:textSize="75dp"
+        android:textSize="65dp"
         android:textStyle="bold"
         android:textColor="?android:textColorPrimary"/>
 
