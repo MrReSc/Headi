@@ -7,7 +7,7 @@
         android:id="@+id/pains_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="4dp"
+        android:padding="8dp"
         android:text="Pain"
         android:textAppearance="?android:attr/textAppearanceMedium"
         tools:ignore="HardcodedText" />

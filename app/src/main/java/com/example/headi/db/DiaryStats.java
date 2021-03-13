@@ -85,7 +85,7 @@ public class DiaryStats {
         dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
 
         dataSet.setValueLinePart1OffsetPercentage(50.f);
-        dataSet.setValueLinePart1Length(0.5f);
+        dataSet.setValueLinePart1Length(1.1f);
         dataSet.setValueLinePart2Length(0.6f);
         dataSet.setValueLineColor(getPrimaryTextColor());
         dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);

@@ -1,6 +1,7 @@
 package com.example.headi.db;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +13,8 @@ import android.widget.CursorTreeAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.core.widget.ImageViewCompat;
 
 import com.example.headi.Constants;
 import com.example.headi.R;
@@ -59,6 +62,7 @@ public class DiaryCourserTreeAdapter extends CursorTreeAdapter {
         TextView diary_pain_end = (TextView) view.findViewById(R.id.diary_pain_end);
         TextView diary_pain_name = (TextView) view.findViewById(R.id.diary_pain_name);
         TextView diary_pain_duration = (TextView) view.findViewById(R.id.diary_pain_duration);
+        ImageView pains_image = (ImageView) view.findViewById(R.id.pains_image);
 
         // Extract properties from cursor
         SimpleDateFormat df = new SimpleDateFormat("E dd. MMM yyyy", Locale.getDefault());
@@ -82,7 +86,8 @@ public class DiaryCourserTreeAdapter extends CursorTreeAdapter {
         diary_pain_start.setText(pain_start);
         diary_pain_end.setText(pain_end);
         diary_pain_name.setText(pain_name);
-        diary_pain_name.setTextColor(color);
+        //diary_pain_name.setTextColor(color);
+        ImageViewCompat.setImageTintList(pains_image, ColorStateList.valueOf(color));
         diary_pain_duration.setText(pain_duration);
     }
 

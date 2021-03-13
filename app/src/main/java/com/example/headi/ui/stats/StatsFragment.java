@@ -79,13 +79,12 @@ public class StatsFragment extends Fragment {
         piePainDurationRatio = view.findViewById(R.id.stats_pain_duration_ratio);
         piePainDurationRatio.getDescription().setEnabled(false);
         piePainDurationRatio.setUsePercentValues(true);
-        piePainDurationRatio.setCenterText("Ratio of pains");
         piePainDurationRatio.getLegend().setEnabled(false);
         piePainDurationRatio.setRotationEnabled(false);
         piePainDurationRatio.setHighlightPerTapEnabled(false);
         piePainDurationRatio.setExtraOffsets(30.f, 0.f, 30.f, 0.f);
-        piePainDurationRatio.setHoleRadius(35f);
-        piePainDurationRatio.setTransparentCircleRadius(44f);
+        piePainDurationRatio.setHoleRadius(0f);
+        piePainDurationRatio.setTransparentCircleRadius(0f);
         piePainDurationRatio.animateXY(1000, 1000);
 
         // Bar Chart: Count - Strength ratio
