@@ -79,7 +79,15 @@ public class DiaryCourserTreeAdapter extends CursorTreeAdapter {
 
         HeadiDBSQLiteHelper helper = new HeadiDBSQLiteHelper(context);
         Long id = helper.getPainIdFromName(context, pain_name);
-        int color = Constants.getColorById(id);
+        int color;
+
+        if (id > -1) {
+            color = Constants.getColorById(id);
+        }
+        else {
+            DiaryStats ds = new DiaryStats(context, cursor);
+            color = ds.getPrimaryTextColor();
+        }
 
         // Populate fields with extracted properties
         diary_date.setText(date);

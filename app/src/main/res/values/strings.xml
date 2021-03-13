@@ -87,4 +87,6 @@
     <string name="new_time_not_valid">Time entered is not valid.</string>
     <string name="diary_item_updated">Diary entry saved.</string>
     <string name="diary_times">Times:</string>
+    <string name="pain_na">Pain not available</string>
+    <string name="medication_na">Medication not available</string>
 </resources>

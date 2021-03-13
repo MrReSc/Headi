@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -58,9 +59,20 @@ public class DiaryEditViewHelper {
         // Pain spinner
         pain_spinner = view.findViewById(R.id.diary_edit_pain);
         PainsCourserIconAdapter pains_adapter = helper.readPainsWithIconFromDB(context);
-        pain_spinner.setAdapter(pains_adapter);
         String pain = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_PAIN));
-        pain_spinner.setSelection(getPainIndex(pains_adapter, pain));
+        int selection = getPainIndex(pains_adapter, pain);
+        if (selection > -1) {
+            pain_spinner.setAdapter(pains_adapter);
+            pain_spinner.setSelection(selection);
+        }
+        else {
+            String[] arraySpinner = new String[] {context.getString(R.string.pain_na)};
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, arraySpinner);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            pain_spinner.setAdapter(adapter);
+            pain_spinner.setEnabled(false);
+            pain_spinner.setClickable(false);
+        }
 
         // From time and date
         TextView diary_edit_from_date = view.findViewById(R.id.diary_edit_from_date);
@@ -99,8 +111,8 @@ public class DiaryEditViewHelper {
         // Medication spinner
         medication_spinner = view.findViewById(R.id.diary_edit_medication);
         MedicationsCourserAdapter medications_adapter = helper.readMedicationsWithoutIconFromDB(context);
-        medication_spinner.setAdapter(medications_adapter);
         String medication = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_MEDICATION));
+        medication_spinner.setAdapter(medications_adapter);
         medication_spinner.setSelection(getMedicationIndex(medications_adapter, medication));
 
         // Strength
@@ -266,8 +278,6 @@ public class DiaryEditViewHelper {
             diaryMedication = "";
         }
 
-        String pain = ((Cursor) pain_spinner.getSelectedItem()).getString(1);
-
         values.put(HeadiDBContract.Diary.COLUMN_START_DATE, startDate);
         values.put(HeadiDBContract.Diary.COLUMN_END_DATE, endDate);
         values.put(HeadiDBContract.Diary.COLUMN_DURATION, endDate - startDate);
@@ -275,7 +285,13 @@ public class DiaryEditViewHelper {
         values.put(HeadiDBContract.Diary.COLUMN_MEDICATION, diaryMedication);
         values.put(HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT, diaryMedicationAmount);
         values.put(HeadiDBContract.Diary.COLUMN_STRENGTH, diary_edit_strength.getProgress());
-        values.put(HeadiDBContract.Diary.COLUMN_PAIN, pain);
+
+        try {
+            String pain = ((Cursor) pain_spinner.getSelectedItem()).getString(1);
+            values.put(HeadiDBContract.Diary.COLUMN_PAIN, pain);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         database.update(HeadiDBContract.Diary.TABLE_NAME, values, selection, selectionArgs);
 

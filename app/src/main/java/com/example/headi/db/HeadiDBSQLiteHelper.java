@@ -45,12 +45,10 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
     }
 
     public PainsCourserIconAdapter readPainsWithIconFromDB(Context context) {
-        // Setup cursor adapter using cursor from last step
         return new PainsCourserIconAdapter(context, readPainsFromDB(context), 0);
     }
 
     public PainsCourserCheckboxAdapter readPainsWithCheckboxFromDB(Context context) {
-        // Setup cursor adapter using cursor from last step
         return new PainsCourserCheckboxAdapter(context, readPainsFromDB(context), 0);
     }
 
@@ -211,7 +209,14 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         );
 
         cursor.moveToFirst();
-        long id = cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Pains._ID));
+        long id = -1;
+
+        try {
+            id = cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Pains._ID));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         cursor.close();
         return id;
     }
