@@ -1,131 +1,138 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingTop="8dp"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingBottom="8dp"
-    android:background="?actionBarDivider">
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="8dp">
 
-    <ImageView
-        android:id="@+id/diary_region"
-        android:layout_width="match_parent"
-        android:layout_height="210dp"
-        android:contentDescription="@string/pain_region"
-        app:srcCompat="@drawable/ic_pain_region" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <LinearLayout android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingTop="8dp"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="8dp"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.4"
-            android:text="@string/region_right"
-            android:textAlignment="center" />
+        <ImageView
+            android:id="@+id/diary_region"
+            android:layout_width="match_parent"
+            android:layout_height="210dp"
+            android:contentDescription="@string/pain_region"
+            app:srcCompat="@drawable/ic_pain_region" />
 
-        <Space
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.3" />
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.4"
-            android:text="@string/region_left"
-            android:textAlignment="center" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:text="@string/region_right"
+                android:textAlignment="center" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:text="@string/region_left"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.32" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_80"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.85" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/paint_strength"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/diary_strength" />
+
+            <ProgressBar
+                android:id="@+id/diary_strength"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:max="10"
+                android:progress="3"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/guideline_80"
+                app:layout_constraintStart_toStartOf="@+id/guideline_3"
+                app:layout_constraintTop_toBottomOf="@+id/diary_description" />
+
+            <TextView
+                android:id="@+id/diary_strength_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/diary_strength_text"
+                app:layout_constraintBottom_toBottomOf="@+id/diary_strength"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/diary_strength" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/diary_medication"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/diary_medication"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/diary_medication_hint"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_constraintStart_toStartOf="@+id/guideline_3"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/diary_description"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/diary_description" />
+
+            <TextView
+                android:id="@+id/diary_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/diary_description_hint"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_constraintStart_toStartOf="@+id/guideline_3"
+                app:layout_constraintTop_toBottomOf="@+id/diary_medication" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+</androidx.cardview.widget.CardView>
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.32" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_80"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.85" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/paint_strength"
-            android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/diary_strength" />
-
-        <ProgressBar
-            android:id="@+id/diary_strength"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:max="10"
-            android:progress="3"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/guideline_80"
-            app:layout_constraintStart_toStartOf="@+id/guideline_3"
-            app:layout_constraintTop_toBottomOf="@+id/diary_description" />
-
-        <TextView
-            android:id="@+id/diary_strength_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/diary_strength_text"
-            app:layout_constraintBottom_toBottomOf="@+id/diary_strength"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/diary_strength" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/diary_medication"
-            android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/diary_medication"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/diary_medication_hint"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            app:layout_constraintStart_toStartOf="@+id/guideline_3"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/diary_description"
-            android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/diary_description" />
-
-        <TextView
-            android:id="@+id/diary_description"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/diary_description_hint"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            app:layout_constraintStart_toStartOf="@+id/guideline_3"
-            app:layout_constraintTop_toBottomOf="@+id/diary_medication" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</LinearLayout>
