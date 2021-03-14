@@ -81,11 +81,11 @@
     <string name="choose_backup">Choose backup database</string>
     <string name="export_complete">Export completed</string>
     <string name="edit_button">Edit</string>
-    <string name="title_edit_diary_item">Edit diary item</string>
+    <string name="title_edit_item">Edit item</string>
     <string name="filter_from_time_hint">From time</string>
     <string name="filter_to_time_hint">To time</string>
     <string name="new_time_not_valid">Time entered is not valid.</string>
-    <string name="diary_item_updated">Diary entry saved.</string>
+    <string name="item_saved">Item saved.</string>
     <string name="diary_times">Times:</string>
     <string name="pain_na">Pain not available</string>
     <string name="medication_na">Medication not available</string>

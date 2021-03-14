@@ -299,7 +299,7 @@ public class DiaryEditViewHelper {
 
         database.update(HeadiDBContract.Diary.TABLE_NAME, values, selection, selectionArgs);
 
-        Toast.makeText(context, context.getString(R.string.diary_item_updated), Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, context.getString(R.string.item_saved), Toast.LENGTH_SHORT).show();
 
     }
 

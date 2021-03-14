@@ -63,7 +63,7 @@ public class DiaryFragment extends Fragment {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
     {
         super.onCreateContextMenu(menu, v, menuInfo);
-        getActivity().getMenuInflater().inflate(R.menu.menu_diary_context, menu);
+        getActivity().getMenuInflater().inflate(R.menu.menu_context_edit_delete, menu);
     }
 
     @Override
@@ -81,12 +81,12 @@ public class DiaryFragment extends Fragment {
         int position = ExpandableListView.getPackedPositionGroup(info.packedPosition);
         long groupId = DiaryItems.getExpandableListAdapter().getGroupId(position);
 
-        if (item.getItemId() == R.id.action_diary_edit) {
+        if (item.getItemId() == R.id.action_item_edit) {
             openItemUpdateDialog(groupId);
             return true;
         }
 
-        if (item.getItemId() == R.id.action_diary_delete) {
+        if (item.getItemId() == R.id.action_item_delete) {
             deleteFromDB(groupId);
             return true;
         }
@@ -213,7 +213,7 @@ public class DiaryFragment extends Fragment {
 
         // Create an alert builder
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(context.getString(R.string.title_edit_diary_item));
+        builder.setTitle(context.getString(R.string.title_edit_item));
 
         // set the edit layout
         final View editView = getLayoutInflater().inflate(R.layout.fragment_diary_edit_dialog, null);

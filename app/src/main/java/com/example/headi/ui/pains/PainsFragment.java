@@ -2,13 +2,18 @@ package com.example.headi.ui.pains;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,9 +38,66 @@ public class PainsFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_pains_medications, container, false);
         PainsItems = view.findViewById(R.id.pains_list);
 
+        registerForContextMenu(PainsItems);
         registerListeners(context);
         readFromDB();
         return view;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
+    {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getActivity().getMenuInflater().inflate(R.menu.menu_context_edit_delete, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        long itemId = info.id;
+
+        if (item.getItemId() == R.id.action_item_edit) {
+            openItemUpdateDialog(item);
+            return true;
+        }
+
+        if (item.getItemId() == R.id.action_item_delete) {
+            deleteFromDB(itemId);
+            return true;
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    private void openItemUpdateDialog(MenuItem item) {
+        Context context = requireActivity();
+
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int position = info.position;
+        long id = info.id;
+
+        String oldPain = ((Cursor) PainsItems.getItemAtPosition(position)).getString(1);
+
+        // Create an alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(context.getString(R.string.title_edit_item));
+
+        // set the save layout
+        final View saveView = getLayoutInflater().inflate(R.layout.fragment_pains_medication_add_dialog, null);
+        builder.setView(saveView);
+
+        // set the old pain text
+        EditText mEdit = saveView.findViewById(R.id.pains_add_new_pain);
+        mEdit.setText(oldPain);
+
+        // add save button
+        builder.setPositiveButton(context.getString(R.string.save_button), (dialog, which) -> updateDB(id, saveView, oldPain));
+
+        // add cancel button
+        builder.setNegativeButton(context.getString(R.string.cancel_button), (dialog, which) -> { dialog.dismiss();});
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void openAddItemDialog() {
@@ -58,6 +120,31 @@ public class PainsFragment extends Fragment {
         // create and show the alert dialog
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void updateDB(long id, View view, String oldPain) {
+        Context context = requireActivity();
+
+        EditText mEdit = view.findViewById(R.id.pains_add_new_pain);
+        String newPain = mEdit.getText().toString();
+
+        SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        // Update pains table
+        String selection = HeadiDBContract.Pains._ID + " = ?";
+        String[] selectionArgs = {Long.toString(id)};
+        values.put(HeadiDBContract.Pains.COLUMN_PAIN, newPain);
+        database.update(HeadiDBContract.Pains.TABLE_NAME, values, selection, selectionArgs);
+
+        // Update diary table
+        selection = HeadiDBContract.Diary.COLUMN_PAIN + " = ?";
+        selectionArgs[0] = oldPain;
+        values.put(HeadiDBContract.Diary.COLUMN_PAIN, newPain);
+        database.update(HeadiDBContract.Diary.TABLE_NAME, values, selection, selectionArgs);
+
+        Toast.makeText(context, context.getString(R.string.item_saved), Toast.LENGTH_SHORT).show();
+        readFromDB();
     }
 
     private void saveToDB(View view) {
@@ -93,20 +180,6 @@ public class PainsFragment extends Fragment {
     }
 
     private void registerListeners(Context context) {
-
-        PainsItems.setOnItemLongClickListener((adapterView, view, position, id) -> {
-
-            new AlertDialog.Builder(context)
-                    .setTitle(context.getString(R.string.action_delete))
-                    .setMessage(context.getString(R.string.delete_pains))
-                    .setPositiveButton(context.getString(R.string.delete_button),
-                            (dialogInterface, i) -> deleteFromDB(id))
-                    .setNegativeButton(context.getString(R.string.cancel_button), (dialogInterface, i) -> {
-                    })
-                    .show();
-            return true;
-        });
-
         FloatingActionButton fab = view.findViewById(R.id.floatingActionButton);
         fab.setOnClickListener(view -> openAddItemDialog());
     }
