@@ -43,6 +43,7 @@ public class DiaryEditViewHelper {
     private Calendar fromCalUnedited;
     private Calendar toCalUnedited;
     private SeekBar diary_edit_strength;
+    private int med_selection;
 
     public DiaryEditViewHelper(Context context, View view, long groupId) {
         this.context = context;
@@ -97,23 +98,24 @@ public class DiaryEditViewHelper {
         String description = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DESCRIPTION));
         diary_edit_description.setText(description);
 
+        // Medication spinner
+        medication_spinner = view.findViewById(R.id.diary_edit_medication);
+        MedicationsCourserAdapter medications_adapter = helper.readMedicationsWithoutIconFromDB(context);
+        String medication = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_MEDICATION));
+        medication_spinner.setAdapter(medications_adapter);
+        med_selection = getMedicationIndex(medications_adapter, medication);
+        medication_spinner.setSelection(med_selection);
+
         //Medication amount
         diary_edit_medication_amount = view.findViewById(R.id.diary_edit_medication_amount);
         String medication_amount = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT));
-        diary_edit_medication_amount.setText(medication_amount);
+        diary_edit_medication_amount.setText(med_selection > -1 ? medication_amount : "0");
 
         // increase and decrease medication amount buttons
         ImageView button_increase = view.findViewById(R.id.button_increase);
         ImageView button_decrease = view.findViewById(R.id.button_decrease);
         button_increase.setOnClickListener(v -> increaseMedicationAmount());
         button_decrease.setOnClickListener(v -> decreaseMedicationAmount());
-
-        // Medication spinner
-        medication_spinner = view.findViewById(R.id.diary_edit_medication);
-        MedicationsCourserAdapter medications_adapter = helper.readMedicationsWithoutIconFromDB(context);
-        String medication = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_MEDICATION));
-        medication_spinner.setAdapter(medications_adapter);
-        medication_spinner.setSelection(getMedicationIndex(medications_adapter, medication));
 
         // Strength
         diary_edit_strength = view.findViewById(R.id.diary_edit_strength);
@@ -271,19 +273,21 @@ public class DiaryEditViewHelper {
         long endDate = getCalcEditedDateAndTime(toDateEdited, toTimeEdited, toDateAndTimeUnedited, toCalUnedited);
 
         String diaryMedication = ((Cursor) medication_spinner.getSelectedItem()).getString(1);
-
         int diaryMedicationAmount = Integer.parseInt(diary_edit_medication_amount.getText().toString());
 
-        if (diaryMedicationAmount == 0) {
+        if (diaryMedicationAmount == 0 && med_selection > -1) {
             diaryMedication = "";
+        }
+
+        if (diaryMedicationAmount > 0 || med_selection > -1) {
+            values.put(HeadiDBContract.Diary.COLUMN_MEDICATION, diaryMedication);
+            values.put(HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT, diaryMedicationAmount);
         }
 
         values.put(HeadiDBContract.Diary.COLUMN_START_DATE, startDate);
         values.put(HeadiDBContract.Diary.COLUMN_END_DATE, endDate);
         values.put(HeadiDBContract.Diary.COLUMN_DURATION, endDate - startDate);
         values.put(HeadiDBContract.Diary.COLUMN_DESCRIPTION, diary_edit_description.getText().toString());
-        values.put(HeadiDBContract.Diary.COLUMN_MEDICATION, diaryMedication);
-        values.put(HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT, diaryMedicationAmount);
         values.put(HeadiDBContract.Diary.COLUMN_STRENGTH, diary_edit_strength.getProgress());
 
         try {
