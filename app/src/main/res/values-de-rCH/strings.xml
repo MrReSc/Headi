@@ -30,7 +30,7 @@
     <string name="diary_medication">Medikamente:</string>
     <string name="diary_medication_hint">Medikamente…</string>
     <string name="notification_title">Timer läuft…</string>
-    <string name="paint_strength">Schmerzstärke:</string>
+    <string name="paint_strength">Schmerzen:</string>
     <string name="diary_description_hint">Beschreibung…</string>
     <string name="diary_strength_text">3 / 10</string>
     <string name="diary_filter_list">Liste filtern</string>
