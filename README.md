@@ -6,6 +6,12 @@ Headi (Headache Diary) is a privacy-friendly app to log your headaches.
 No data is transferred to any cloud services. All data is stored locally only.  
 Headi also offers a simple analysis of the recorded data. You can also export your logs as a CSV file for further analysis of the data.
 
+## Contribute
+Headi is an open source project. Your contributions are welcome.
+- Headi still needs translations. You can help to translate Headi into your language. All you have to do is create an account at [Crowdin](https://crwd.in/headi) and translate the texts.
+- Further analysis of the data in the app would be useful. If you have ideas, please share them. If you can code, you can implement them.
+- There is still some potential to improve the design :smirk:
+
 ## License
 ~~~
 MIT License
@@ -31,12 +37,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ~~~
 
-## Libraries
+## Credits
+### Libraries
 - [TimerX](https://github.com/arsvechkarev/TimerX) Apache-2.0 License
 - [FingerPaintView](https://github.com/PicnicSupermarket/FingerPaintView) MIT
 - [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) Apache-2.0 License
 - [Android About Page](https://github.com/medyo/android-about-page) MIT
 
-## Pictures and Icons
+### Pictures and Icons
 - [Clker-Free-Vector-Images](https://pixabay.com/de/users/clker-free-vector-images-3736/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=29840)
 - [Material Design Icons](https://materialdesignicons.com/)
