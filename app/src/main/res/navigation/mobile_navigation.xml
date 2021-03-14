@@ -6,43 +6,43 @@
 
     <fragment
         android:id="@+id/nav_timer"
-        android:name="com.example.headi.ui.timer.TimerFragment"
+        android:name="com.headi.app.ui.timer.TimerFragment"
         android:label="@string/menu_timer"
         tools:layout="@layout/fragment_timer" />
 
     <fragment
         android:id="@+id/nav_pains"
-        android:name="com.example.headi.ui.pains.PainsFragment"
+        android:name="com.headi.app.ui.pains.PainsFragment"
         android:label="@string/menu_pains"
         tools:layout="@layout/fragment_pains_medications" />
 
     <fragment
         android:id="@+id/nav_diary"
-        android:name="com.example.headi.ui.diary.DiaryFragment"
+        android:name="com.headi.app.ui.diary.DiaryFragment"
         android:label="@string/menu_diary"
         tools:layout="@layout/fragment_diary" />
 
     <fragment
         android:id="@+id/nav_medication"
-        android:name="com.example.headi.ui.medication.MedicationFragment"
+        android:name="com.headi.app.ui.medication.MedicationFragment"
         android:label="@string/menu_medication"
         tools:layout="@layout/fragment_pains_medications" />
 
     <fragment
         android:id="@+id/nav_stats"
-        android:name="com.example.headi.ui.stats.StatsFragment"
+        android:name="com.headi.app.ui.stats.StatsFragment"
         android:label="@string/menu_stats"
         tools:layout="@layout/fragment_stats" />
 
     <fragment
         android:id="@+id/nav_backup_restore"
-        android:name="com.example.headi.ui.backupAndRestore.BackupAndRestore"
+        android:name="com.headi.app.ui.backupAndRestore.BackupAndRestore"
         android:label="@string/menu_backup_and_restore"
         tools:layout="@layout/fragment_backup_restore" />
 
     <fragment
         android:id="@+id/nav_about"
-        android:name="com.example.headi.ui.about.about"
+        android:name="com.headi.app.ui.about.about"
         android:label="@string/menu_about"
         tools:layout="@layout/fragment_about" />
 
