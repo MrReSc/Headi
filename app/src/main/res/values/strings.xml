@@ -3,7 +3,6 @@
     <string name="nav_header_title">Headi</string>
     <string name="nav_header_subtitle">Your headache diary</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_delete">Delete</string>
     <string name="menu_timer">Timer</string>
     <string name="menu_pains">Pains</string>
     <string name="menu_diary">Diary</string>
@@ -14,7 +13,6 @@
     <string name="new_item_added">New item added</string>
     <string name="new_diary_added">New record saved</string>
     <string name="title_diary_save">Save record</string>
-    <string name="delete_pains">Do you want to delete the entry?</string>
     <string name="timer_time">00:00:00</string>
     <string name="timer_start">Start</string>
     <string name="timer_stop">Stop</string>
@@ -88,5 +86,4 @@
     <string name="item_saved">Item saved.</string>
     <string name="diary_times">Times:</string>
     <string name="pain_na">Pain not available</string>
-    <string name="medication_na">Medication not available</string>
 </resources>
