@@ -13,9 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Headi"
         android:fullBackupContent="@xml/backup_descriptor">
-        <meta-data
-            android:name="com.google.android.actions"
-            android:resource="@xml/unused_to_delete" />
+
 
         <activity
             android:name="com.headi.app.MainActivity"
