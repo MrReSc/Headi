@@ -13,4 +13,7 @@
     <color name="secondaryColor">#00BCD4</color>
     <color name="secondaryColorVariant">#00E2FF</color>
 
+    <color name="about_background_dark_color">@color/dark_gray</color>
+    <color name="about_background_color">@color/white</color>
+
 </resources>
