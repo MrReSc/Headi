@@ -225,6 +225,10 @@ public class StatsFragment extends Fragment {
         String from = diaryStats.getStatsFromDate();
         String to = diaryStats.getStatsToDate();
         fromAndTo.setText(context.getString(R.string.from_to, from, to));
+        if (diaryStats.getStatsFromDate().equals("0")) {
+            fromAndTo.setText(context.getString(R.string.no_data_available));
+            fromAndTo.setTextColor(context.getColor(R.color.button_stop));
+        }
     }
 
     private void populateCharts() {

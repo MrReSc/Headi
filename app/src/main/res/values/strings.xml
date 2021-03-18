@@ -86,4 +86,5 @@
     <string name="item_saved">Item saved.</string>
     <string name="diary_times">Times:</string>
     <string name="pain_na">Pain not available</string>
+    <string name="no_data_available">No data available</string>
 </resources>

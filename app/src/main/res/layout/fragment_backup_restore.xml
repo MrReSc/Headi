@@ -20,7 +20,7 @@
 
         <Button
             android:id="@+id/button_backup"
-            android:layout_width="120dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_backup" />
 
@@ -42,7 +42,7 @@
 
         <Button
             android:id="@+id/button_restore"
-            android:layout_width="120dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_restore" />
 
@@ -64,7 +64,7 @@
 
         <Button
             android:id="@+id/button_export"
-            android:layout_width="120dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_export" />
 

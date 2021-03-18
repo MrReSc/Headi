@@ -140,11 +140,15 @@ public class DiaryStats {
     public LineData getDurationOverTime() {
         TreeMap<Long, Long> result = new TreeMap<>();
         ArrayList<Entry> entries = new ArrayList<>();
+        long startDate = 0;
+        long endDate = 0;
 
-        cursor.moveToLast();
-        long startDate = getDateFromTimestamp(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
-        cursor.moveToFirst();
-        long endDate = getDateFromTimestamp(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
+        if (cursor.getCount() > 0) {
+            cursor.moveToLast();
+            startDate = getDateFromTimestamp(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
+            cursor.moveToFirst();
+            endDate = getDateFromTimestamp(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
+        }
 
         // generate list for every day between start and end date
         for (long i = startDate; i < endDate; i += 86400000 ) {
@@ -202,13 +206,19 @@ public class DiaryStats {
     }
 
     public String getStatsFromDate() {
-        cursor.moveToLast();
-        return date_formatter.format(new Date(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE))));
+        if (cursor.getCount() > 0) {
+            cursor.moveToLast();
+            return date_formatter.format(new Date(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE))));
+        }
+        return "0";
     }
 
     public String getStatsToDate() {
-        cursor.moveToFirst();
-        return date_formatter.format(new Date(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE))));
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            return date_formatter.format(new Date(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE))));
+        }
+        return "0";
     }
 
     public static class LineChartXAxisValueFormatter extends IndexAxisValueFormatter {

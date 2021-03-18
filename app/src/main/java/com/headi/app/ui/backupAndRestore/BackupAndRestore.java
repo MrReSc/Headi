@@ -55,7 +55,7 @@ public class BackupAndRestore extends Fragment {
         view.findViewById(R.id.button_restore).setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setType("application/octet-stream");
+            intent.setType("*/*");
             intent = Intent.createChooser(intent, getActivity().getString(R.string.choose_backup));
 
             startActivityForResult(intent, FILE_SELECT_DB_CODE);

@@ -2,6 +2,7 @@ package com.headi.app;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,8 +45,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Create notification channel
         createNotificationChannel();
-
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
