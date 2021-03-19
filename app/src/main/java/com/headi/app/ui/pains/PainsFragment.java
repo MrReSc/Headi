@@ -33,12 +33,11 @@ public class PainsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        Context context = getActivity();
         view = inflater.inflate(R.layout.fragment_pains_medications, container, false);
         PainsItems = view.findViewById(R.id.pains_list);
 
         registerForContextMenu(PainsItems);
-        registerListeners(context);
+        registerListeners();
         readFromDB();
         return view;
     }
@@ -92,7 +91,7 @@ public class PainsFragment extends Fragment {
         builder.setPositiveButton(context.getString(R.string.save_button), (dialog, which) -> updateDB(id, saveView, oldPain));
 
         // add cancel button
-        builder.setNegativeButton(context.getString(R.string.cancel_button), (dialog, which) -> { dialog.dismiss();});
+        builder.setNegativeButton(context.getString(R.string.cancel_button), (dialog, which) -> dialog.dismiss());
 
         // create and show the alert dialog
         AlertDialog dialog = builder.create();
@@ -178,7 +177,7 @@ public class PainsFragment extends Fragment {
         readFromDB();
     }
 
-    private void registerListeners(Context context) {
+    private void registerListeners() {
         FloatingActionButton fab = view.findViewById(R.id.floatingActionButton);
         fab.setOnClickListener(view -> openAddItemDialog());
     }

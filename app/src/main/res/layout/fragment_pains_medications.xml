@@ -24,7 +24,7 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="24dp"
         android:clickable="true"
-        android:contentDescription="TODO"
+        android:contentDescription="@string/add_new_item_title"
         android:src="@drawable/ic_menu_plus"
         app:elevation="6dp"
         app:pressedTranslationZ="12dp" />

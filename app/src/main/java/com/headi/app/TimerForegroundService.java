@@ -6,10 +6,14 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.IBinder;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import java.util.concurrent.TimeUnit;
 
@@ -87,6 +91,18 @@ public class TimerForegroundService extends Service {
         return START_NOT_STICKY;
     }
 
+    private Bitmap getLargeIconBitmap() {
+        VectorDrawableCompat vectorDrawable = VectorDrawableCompat.create(getResources(), R.drawable.ic_headi_about, null);
+        vectorDrawable.setTint(ContextCompat.getColor(this, R.color.button_play));
+
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        vectorDrawable.draw(canvas);
+
+        return bitmap;
+    }
+
     private Notification prepareNotification(CharSequence time) {
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
@@ -95,6 +111,7 @@ public class TimerForegroundService extends Service {
         return new NotificationCompat.Builder(this, Constants.SERVICE.NOTIFICATION_CHANEL_ID)
                 .setContentTitle(getText(R.string.notification_title))
                 .setContentText(time)
+                .setLargeIcon(getLargeIconBitmap())
                 .setSmallIcon(R.drawable.ic_notification_icon)
                 .setColor(getColor(R.color.primaryColor))
                 .setContentIntent(pendingIntent)

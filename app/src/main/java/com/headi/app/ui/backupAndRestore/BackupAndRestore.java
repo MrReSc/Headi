@@ -38,6 +38,7 @@ public class BackupAndRestore extends Fragment {
         return view;
     }
 
+    @SuppressWarnings("SpellCheckingInspection")
     private void registerListeners() {
 
         view.findViewById(R.id.button_backup).setOnClickListener(v -> {
