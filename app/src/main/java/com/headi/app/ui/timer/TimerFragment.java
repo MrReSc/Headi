@@ -48,6 +48,8 @@ public class TimerFragment extends Fragment {
     private View view;
     private Spinner pains_items;
     private Button button_start;
+    private Button button_save;
+    private Button button_delete;
 
     final BroadcastReceiver broadcastReceiverTimer = new BroadcastReceiver() {
         @Override
@@ -80,6 +82,8 @@ public class TimerFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_timer, container, false);
 
         button_start = view.findViewById(R.id.timer_startOrStop_button);
+        button_save = view.findViewById(R.id.timer_save_button);
+        button_delete = view.findViewById(R.id.timer_delete_button);
         pains_items = view.findViewById(R.id.timer_pains_select);
 
         registerListeners();
@@ -102,6 +106,16 @@ public class TimerFragment extends Fragment {
             }
             requireActivity().startService(intent);
             setUiAppearance(intent.getAction());
+        });
+
+        // Save Button listener
+        button_save.setOnClickListener(v -> {
+            openSaveDialog();
+        });
+
+        // Delete Button listener
+        button_delete.setOnClickListener(v -> {
+            timerForegroundServiceEndAction();
         });
 
         // Spinner selected listener
@@ -145,15 +159,19 @@ public class TimerFragment extends Fragment {
         }
     }
 
-    private void setButton(Button start, String action) {
+    private void setButton(Button button, String action) {
         switch (action) {
             case Constants.ACTION.STOP_ACTION:
-                start.setText(requireActivity().getString(R.string.timer_start));
-                start.setBackgroundColor(requireActivity().getColor(R.color.button_play));
+                button.setText(requireActivity().getString(R.string.timer_start));
+                button.setBackgroundColor(requireActivity().getColor(R.color.button_play));
+                button_save.setEnabled(true);
+                button_delete.setEnabled(true);
                 break;
             case Constants.ACTION.START_ACTION:
-                start.setText(requireActivity().getString(R.string.timer_stop));
-                start.setBackgroundColor(requireActivity().getColor(R.color.button_stop));
+                button.setText(requireActivity().getString(R.string.timer_stop));
+                button.setBackgroundColor(requireActivity().getColor(R.color.button_stop));
+                button_save.setEnabled(false);
+                button_delete.setEnabled(false);
                 break;
             default:
                 break;
@@ -206,6 +224,8 @@ public class TimerFragment extends Fragment {
         intent.setAction(Constants.ACTION.END_ACTION);
         requireActivity().startService(intent);
         setTimerTime(requireActivity().getString(R.string.timer_time));
+        button_save.setEnabled(false);
+        button_delete.setEnabled(false);
     }
 
     private void openSaveDialog() {
@@ -251,14 +271,11 @@ public class TimerFragment extends Fragment {
                     strength.getProgress(), diaryMedicationAmount);
         });
 
-        // add delete button
-        builder.setNegativeButton(context.getString(R.string.cancel_button), (dialog, which) -> {
-
-        });
-
         // add cancel button
-        builder.setNeutralButton(context.getString(R.string.delete_button),
-                (dialog, which) -> timerForegroundServiceEndAction());
+        builder.setNegativeButton(context.getString(R.string.cancel_button), (dialog, which) -> {dialog.dismiss();});
+
+        // add delete button
+        builder.setNeutralButton(context.getString(R.string.delete_button), (dialog, which) -> timerForegroundServiceEndAction());
 
         // populate medication spinner
         populateMedicationSpinner(saveView);

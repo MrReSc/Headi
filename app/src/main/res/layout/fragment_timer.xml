@@ -40,15 +40,53 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"/>
 
-            <Button
-                android:id="@+id/timer_startOrStop_button"
+
+                <Button
+                    android:id="@+id/timer_startOrStop_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="@string/timer_start"
+                    android:textSize="20sp"
+                    app:backgroundTint="@color/button_play" />
+
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:text="@string/timer_start"
-                android:textSize="20sp"
-                app:backgroundTint="@color/button_play" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/timer_save_button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="@string/save_button"
+                    android:textSize="20sp"
+                    app:backgroundTint="@color/button_save" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1" />
+
+                <Button
+                    android:id="@+id/timer_delete_button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="@string/delete_button"
+                    android:textSize="20sp"
+                    app:backgroundTint="@color/button_delete" />
+
+            </LinearLayout>
+
+
 
         </LinearLayout>
 
