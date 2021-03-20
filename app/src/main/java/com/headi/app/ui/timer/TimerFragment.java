@@ -164,12 +164,33 @@ public class TimerFragment extends Fragment {
             case Constants.ACTION.STOP_ACTION:
                 button.setText(requireActivity().getString(R.string.timer_start));
                 button.setBackgroundColor(requireActivity().getColor(R.color.button_play));
-                button_save.setEnabled(true);
-                button_delete.setEnabled(true);
                 break;
             case Constants.ACTION.START_ACTION:
                 button.setText(requireActivity().getString(R.string.timer_stop));
                 button.setBackgroundColor(requireActivity().getColor(R.color.button_stop));
+                button_save.setEnabled(false);
+                button_delete.setEnabled(false);
+                break;
+            default:
+                break;
+        }
+        setSaveAndDeleteButton(action);
+    }
+
+    private void setSaveAndDeleteButton(String action) {
+        switch (action) {
+            case Constants.ACTION.STOP_ACTION:
+                if (TimerForegroundService.elapsedTime == 0L) {
+                    button_save.setEnabled(false);
+                    button_delete.setEnabled(false);
+                }
+                else {
+                    button_save.setEnabled(true);
+                    button_delete.setEnabled(true);
+                }
+                break;
+            case Constants.ACTION.START_ACTION:
+            case Constants.ACTION.END_ACTION:
                 button_save.setEnabled(false);
                 button_delete.setEnabled(false);
                 break;
@@ -224,8 +245,7 @@ public class TimerFragment extends Fragment {
         intent.setAction(Constants.ACTION.END_ACTION);
         requireActivity().startService(intent);
         setTimerTime(requireActivity().getString(R.string.timer_time));
-        button_save.setEnabled(false);
-        button_delete.setEnabled(false);
+        setSaveAndDeleteButton(Constants.ACTION.END_ACTION);
     }
 
     private void openSaveDialog() {
