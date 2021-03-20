@@ -104,8 +104,11 @@ public class TimerFragment extends Fragment {
             } else {
                 intent.setAction(Constants.ACTION.START_ACTION);
             }
-            requireActivity().startService(intent);
-            setUiAppearance(intent.getAction());
+            // check if at least one pain is available
+            if (onePainAvailable()) {
+                requireActivity().startService(intent);
+                setUiAppearance(intent.getAction());
+            }
         });
 
         // Save Button listener
@@ -136,6 +139,31 @@ public class TimerFragment extends Fragment {
 
         requireActivity().registerReceiver(broadcastReceiverTimer,
                 new IntentFilter(Constants.BROADCAST.ACTION_CURRENT_TIME));
+    }
+
+    private boolean onePainAvailable() {
+        Context context = getActivity();
+        boolean pain_available = pains_items.getAdapter().getCount() > 0;
+
+        if (!pain_available) {
+            // Create an alert builder
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle(context.getString(R.string.title_no_pain_available));
+            builder.setMessage(context.getString(R.string.ask_for_new_pain));
+
+            builder.setPositiveButton(context.getString(R.string.button_ok), (dialog, which) -> dialog.dismiss());
+
+            // create and show the alert dialog
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+
+        return pain_available;
+    }
+
+    private boolean oneMedicationAvailable(View view) {
+        Spinner medication = view.findViewById(R.id.diary_medication);
+        return medication.getAdapter().getCount() > 0;
     }
 
     private void setUiAppearance(String action) {
@@ -277,8 +305,11 @@ public class TimerFragment extends Fragment {
         builder.setPositiveButton(context.getString(R.string.save_button), (dialog, which) -> {
             EditText diaryDescription = saveView.findViewById(R.id.diary_description);
 
-            Spinner medication = saveView.findViewById(R.id.diary_medication);
-            String diaryMedication = ((Cursor) medication.getSelectedItem()).getString(1);
+            String diaryMedication = "";
+            if (oneMedicationAvailable(saveView)) {
+                Spinner medication = saveView.findViewById(R.id.diary_medication);
+                diaryMedication = ((Cursor) medication.getSelectedItem()).getString(1);
+            }
 
             TextView diary_medication_amount = saveView.findViewById(R.id.diary_medication_amount);
             int diaryMedicationAmount = Integer.parseInt(diary_medication_amount.getText().toString());
@@ -305,6 +336,10 @@ public class TimerFragment extends Fragment {
         ImageView button_decrease = saveView.findViewById(R.id.button_decrease);
         button_increase.setOnClickListener(v -> increaseMedicationAmount(saveView));
         button_decrease.setOnClickListener(v -> decreaseMedicationAmount(saveView));
+        if (!oneMedicationAvailable(saveView)) {
+            button_increase.setEnabled(false);
+            button_decrease.setEnabled(false);
+        }
 
         // Set pain strength text
         TextView pain_strength_text = saveView.findViewById(R.id.diary_strength_text);

@@ -116,6 +116,10 @@ public class DiaryEditViewHelper {
         ImageView button_decrease = view.findViewById(R.id.button_decrease);
         button_increase.setOnClickListener(v -> increaseMedicationAmount());
         button_decrease.setOnClickListener(v -> decreaseMedicationAmount());
+        if (medication_spinner.getAdapter().getCount() == 0) {
+            button_increase.setEnabled(false);
+            button_decrease.setEnabled(false);
+        }
 
         // Strength
         diary_edit_strength = view.findViewById(R.id.diary_edit_strength);
@@ -272,7 +276,11 @@ public class DiaryEditViewHelper {
         long startDate = getCalcEditedDateAndTime(fromDateEdited, fromTimeEdited, fromDateAndTimeUnedited, fromCalUnedited);
         long endDate = getCalcEditedDateAndTime(toDateEdited, toTimeEdited, toDateAndTimeUnedited, toCalUnedited);
 
-        String diaryMedication = ((Cursor) medication_spinner.getSelectedItem()).getString(1);
+        String diaryMedication = "";
+        if (medication_spinner.getAdapter().getCount() > 0) {
+            diaryMedication = ((Cursor) medication_spinner.getSelectedItem()).getString(1);
+        }
+
         int diaryMedicationAmount = Integer.parseInt(diary_edit_medication_amount.getText().toString());
 
         if (diaryMedicationAmount == 0 && med_selection > -1) {
