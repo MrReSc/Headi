@@ -132,6 +132,7 @@ public class StatsFragment extends Fragment {
         yAxis = lineDurationOverTime.getAxisLeft();
         yAxis.setDrawGridLines(false);
         yAxis.setTextColor(UiHelper.getPrimaryTextColor(getActivity()));
+        yAxis.setAxisMinimum(-1f);
         lineDurationOverTime.getAxisRight().setDrawLabels(false);
     }
 

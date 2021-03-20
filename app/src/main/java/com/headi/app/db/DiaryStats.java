@@ -36,6 +36,7 @@ public class DiaryStats {
     private final Cursor cursor;
     private final Context context;
     private final SimpleDateFormat date_formatter = new SimpleDateFormat("E dd. MMM yyyy", Locale.getDefault());
+    private static final long DAY_MILLS = 86400000L;
 
     public DiaryStats(Context context, Cursor cursor) {
         this.cursor = cursor;
@@ -127,7 +128,17 @@ public class DiaryStats {
     }
 
     public boolean getDurationOverTimeDataAvailable() {
-        return cursor.getCount() > 1;
+        long startDate = 0;
+        long endDate = 0;
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToLast();
+            startDate = getDateFromTimestamp(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
+            cursor.moveToFirst();
+            endDate = getDateFromTimestamp(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
+        }
+
+        return endDate > startDate + DAY_MILLS;
     }
 
     public LineData getDurationOverTime() {
@@ -144,7 +155,7 @@ public class DiaryStats {
         }
 
         // generate list for every day between start and end date
-        for (long i = startDate; i <= endDate; i += 86400000 ) {
+        for (long i = startDate; i <= endDate; i += DAY_MILLS ) {
             result.put(i, 0L);
         }
 
@@ -166,7 +177,7 @@ public class DiaryStats {
         }
 
         LineDataSet dataSet = new LineDataSet(entries, "Duration over time");
-        dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         dataSet.setCubicIntensity(0.2f);
         dataSet.setDrawValues(false);
         dataSet.setDrawFilled(true);
