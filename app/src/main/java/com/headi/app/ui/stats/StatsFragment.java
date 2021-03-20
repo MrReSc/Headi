@@ -30,6 +30,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.headi.app.ui.UiHelper;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -101,12 +102,12 @@ public class StatsFragment extends Fragment {
         XAxis xAxis = barCountStrengthRatio.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
-        xAxis.setTextColor(getPrimaryTextColor());
+        xAxis.setTextColor(UiHelper.getPrimaryTextColor(getActivity()));
         xAxis.setLabelCount(10);
 
         YAxis yAxis = barCountStrengthRatio.getAxisLeft();
         yAxis.setDrawGridLines(false);
-        yAxis.setTextColor(getPrimaryTextColor());
+        yAxis.setTextColor(UiHelper.getPrimaryTextColor(getActivity()));
         yAxis.setGranularity(1.0f);
         yAxis.setGranularityEnabled(true); // Required to enable granularity
         barCountStrengthRatio.getAxisRight().setDrawLabels(false);
@@ -126,13 +127,12 @@ public class StatsFragment extends Fragment {
         xAxis = lineDurationOverTime.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
-        xAxis.setTextColor(getPrimaryTextColor());
+        xAxis.setTextColor(UiHelper.getPrimaryTextColor(getActivity()));
 
         yAxis = lineDurationOverTime.getAxisLeft();
         yAxis.setDrawGridLines(false);
-        yAxis.setTextColor(getPrimaryTextColor());
+        yAxis.setTextColor(UiHelper.getPrimaryTextColor(getActivity()));
         lineDurationOverTime.getAxisRight().setDrawLabels(false);
-
     }
 
     private void openFilterDialog() {
@@ -242,18 +242,4 @@ public class StatsFragment extends Fragment {
         lineDurationOverTime.setData(diaryStats.getDurationOverTime());
         lineDurationOverTime.invalidate();
     }
-
-    private int getPrimaryTextColor() {
-        Context context = getActivity();
-        // Get the primary text color of the theme
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = context.getTheme();
-        theme.resolveAttribute(android.R.attr.textColorPrimary, typedValue, true);
-        TypedArray arr = context.obtainStyledAttributes(typedValue.data, new int[]{android.R.attr.textColorPrimary});
-        int primaryColor = arr.getColor(0, -1);
-        arr.recycle();
-        return primaryColor;
-    }
-
-
 }

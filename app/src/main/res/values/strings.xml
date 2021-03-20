@@ -87,4 +87,8 @@
     <string name="diary_times">Times:</string>
     <string name="pain_na">Pain not available</string>
     <string name="no_data_available">No data available</string>
+    <string name="title_no_pain_available">No pain present</string>
+    <string name="ask_for_new_pain">Please add at least one type of pain.</string>
+    <string name="button_ok">Ok</string>
+    <string name="timer_graph_description">Trend over the last 14 days</string>
 </resources>

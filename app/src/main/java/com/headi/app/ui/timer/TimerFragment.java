@@ -29,13 +29,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.headi.app.Constants;
 import com.headi.app.R;
 import com.headi.app.TimerForegroundService;
+import com.headi.app.db.DiaryStats;
 import com.headi.app.db.HeadiDBContract;
 import com.headi.app.db.HeadiDBSQLiteHelper;
 import com.headi.app.db.MedicationsCourserAdapter;
 import com.headi.app.db.PainsCourserIconAdapter;
+import com.headi.app.ui.UiHelper;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Locale;
@@ -50,6 +56,7 @@ public class TimerFragment extends Fragment {
     private Button button_start;
     private Button button_save;
     private Button button_delete;
+    private LineChart lineDurationOverTime;
 
     final BroadcastReceiver broadcastReceiverTimer = new BroadcastReceiver() {
         @Override
@@ -86,11 +93,60 @@ public class TimerFragment extends Fragment {
         button_delete = view.findViewById(R.id.timer_delete_button);
         pains_items = view.findViewById(R.id.timer_pains_select);
 
+        setupCharts();
+        readFromStatsDB();
         registerListeners();
         readFromDB();
         setUiAppearance(Constants.ACTION.INIT_ACTION);
 
         return view;
+    }
+
+    private void setupCharts() {
+        // Line Chart: Pain minutes over time
+        lineDurationOverTime = view.findViewById(R.id.stats_duration_over_time);
+        lineDurationOverTime.getDescription().setEnabled(false);
+        lineDurationOverTime.setScaleEnabled(false);
+        lineDurationOverTime.setDragEnabled(false);
+        lineDurationOverTime.setTouchEnabled(false);
+        lineDurationOverTime.setPinchZoom(false);
+        lineDurationOverTime.getLegend().setEnabled(false);
+        lineDurationOverTime.setHighlightPerTapEnabled(false);
+        lineDurationOverTime.getXAxis().setValueFormatter(new DiaryStats.LineChartXAxisValueFormatter());
+
+        XAxis xAxis = lineDurationOverTime.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setTextColor(UiHelper.getPrimaryTextColor(getActivity()));
+        xAxis.setLabelCount(2, true);
+
+        YAxis yAxis = lineDurationOverTime.getAxisLeft();
+        yAxis.setDrawGridLines(false);
+        yAxis.setTextColor(UiHelper.getPrimaryTextColor(getActivity()));
+        lineDurationOverTime.getAxisRight().setDrawLabels(false);
+    }
+
+    private void readFromStatsDB() {
+        Context context = getActivity();
+        TextView timer_graph_description = view.findViewById(R.id.timer_graph_description);
+
+        // Time filter
+        String selection = HeadiDBContract.Diary.COLUMN_START_DATE + " >= ? AND " + HeadiDBContract.Diary.COLUMN_END_DATE + " <= ?";
+        String from = Long.toString(System.currentTimeMillis());
+        String to = Long.toString(System.currentTimeMillis() - 1209600000L); // 14 days
+        String[] selectionArgs = {to, from};
+
+        HeadiDBSQLiteHelper helper = new HeadiDBSQLiteHelper(context);
+        DiaryStats diaryStats = helper.readDiaryStatsFromDB(context, selection, selectionArgs);
+
+        if (diaryStats.getDurationOverTimeDataAvailable()){
+            lineDurationOverTime.setData(diaryStats.getDurationOverTime());
+        }
+        else {
+            lineDurationOverTime.setVisibility(View.INVISIBLE);
+            timer_graph_description.setVisibility(View.INVISIBLE);
+        }
+        lineDurationOverTime.invalidate();
     }
 
     private void registerListeners() {

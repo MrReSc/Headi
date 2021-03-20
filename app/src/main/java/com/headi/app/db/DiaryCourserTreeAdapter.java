@@ -18,6 +18,7 @@ import androidx.core.widget.ImageViewCompat;
 
 import com.headi.app.Constants;
 import com.headi.app.R;
+import com.headi.app.ui.UiHelper;
 
 import java.util.Locale;
 
@@ -85,8 +86,7 @@ public class DiaryCourserTreeAdapter extends CursorTreeAdapter {
             color = Constants.getColorById(id);
         }
         else {
-            DiaryStats ds = new DiaryStats(context, cursor);
-            color = ds.getPrimaryTextColor();
+            color = UiHelper.getPrimaryTextColor(context);
         }
 
         // Populate fields with extracted properties

@@ -77,6 +77,7 @@ public class TimerForegroundService extends Service {
                 stopwatch.release();
                 isTimerRunning = false;
                 currentTime = "00:00:00";
+                elapsedTime = 0L;
                 stopSelf();
                 break;
             case Constants.ACTION.NONE_ACTION:

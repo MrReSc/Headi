@@ -23,6 +23,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.headi.app.ui.UiHelper;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,18 +41,6 @@ public class DiaryStats {
         this.cursor = cursor;
         this.context = context;
     }
-
-    public int getPrimaryTextColor() {
-        // Get the primary text color of the theme
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = context.getTheme();
-        theme.resolveAttribute(android.R.attr.textColorPrimary, typedValue, true);
-        TypedArray arr = context.obtainStyledAttributes(typedValue.data, new int[]{android.R.attr.textColorPrimary});
-        int primaryColor = arr.getColor(0, -1);
-        arr.recycle();
-        return primaryColor;
-    }
-
 
     public PieData getPainAndDurationRatio(PieChart chart) {
         HashMap<String, Long> result = new HashMap<>();
@@ -80,22 +69,22 @@ public class DiaryStats {
         dataSet.setColors(Constants.MATERIAL_COLORS_500);
         dataSet.setSliceSpace(2f);
 
-        dataSet.setValueTextColor(getPrimaryTextColor());
+        dataSet.setValueTextColor(UiHelper.getPrimaryTextColor(context));
         dataSet.setValueTextSize(12f);
         dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
 
         dataSet.setValueLinePart1OffsetPercentage(50.f);
         dataSet.setValueLinePart1Length(1.1f);
         dataSet.setValueLinePart2Length(0.6f);
-        dataSet.setValueLineColor(getPrimaryTextColor());
+        dataSet.setValueLineColor(UiHelper.getPrimaryTextColor(context));
         dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
 
         PieData data = new PieData(dataSet);
         data.setValueFormatter(new PercentFormatter(chart));
         data.setValueTextSize(11f);
-        data.setValueTextColor(getPrimaryTextColor());
+        data.setValueTextColor(UiHelper.getPrimaryTextColor(context));
 
-        chart.setEntryLabelColor(getPrimaryTextColor());
+        chart.setEntryLabelColor(UiHelper.getPrimaryTextColor(context));
 
         return data;
     }
@@ -137,6 +126,10 @@ public class DiaryStats {
         return new BarData(dataSets);
     }
 
+    public boolean getDurationOverTimeDataAvailable() {
+        return cursor.getCount() > 1;
+    }
+
     public LineData getDurationOverTime() {
         TreeMap<Long, Long> result = new TreeMap<>();
         ArrayList<Entry> entries = new ArrayList<>();
@@ -151,7 +144,7 @@ public class DiaryStats {
         }
 
         // generate list for every day between start and end date
-        for (long i = startDate; i < endDate; i += 86400000 ) {
+        for (long i = startDate; i <= endDate; i += 86400000 ) {
             result.put(i, 0L);
         }
 
