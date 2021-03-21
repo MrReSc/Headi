@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -27,6 +28,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.widget.ImageViewCompat;
 import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -148,6 +151,18 @@ public class TimerFragment extends Fragment {
             timer_graph_description.setVisibility(View.INVISIBLE);
         }
         lineDurationOverTime.invalidate();
+
+        // set trend icon
+        ImageView timer_stats_trend_icon = view.findViewById(R.id.timer_stats_trend_icon);
+        ImageViewCompat.setImageTintList(timer_stats_trend_icon, ColorStateList.valueOf(Constants.MATERIAL_COLORS_500[2]));
+        if (diaryStats.trendSlope > 0) {
+            timer_stats_trend_icon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_trend_up, null));
+            ImageViewCompat.setImageTintList(timer_stats_trend_icon, ColorStateList.valueOf(Constants.MATERIAL_COLORS_500[0]));
+        }
+        else if (diaryStats.trendSlope < 0) {
+            timer_stats_trend_icon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_trend_down, null));
+            ImageViewCompat.setImageTintList(timer_stats_trend_icon, ColorStateList.valueOf(Constants.MATERIAL_COLORS_500[5]));
+        }
     }
 
     private void registerListeners() {

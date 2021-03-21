@@ -25,6 +25,8 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.headi.app.ui.UiHelper;
 
+import org.apache.commons.math3.stat.regression.SimpleRegression;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -37,6 +39,7 @@ public class DiaryStats {
     private final Context context;
     private final SimpleDateFormat date_formatter = new SimpleDateFormat("E dd. MMM yyyy", Locale.getDefault());
     private static final long DAY_MILLS = 86400000L;
+    public static double trendSlope = 0;
 
     public DiaryStats(Context context, Cursor cursor) {
         this.cursor = cursor;
@@ -144,6 +147,7 @@ public class DiaryStats {
     public LineData getDurationOverTime() {
         TreeMap<Long, Long> result = new TreeMap<>();
         ArrayList<Entry> entries = new ArrayList<>();
+        ArrayList<Entry> entriesTrendLine = new ArrayList<>();
         long startDate = 0;
         long endDate = 0;
 
@@ -176,6 +180,33 @@ public class DiaryStats {
             entries.add(new BarEntry((float) key, result.get(key)));
         }
 
+        // calc trend line
+        SimpleRegression simpleRegression = new SimpleRegression(true);
+        double[][] regressionData = new double[result.size()][2];
+        int counter = 0;
+        for (Long key : result.keySet()) {
+            regressionData[counter][0] = key;
+            regressionData[counter][1] = result.get(key);
+            counter ++;
+        }
+
+        simpleRegression.addData(regressionData);
+
+        for (Long key : result.keySet()) {
+            float y = (float) simpleRegression.predict(key);
+            entriesTrendLine.add(new BarEntry((float) key, y));
+        }
+
+        trendSlope = simpleRegression.getSlope();
+        int color = Constants.MATERIAL_COLORS_500[6];
+        if (trendSlope > 0) {
+            color = Constants.MATERIAL_COLORS_500[0];
+        }
+        else if (trendSlope < 0) {
+            color = Constants.MATERIAL_COLORS_500[5];
+        }
+
+        // Setup data sets
         LineDataSet dataSet = new LineDataSet(entries, "Duration over time");
         dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         dataSet.setCubicIntensity(0.2f);
@@ -183,16 +214,22 @@ public class DiaryStats {
         dataSet.setDrawFilled(true);
         dataSet.setDrawCircles(false);
         dataSet.setLineWidth(1.8f);
-        dataSet.setCircleRadius(4f);
-        dataSet.setCircleColor(Constants.MATERIAL_COLORS_500[2]);
-        dataSet.setHighLightColor(Color.rgb(244, 117, 117));
-        dataSet.setColor(Constants.MATERIAL_COLORS_500[2]);
-        dataSet.setFillColor(Constants.MATERIAL_COLORS_500[2]);
+        dataSet.setColor(Constants.MATERIAL_COLORS_500[1]);
+        dataSet.setFillColor(Constants.MATERIAL_COLORS_500[1]);
         dataSet.setFillAlpha(100);
         dataSet.setDrawHorizontalHighlightIndicator(false);
 
+        LineDataSet dataSetTrend = new LineDataSet(entriesTrendLine, "Trend");
+        dataSetTrend.setMode(LineDataSet.Mode.LINEAR);
+        dataSetTrend.setDrawValues(false);
+        dataSetTrend.setDrawFilled(false);
+        dataSetTrend.setDrawCircles(false);
+        dataSetTrend.setLineWidth(1.1f);
+        dataSetTrend.setColor(color);
+        dataSetTrend.setDrawHorizontalHighlightIndicator(false);
+
         // create a data object with the data sets
-        LineData data = new LineData(dataSet);
+        LineData data = new LineData(dataSetTrend, dataSet);
         data.setDrawValues(false);
 
         // set data

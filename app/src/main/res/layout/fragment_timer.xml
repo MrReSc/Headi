@@ -98,13 +98,12 @@
 
     <TextView
         android:id="@+id/timer_graph_description"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/timer_graph_description"
         android:layout_marginTop="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/stats_duration_over_time"
-        app:layout_constraintTop_toBottomOf="@+id/cardView"
-        tools:layout_editor_absoluteX="16dp" />
+        android:text="@string/timer_graph_description"
+        app:layout_constraintStart_toStartOf="@+id/stats_duration_over_time"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/stats_duration_over_time"
@@ -112,6 +111,14 @@
         android:layout_height="200dp"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="16dp" />
+
+    <ImageView
+        android:id="@+id/timer_stats_trend_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_trend_flat"
+        app:layout_constraintStart_toStartOf="@+id/timer_graph_description"
+        app:layout_constraintTop_toBottomOf="@+id/timer_graph_description" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
