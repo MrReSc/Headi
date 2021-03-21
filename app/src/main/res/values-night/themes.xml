@@ -13,8 +13,11 @@
 
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorOnPrimary</item>
+
         <!-- Customize your theme here. -->
         <item name="materialButtonStyle">@style/MyButtonTheme</item>
+        <item name="cardStyle">@style/CardView.Dark</item>
+
     </style>
 
     <style name="Theme.Headi.NoActionBar">
@@ -26,13 +29,17 @@
 
     <style name="Theme.Headi.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark" />
 
-    <!-- White text also in dark theme -->
+    <!-- Button Style White text also in dark theme -->
     <style name="MyButtonTheme" parent="Widget.MaterialComponents.Button">
         <item name="materialThemeOverlay">@style/ButtonStyleTextColor</item>
     </style>
 
     <style name="ButtonStyleTextColor">
         <item name="colorOnPrimary">@color/white</item>
+    </style>
+
+    <style name="CardView.Dark">
+        <item name="cardBackgroundColor">@color/cardview_dark_background</item>
     </style>
 
 </resources>

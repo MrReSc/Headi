@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -57,8 +58,8 @@ public class TimerFragment extends Fragment {
     private View view;
     private Spinner pains_items;
     private Button button_start;
-    private Button button_save;
-    private Button button_delete;
+    private ImageButton button_save;
+    private ImageButton button_delete;
     private LineChart lineDurationOverTime;
 
     final BroadcastReceiver broadcastReceiverTimer = new BroadcastReceiver() {

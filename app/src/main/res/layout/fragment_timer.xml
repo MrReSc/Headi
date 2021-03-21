@@ -5,105 +5,98 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingTop="150dp"
+    android:paddingTop="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".ui.timer.TimerFragment">
 
-    <TextView
-        android:id="@+id/timer_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/timer_time"
-        android:textColor="?android:textColorPrimary"
-        android:textSize="65sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="16dp" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
+        style="?attr/cardStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         app:cardCornerRadius="8dp"
-        app:cardUseCompatPadding="true"
-        app:layout_constraintTop_toBottomOf="@+id/timer_time"
-        tools:layout_editor_absoluteX="16dp">
 
-        <LinearLayout
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/timer_time"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <Spinner
-                android:id="@+id/timer_pains_select"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center" />
-
-
-            <Button
-                android:id="@+id/timer_startOrStop_button"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:text="@string/timer_start"
-                android:textSize="20sp"
-                app:backgroundTint="@color/button_play" />
-
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="15dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/timer_save_button"
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/save_button"
-                    android:textSize="20sp"
-                    app:backgroundTint="@color/button_save" />
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.05" />
-
-                <Button
-                    android:id="@+id/timer_delete_button"
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/delete_button"
-                    android:textSize="20sp"
-                    app:backgroundTint="@color/button_delete" />
-
-            </LinearLayout>
-
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="@string/timer_time"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="65sp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="16dp" />
 
     </androidx.cardview.widget.CardView>
+
+    <View
+        style="@style/Divider.Horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/timer_graph_description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timer_save_button" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
+        style="?attr/cardStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        app:cardCornerRadius="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/timer_startOrStop_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Spinner
+            android:id="@+id/timer_pains_select"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="left" />
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/timer_startOrStop_button"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:text="@string/timer_start"
+        android:textSize="20sp"
+        app:backgroundTint="@color/button_play"
+        app:layout_constraintBottom_toTopOf="@+id/timer_save_button"
+        tools:layout_editor_absoluteX="16dp" />
+
+
+    <ImageButton
+        android:id="@+id/timer_save_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="50dp"
+        android:src="@drawable/ic_save_icon"
+        app:layout_constraintBottom_toTopOf="@+id/timer_graph_description"
+        app:layout_constraintEnd_toStartOf="@+id/timer_delete_button" />
+
+    <ImageButton
+        android:id="@+id/timer_delete_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_delete_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/timer_save_button"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/timer_graph_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:text="@string/timer_graph_description"
-        app:layout_constraintStart_toStartOf="@+id/stats_duration_over_time"
-        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+        app:layout_constraintBottom_toTopOf="@+id/timer_stats_trend_icon"
+        app:layout_constraintStart_toStartOf="@+id/stats_duration_over_time" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/stats_duration_over_time"
@@ -117,8 +110,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_trend_flat"
-        app:layout_constraintStart_toStartOf="@+id/timer_graph_description"
-        app:layout_constraintTop_toBottomOf="@+id/timer_graph_description" />
+        app:layout_constraintBottom_toTopOf="@+id/stats_duration_over_time"
+        app:layout_constraintStart_toStartOf="@+id/timer_graph_description" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -93,7 +93,7 @@ public class TimerForegroundService extends Service {
     }
 
     private Bitmap getLargeIconBitmap() {
-        VectorDrawableCompat vectorDrawable = VectorDrawableCompat.create(getResources(), R.drawable.ic_headi_about, null);
+        VectorDrawableCompat vectorDrawable = VectorDrawableCompat.create(getResources(), R.drawable.ic_play_icon, null);
         vectorDrawable.setTint(ContextCompat.getColor(this, R.color.button_play));
 
         Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
