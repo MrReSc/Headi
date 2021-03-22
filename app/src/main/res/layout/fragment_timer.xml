@@ -17,16 +17,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="8dp"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/timer_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:gravity="center"
             android:text="@string/timer_time"
             android:textColor="?android:textColorPrimary"
@@ -37,10 +36,10 @@
     </androidx.cardview.widget.CardView>
 
     <View
+        android:id="@+id/view"
         style="@style/Divider.Horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/timer_graph_description"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timer_save_button" />
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
@@ -77,11 +76,11 @@
         android:id="@+id/timer_save_button"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="16dp"
         android:src="@drawable/ic_save_icon"
         android:backgroundTint="@color/button_save"
         android:tint="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/timer_graph_description"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toStartOf="@+id/timer_delete_button" />
 
     <ImageButton
@@ -98,15 +97,17 @@
         android:id="@+id/timer_graph_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="@string/timer_graph_description"
-        app:layout_constraintBottom_toTopOf="@+id/timer_stats_trend_icon"
-        app:layout_constraintStart_toStartOf="@+id/stats_duration_over_time" />
+        app:layout_constraintStart_toStartOf="@+id/stats_duration_over_time"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/stats_duration_over_time"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timer_stats_trend_icon"
         tools:layout_editor_absoluteX="16dp" />
 
     <ImageView
@@ -114,8 +115,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_trend_flat"
-        app:layout_constraintBottom_toTopOf="@+id/stats_duration_over_time"
-        app:layout_constraintStart_toStartOf="@+id/timer_graph_description" />
+        app:layout_constraintStart_toStartOf="@+id/timer_graph_description"
+        app:layout_constraintTop_toBottomOf="@+id/timer_graph_description" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.25"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.70"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

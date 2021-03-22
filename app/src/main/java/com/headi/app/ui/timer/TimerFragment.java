@@ -284,16 +284,22 @@ public class TimerFragment extends Fragment {
                 if (TimerForegroundService.elapsedTime == 0L) {
                     button_save.setEnabled(false);
                     button_delete.setEnabled(false);
+                    button_save.setImageAlpha(0x3F);
+                    button_delete.setImageAlpha(0x3F);
                 }
                 else {
                     button_save.setEnabled(true);
                     button_delete.setEnabled(true);
+                    button_save.setImageAlpha(0xFF);
+                    button_delete.setImageAlpha(0xFF);
                 }
                 break;
             case Constants.ACTION.START_ACTION:
             case Constants.ACTION.END_ACTION:
                 button_save.setEnabled(false);
                 button_delete.setEnabled(false);
+                button_save.setImageAlpha(0x3F);
+                button_delete.setImageAlpha(0x3F);
                 break;
             default:
                 break;

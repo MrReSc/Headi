@@ -42,15 +42,15 @@
                     android:layout_margin="8dp"
                     android:orientation="vertical">
 
-                    <com.github.mikephil.charting.charts.PieChart
-                        android:id="@+id/stats_pain_duration_ratio"
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp" />
-
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/stats_pain_duration_ratio_desc" />
+
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/stats_pain_duration_ratio"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp" />
 
                 </LinearLayout>
 
@@ -69,17 +69,17 @@
                     android:layout_height="match_parent"
                     android:layout_margin="8dp"
                     android:orientation="vertical">
-
-                    <com.github.mikephil.charting.charts.BarChart
-                        android:id="@+id/stats_count_strength_ratio"
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/stats_count_strength_ratio_desc" />
 
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/stats_count_strength_ratio"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp" />
+
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -97,15 +97,23 @@
                     android:layout_margin="8dp"
                     android:orientation="vertical">
 
-                    <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/stats_duration_over_time"
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp" />
-
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/stats_duration_over_time_desc" />
+
+                    <ImageView
+                        android:id="@+id/timer_stats_trend_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_trend_flat"
+                        app:layout_constraintStart_toStartOf="@+id/timer_graph_description"
+                        app:layout_constraintTop_toBottomOf="@+id/timer_graph_description" />
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/stats_duration_over_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

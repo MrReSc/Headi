@@ -2,6 +2,7 @@ package com.headi.app.ui.stats;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.icu.text.SimpleDateFormat;
@@ -15,12 +16,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.widget.ImageViewCompat;
 import androidx.fragment.app.Fragment;
 
+import com.headi.app.Constants;
 import com.headi.app.R;
 import com.headi.app.db.DiaryStats;
 import com.headi.app.db.HeadiDBContract;
@@ -242,5 +247,17 @@ public class StatsFragment extends Fragment {
 
         lineDurationOverTime.setData(diaryStats.getDurationOverTime());
         lineDurationOverTime.invalidate();
+
+        // set trend icon
+        ImageView timer_stats_trend_icon = view.findViewById(R.id.timer_stats_trend_icon);
+        ImageViewCompat.setImageTintList(timer_stats_trend_icon, ColorStateList.valueOf(Constants.MATERIAL_COLORS_500[2]));
+        if (diaryStats.trendSlope > 0) {
+            timer_stats_trend_icon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_trend_up, null));
+            ImageViewCompat.setImageTintList(timer_stats_trend_icon, ColorStateList.valueOf(Constants.MATERIAL_COLORS_500[0]));
+        }
+        else if (diaryStats.trendSlope < 0) {
+            timer_stats_trend_icon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_trend_down, null));
+            ImageViewCompat.setImageTintList(timer_stats_trend_icon, ColorStateList.valueOf(Constants.MATERIAL_COLORS_500[5]));
+        }
     }
 }
