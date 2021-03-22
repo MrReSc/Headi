@@ -8,6 +8,16 @@ Headi also offers a simple analysis of the recorded data. You can also export yo
 
 I do not have any commercial interests. The app was created for private use and is intended to be available to everyone.
 
+## Contribute
+Headi is an open source project. Your contributions are welcome. Below you will find some ways to help me:
+- Headi still needs translations. You can help to translate Headi into your language. All you have to do is create an account at [Crowdin](https://crwd.in/headi) and translate the texts.
+- Further analysis of the data in the app would be useful. If you have ideas, please share them. If you can code, you can implement them.
+- There is still some potential to improve the design :smirk:
+- If you are good at drawing, more beautiful pictures for the regions on the head would be very welcome.
+- An export function of the diary into a PDF that can be used for a visit to the doctor would also be a good function.
+- No unit tests have been implemented yet either. If you like programming tests, I would be happy to receive them.
+- With GitHub Actions you could implement CI/CD. That would also be great.
+
 ## Screenshots
 <p align="left">
   <img alt="Light" src="logo/playstore/screenshots/phone/Screenshot_1.jpg" width="30%">
@@ -30,17 +40,6 @@ I do not have any commercial interests. The app was created for private use and 
     &nbsp; &nbsp; &nbsp; &nbsp;
   <img alt="Dark" src="logo/playstore/screenshots/phone/Screenshot_7.jpg" width="30%">
 </p>
-
-
-## Contribute
-Headi is an open source project. Your contributions are welcome. Below you will find some ways to help me:
-- Headi still needs translations. You can help to translate Headi into your language. All you have to do is create an account at [Crowdin](https://crwd.in/headi) and translate the texts.
-- Further analysis of the data in the app would be useful. If you have ideas, please share them. If you can code, you can implement them.
-- There is still some potential to improve the design :smirk:
-- If you are good at drawing, more beautiful pictures for the regions on the head would be very welcome.
-- An export function of the diary into a PDF that can be used for a visit to the doctor would also be a good function.
-- No unit tests have been implemented yet either. If you like programming tests, I would be happy to receive them.
-- With GitHub Actions you could implement CI/CD. That would also be great.
 
 ## License
 ~~~
