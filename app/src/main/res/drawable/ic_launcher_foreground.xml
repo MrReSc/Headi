@@ -1,8 +1,10 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
-    android:viewportHeight="108">
+    android:viewportHeight="108"
+    tools:keep="@drawable/ic_launcher_foreground">
   <group android:scaleX="0.91"
       android:scaleY="0.91"
       android:translateX="4.86"

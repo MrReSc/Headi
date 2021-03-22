@@ -108,7 +108,8 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_trend_flat"
                         app:layout_constraintStart_toStartOf="@+id/timer_graph_description"
-                        app:layout_constraintTop_toBottomOf="@+id/timer_graph_description" />
+                        app:layout_constraintTop_toBottomOf="@+id/timer_graph_description"
+                        tools:ignore="ContentDescription" />
 
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/stats_duration_over_time"

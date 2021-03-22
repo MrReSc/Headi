@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <declare-styleable name = "cardStyle">
         <attr name="cardStyle" format="reference" />
     </declare-styleable>
 
-    <style name="Light" parent="Theme.AppCompat.NoActionBar">
+    <style name="Light" parent="Theme.AppCompat.NoActionBar" tools:keep="@style/Light">
         <item name="cardStyle">@style/CardView.Light</item>
     </style>
 
-    <style name="Dark" parent="Theme.AppCompat.NoActionBar">
+    <style name="Dark" parent="Theme.AppCompat.NoActionBar" tools:keep="@style/Dark">
         <item name="cardStyle">@style/CardView.Dark</item>
     </style>
 

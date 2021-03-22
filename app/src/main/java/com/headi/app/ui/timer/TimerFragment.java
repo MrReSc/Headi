@@ -34,7 +34,6 @@ import androidx.core.widget.ImageViewCompat;
 import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.headi.app.Constants;
@@ -185,14 +184,10 @@ public class TimerFragment extends Fragment {
         });
 
         // Save Button listener
-        button_save.setOnClickListener(v -> {
-            openSaveDialog();
-        });
+        button_save.setOnClickListener(v -> openSaveDialog());
 
         // Delete Button listener
-        button_delete.setOnClickListener(v -> {
-            timerForegroundServiceEndAction();
-        });
+        button_delete.setOnClickListener(v -> timerForegroundServiceEndAction());
 
         // Spinner selected listener
         pains_items.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -402,7 +397,7 @@ public class TimerFragment extends Fragment {
         });
 
         // add cancel button
-        builder.setNegativeButton(context.getString(R.string.cancel_button), (dialog, which) -> {dialog.dismiss();});
+        builder.setNegativeButton(context.getString(R.string.cancel_button), (dialog, which) -> dialog.dismiss());
 
         // add delete button
         builder.setNeutralButton(context.getString(R.string.delete_button), (dialog, which) -> timerForegroundServiceEndAction());

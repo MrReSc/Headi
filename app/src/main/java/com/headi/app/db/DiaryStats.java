@@ -1,13 +1,9 @@
 package com.headi.app.db;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
-import android.util.TypedValue;
 
 import com.headi.app.Constants;
 import com.github.mikephil.charting.charts.PieChart;
@@ -39,7 +35,7 @@ public class DiaryStats {
     private final Context context;
     private final SimpleDateFormat date_formatter = new SimpleDateFormat("E dd. MMM yyyy", Locale.getDefault());
     private static final long DAY_MILLS = 86400000L;
-    public static double trendSlope = 0;
+    public double trendSlope = 0;
 
     public DiaryStats(Context context, Cursor cursor) {
         this.cursor = cursor;

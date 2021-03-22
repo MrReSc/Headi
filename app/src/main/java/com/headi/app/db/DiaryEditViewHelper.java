@@ -20,6 +20,7 @@ import com.headi.app.R;
 
 import java.util.Locale;
 
+@SuppressWarnings("SpellCheckingInspection")
 public class DiaryEditViewHelper {
 
     private final Context context;

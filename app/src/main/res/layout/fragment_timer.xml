@@ -56,7 +56,7 @@
             android:id="@+id/timer_pains_select"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:gravity="left" />
+            android:gravity="start" />
 
     </androidx.cardview.widget.CardView>
 
@@ -81,7 +81,8 @@
         android:backgroundTint="@color/button_save"
         android:tint="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintEnd_toStartOf="@+id/timer_delete_button" />
+        app:layout_constraintEnd_toStartOf="@+id/timer_delete_button"
+        android:contentDescription="@string/save_button" />
 
     <ImageButton
         android:id="@+id/timer_delete_button"
@@ -91,7 +92,8 @@
         android:backgroundTint="@color/button_delete"
         android:tint="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/timer_save_button"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/delete_button" />
 
     <TextView
         android:id="@+id/timer_graph_description"
@@ -116,7 +118,8 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_trend_flat"
         app:layout_constraintStart_toStartOf="@+id/timer_graph_description"
-        app:layout_constraintTop_toBottomOf="@+id/timer_graph_description" />
+        app:layout_constraintTop_toBottomOf="@+id/timer_graph_description"
+        tools:ignore="ContentDescription"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
