@@ -15,8 +15,20 @@ I do not have any commercial interests. The app was created for private use and 
   <img alt="Dark" src="logo/playstore/screenshots/phone/Screenshot_1_2.jpg" width="30%">
     &nbsp; &nbsp; &nbsp; &nbsp;
   <img alt="Dark" src="logo/playstore/screenshots/phone/Screenshot_2.jpg" width="30%">
+</p>
+
+<p align="left">
+  <img alt="Light" src="logo/playstore/screenshots/phone/Screenshot_3.jpg" width="30%">
     &nbsp; &nbsp; &nbsp; &nbsp;
-  <img alt="Dark" src="logo/playstore/screenshots/phone/Screenshot_3.jpg" width="30%">
+  <img alt="Dark" src="logo/playstore/screenshots/phone/Screenshot_4.jpg" width="30%">
+    &nbsp; &nbsp; &nbsp; &nbsp;
+  <img alt="Dark" src="logo/playstore/screenshots/phone/Screenshot_5.jpg" width="30%">
+</p>
+
+<p align="left">
+  <img alt="Light" src="logo/playstore/screenshots/phone/Screenshot_6.jpg" width="30%">
+    &nbsp; &nbsp; &nbsp; &nbsp;
+  <img alt="Dark" src="logo/playstore/screenshots/phone/Screenshot_7.jpg" width="30%">
 </p>
 
 
