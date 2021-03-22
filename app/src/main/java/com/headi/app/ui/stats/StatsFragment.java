@@ -152,7 +152,7 @@ public class StatsFragment extends Fragment {
         registerDatePickerListeners(saveView);
 
         // add apply button
-        builder.setPositiveButton(context.getString(R.string.apply_button), (dialog, which) -> {
+        builder.setPositiveButton(context.getString(R.string.button_ok), (dialog, which) -> {
             String timeSelection = "";
             ArrayList<String> timeArgs = new ArrayList<>();
             String selection = "";

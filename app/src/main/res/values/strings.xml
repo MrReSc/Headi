@@ -34,10 +34,9 @@
     <string name="diary_strength_text">3 / 10</string>
     <string name="diary_filter_list">Filter list</string>
     <string name="title_diary_filter">Filter list</string>
-    <string name="apply_button">Apply</string>
     <string name="filter_from_hint">From date</string>
     <string name="filter_to_hint">To date</string>
-    <string name="remove_filter_button">Remove all filters</string>
+    <string name="remove_filter_button">Remove filters</string>
     <string name="add_new_item_title">Add new item</string>
     <string name="pieces">%1$s pcs of %2$s</string>
     <string name="medication_amount">0</string>

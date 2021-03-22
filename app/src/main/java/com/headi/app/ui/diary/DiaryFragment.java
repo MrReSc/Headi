@@ -115,7 +115,7 @@ public class DiaryFragment extends Fragment {
         registerDatePickerListeners(saveView);
 
         // add apply button
-        builder.setPositiveButton(context.getString(R.string.apply_button), (dialog, which) -> {
+        builder.setPositiveButton(context.getString(R.string.button_ok), (dialog, which) -> {
             String timeSelection = "";
             StringBuilder painSelection = new StringBuilder();
             ArrayList<String> timeArgs = new ArrayList<>();
