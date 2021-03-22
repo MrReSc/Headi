@@ -8,6 +8,18 @@ Headi also offers a simple analysis of the recorded data. You can also export yo
 
 I do not have any commercial interests. The app was created for private use and is intended to be available to everyone.
 
+## Screenshots
+<p align="left">
+  <img alt="Light" src="logo/playstore/screenshots/phone/Screenshot_1.jpg" width="30%">
+    &nbsp; &nbsp; &nbsp; &nbsp;
+  <img alt="Dark" src="logo/playstore/screenshots/phone/Screenshot_1_2.jpg" width="30%">
+    &nbsp; &nbsp; &nbsp; &nbsp;
+  <img alt="Dark" src="logo/playstore/screenshots/phone/Screenshot_2.jpg" width="30%">
+    &nbsp; &nbsp; &nbsp; &nbsp;
+  <img alt="Dark" src="logo/playstore/screenshots/phone/Screenshot_3.jpg" width="30%">
+</p>
+
+
 ## Contribute
 Headi is an open source project. Your contributions are welcome. Below you will find some ways to help me:
 - Headi still needs translations. You can help to translate Headi into your language. All you have to do is create an account at [Crowdin](https://crwd.in/headi) and translate the texts.
