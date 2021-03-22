@@ -12,7 +12,6 @@
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
         style="?attr/cardStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,7 +41,6 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView2"
         style="?attr/cardStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
