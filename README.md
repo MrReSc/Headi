@@ -12,6 +12,7 @@ I do not have any commercial interests. The app was created for private use and 
 
 ## Contribute
 Headi is an open source project. Your contributions are welcome. Below you will find some ways to help me:
+- I would like to publish the app on F-Droid. But I have no idea how that works.
 - Headi still needs translations. You can help to translate Headi into your language. All you have to do is create an account at [Crowdin](https://crwd.in/headi) and translate the texts.
 - Further analysis of the data in the app would be useful. If you have ideas, please share them. If you can code, you can implement them.
 - There is still some potential to improve the design :smirk:
