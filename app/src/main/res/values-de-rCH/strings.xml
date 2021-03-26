@@ -89,6 +89,6 @@
     <string name="no_data_available">Keine Daten verfügbar</string>
     <string name="title_no_pain_available">Keine Schmerzart vorhanden</string>
     <string name="ask_for_new_pain">Bitte fügen Sie mindestens eine Schmerzart hinzu.</string>
-    <string name="button_ok">Ok</string>
+    <string name="button_ok">OK</string>
     <string name="timer_graph_description">Verlauf in den letzten 14 Tagen</string>
 </resources>

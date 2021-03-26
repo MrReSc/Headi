@@ -45,6 +45,8 @@ public class DiaryEditViewHelper {
     private Calendar toCalUnedited;
     private SeekBar diary_edit_strength;
     private int med_selection;
+    private DatePickerDialog fromDatePickerDialog;
+    private DatePickerDialog toDatePickerDialog;
 
     public DiaryEditViewHelper(Context context, View view, long groupId) {
         this.context = context;
@@ -190,28 +192,28 @@ public class DiaryEditViewHelper {
         toCalUnedited.setTimeInMillis(toDateAndTimeUnedited);
 
         // Date picker
-        DatePickerDialog fromDatePickerDialog = new DatePickerDialog(context, (view12, year, monthOfYear, dayOfMonth) -> {
-            Calendar newDate = Calendar.getInstance();
-            newDate.set(year, monthOfYear, dayOfMonth, 0,0,0);
-            fromDate.setText(df.format(newDate.getTime()));
-            fromDateEdited = newDate.getTimeInMillis();
-        }, fromCalUnedited.get(Calendar.YEAR), fromCalUnedited.get(Calendar.MONTH), fromCalUnedited.get(Calendar.DAY_OF_MONTH));
-
-        DatePickerDialog toDatePickerDialog = new DatePickerDialog(context, (view1, year, monthOfYear, dayOfMonth) -> {
-            Calendar newDate = Calendar.getInstance();
-            newDate.set(year, monthOfYear, dayOfMonth, 0, 0, 0);
-            toDate.setText(df.format(newDate.getTime()));
-            toDateEdited = newDate.getTimeInMillis();
-        }, toCalUnedited.get(Calendar.YEAR), toCalUnedited.get(Calendar.MONTH), toCalUnedited.get(Calendar.DAY_OF_MONTH));
+        initDatePicker(fromDate, toDate);
 
         fromDate.setOnClickListener(v -> {
-            // TODO erneutes setzten des MaxDate funktioniert nicht
+            // It is necessary to reinitialise the DatePicker, otherwise it is not possible to set minDate and maxDate again.
+            initDatePicker(fromDate, toDate);
+            if (fromDateEdited != 0) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeInMillis(fromDateEdited);
+                fromDatePickerDialog.getDatePicker().updateDate(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+            }
             fromDatePickerDialog.getDatePicker().setMaxDate(toDateEdited != 0 ? toDateEdited : toDateAndTimeUnedited);
             fromDatePickerDialog.show();
         });
 
         toDate.setOnClickListener(v -> {
-            // TODO erneutes setzten des MinDate funktioniert nicht
+            // It is necessary to reinitialise the DatePicker, otherwise it is not possible to set minDate and maxDate again.
+            initDatePicker(fromDate, toDate);
+            if (toDateEdited != 0) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeInMillis(toDateEdited);
+                toDatePickerDialog.getDatePicker().updateDate(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+            }
             toDatePickerDialog.getDatePicker().setMinDate(fromDateEdited != 0 ? fromDateEdited : fromDateAndTimeUnedited);
             Calendar cal = Calendar.getInstance();
             toDatePickerDialog.getDatePicker().setMaxDate(cal.getTimeInMillis());
@@ -238,6 +240,22 @@ public class DiaryEditViewHelper {
         }, toCalUnedited.get(Calendar.HOUR_OF_DAY), toCalUnedited.get(Calendar.MINUTE), true);
 
         toTime.setOnClickListener(v -> toTimePickerDialog.show());
+    }
+
+    private void initDatePicker(TextView fromDate, TextView toDate) {
+        fromDatePickerDialog = new DatePickerDialog(context, (view12, year, monthOfYear, dayOfMonth) -> {
+            Calendar newDate = Calendar.getInstance();
+            newDate.set(year, monthOfYear, dayOfMonth, 0,0,0);
+            fromDate.setText(df.format(newDate.getTime()));
+            fromDateEdited = newDate.getTimeInMillis();
+        }, fromCalUnedited.get(Calendar.YEAR), fromCalUnedited.get(Calendar.MONTH), fromCalUnedited.get(Calendar.DAY_OF_MONTH));
+
+        toDatePickerDialog = new DatePickerDialog(context, (view1, year, monthOfYear, dayOfMonth) -> {
+            Calendar newDate = Calendar.getInstance();
+            newDate.set(year, monthOfYear, dayOfMonth, 0, 0, 0);
+            toDate.setText(df.format(newDate.getTime()));
+            toDateEdited = newDate.getTimeInMillis();
+        }, toCalUnedited.get(Calendar.YEAR), toCalUnedited.get(Calendar.MONTH), toCalUnedited.get(Calendar.DAY_OF_MONTH));
     }
 
     private void checkTimeForValidity(DatePickerDialog datePicker, long newTime, TextView timeTextView, Calendar newDate, String whichTime) {

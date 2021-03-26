@@ -133,6 +133,7 @@ public class TimerFragment extends Fragment {
     private void readFromStatsDB() {
         Context context = getActivity();
         TextView timer_graph_description = view.findViewById(R.id.timer_graph_description);
+        ImageView timer_stats_trend_icon = view.findViewById(R.id.timer_stats_trend_icon);
 
         // Time filter
         String selection = HeadiDBContract.Diary.COLUMN_START_DATE + " >= ? AND " + HeadiDBContract.Diary.COLUMN_END_DATE + " <= ?";
@@ -149,11 +150,11 @@ public class TimerFragment extends Fragment {
         else {
             lineDurationOverTime.setVisibility(View.INVISIBLE);
             timer_graph_description.setVisibility(View.INVISIBLE);
+            timer_stats_trend_icon.setVisibility(View.INVISIBLE);
         }
         lineDurationOverTime.invalidate();
 
         // set trend icon
-        ImageView timer_stats_trend_icon = view.findViewById(R.id.timer_stats_trend_icon);
         ImageViewCompat.setImageTintList(timer_stats_trend_icon, ColorStateList.valueOf(Constants.MATERIAL_COLORS_500[2]));
         if (diaryStats.trendSlope > 0) {
             timer_stats_trend_icon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_trend_up, null));
