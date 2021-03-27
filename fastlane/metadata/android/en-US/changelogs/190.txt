@@ -1,0 +1,4 @@
+* fastlane description adapted
+* fastlane icon replaced
+* "beta tag" to version added
+* versioning schema changed
