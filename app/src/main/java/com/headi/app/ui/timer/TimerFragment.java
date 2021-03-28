@@ -132,7 +132,6 @@ public class TimerFragment extends Fragment {
 
     private void readFromStatsDB() {
         Context context = getActivity();
-        TextView timer_graph_description = view.findViewById(R.id.timer_graph_description);
         ImageView timer_stats_trend_icon = view.findViewById(R.id.timer_stats_trend_icon);
 
         // Time filter

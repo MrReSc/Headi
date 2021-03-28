@@ -127,24 +127,6 @@ public class DiaryStats {
         return new BarData(dataSets);
     }
 
-    public boolean getDurationOverTimeDataAvailable() {
-        long startDate = 0;
-        long endDate = 0;
-
-        if (cursor.getCount() > 0) {
-            cursor.moveToLast();
-            startDate = getDateFromTimestamp(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
-            cursor.moveToFirst();
-            endDate = getDateFromTimestamp(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
-        }
-
-        return endDate > startDate + DAY_MILLS;
-    }
-
-    public LineData getDurationOverTime() {
-        return getDurationOverTime(false, false);
-    }
-
     public LineData getDurationOverTime(boolean isFourteenDayChart, boolean isFilterAvailable) {
         TreeMap<Long, Long> result = new TreeMap<>();
         ArrayList<Entry> entries = new ArrayList<>();
