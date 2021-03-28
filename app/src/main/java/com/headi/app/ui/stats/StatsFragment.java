@@ -50,7 +50,7 @@ public class StatsFragment extends Fragment {
     private PieChart piePainDurationRatio;
     private BarChart barCountStrengthRatio;
     private LineChart lineDurationOverTime;
-
+    private boolean isFilterSet;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -134,7 +134,7 @@ public class StatsFragment extends Fragment {
         yAxis = lineDurationOverTime.getAxisLeft();
         yAxis.setDrawGridLines(false);
         yAxis.setTextColor(UiHelper.getPrimaryTextColor(getActivity()));
-        yAxis.setAxisMinimum(-1f);
+        yAxis.setAxisMinimum(0f);
         lineDurationOverTime.getAxisRight().setDrawLabels(false);
     }
 
@@ -171,6 +171,7 @@ public class StatsFragment extends Fragment {
             }
 
             if (!selection.isEmpty()) {
+                isFilterSet = true;
                 readFromDB(selection, selectionArgs);
             }
         });
@@ -179,7 +180,10 @@ public class StatsFragment extends Fragment {
         builder.setNegativeButton(context.getString(R.string.cancel_button), (dialog, which) -> { });
 
         // add delete filter button
-        builder.setNeutralButton(context.getString(R.string.remove_filter_button), (dialog, which) -> readFromDB(null, null));
+        builder.setNeutralButton(context.getString(R.string.remove_filter_button), (dialog, which) -> {
+            isFilterSet = false;
+            readFromDB(null, null);
+        });
 
         // create and show the alert dialog
         AlertDialog dialog = builder.create();
@@ -226,7 +230,7 @@ public class StatsFragment extends Fragment {
         Context context = requireActivity();
         TextView fromAndTo = view.findViewById(R.id.stats_date_from_to);
         String from = diaryStats.getStatsFromDate();
-        String to = diaryStats.getStatsToDate();
+        String to = diaryStats.getStatsToDate(isFilterSet);
         fromAndTo.setText(context.getString(R.string.from_to, from, to));
         if (diaryStats.getStatsFromDate().equals("0")) {
             fromAndTo.setText(context.getString(R.string.no_data_available));
@@ -242,7 +246,7 @@ public class StatsFragment extends Fragment {
         barCountStrengthRatio.setFitBars(true);
         barCountStrengthRatio.invalidate();
 
-        lineDurationOverTime.setData(diaryStats.getDurationOverTime());
+        lineDurationOverTime.setData(diaryStats.getDurationOverTime(false, isFilterSet));
         lineDurationOverTime.invalidate();
 
         // set trend icon

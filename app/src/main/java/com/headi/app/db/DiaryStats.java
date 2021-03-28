@@ -142,10 +142,10 @@ public class DiaryStats {
     }
 
     public LineData getDurationOverTime() {
-        return getDurationOverTime(false);
+        return getDurationOverTime(false, false);
     }
 
-    public LineData getDurationOverTime(boolean isFourteenDayChart) {
+    public LineData getDurationOverTime(boolean isFourteenDayChart, boolean isFilterAvailable) {
         TreeMap<Long, Long> result = new TreeMap<>();
         ArrayList<Entry> entries = new ArrayList<>();
         ArrayList<Entry> entriesTrendLine = new ArrayList<>();
@@ -167,9 +167,15 @@ public class DiaryStats {
                 result.put(i, 0L);
             }
         }
-        else {
+        else if (isFilterAvailable) {
             // generate list for every day between start and end date
             for (long i = startDate; i <= endDate; i += DAY_MILLS ) {
+                result.put(i, 0L);
+            }
+        }
+        else {
+            // generate list for every day between start and today date
+            for (long i = startDate; i <= todayDate; i += DAY_MILLS ) {
                 result.put(i, 0L);
             }
         }
@@ -265,10 +271,13 @@ public class DiaryStats {
         return "0";
     }
 
-    public String getStatsToDate() {
-        if (cursor.getCount() > 0) {
+    public String getStatsToDate(boolean isFilterSet) {
+        if (cursor.getCount() > 0 && isFilterSet) {
             cursor.moveToFirst();
             return date_formatter.format(new Date(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE))));
+        }
+        else if (cursor.getCount() > 0 && !isFilterSet) {
+            return date_formatter.format(System.currentTimeMillis());
         }
         return "0";
     }

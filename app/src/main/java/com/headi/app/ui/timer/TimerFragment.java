@@ -144,16 +144,7 @@ public class TimerFragment extends Fragment {
         HeadiDBSQLiteHelper helper = new HeadiDBSQLiteHelper(context);
         DiaryStats diaryStats = helper.readDiaryStatsFromDB(context, selection, selectionArgs);
 
-        lineDurationOverTime.setData(diaryStats.getDurationOverTime(true));
-
-        /*if (diaryStats.getDurationOverTimeDataAvailable()){
-            lineDurationOverTime.setData(diaryStats.getDurationOverTime(true));
-        }
-        else {
-            lineDurationOverTime.setVisibility(View.INVISIBLE);
-            timer_graph_description.setVisibility(View.INVISIBLE);
-            timer_stats_trend_icon.setVisibility(View.INVISIBLE);
-        }*/
+        lineDurationOverTime.setData(diaryStats.getDurationOverTime(true, false));
         lineDurationOverTime.invalidate();
 
         // set trend icon
