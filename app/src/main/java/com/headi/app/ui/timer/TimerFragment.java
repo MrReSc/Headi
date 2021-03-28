@@ -126,7 +126,7 @@ public class TimerFragment extends Fragment {
         YAxis yAxis = lineDurationOverTime.getAxisLeft();
         yAxis.setDrawGridLines(false);
         yAxis.setTextColor(UiHelper.getPrimaryTextColor(getActivity()));
-        yAxis.setAxisMinimum(-1f);
+        yAxis.setAxisMinimum(0f);
         lineDurationOverTime.getAxisRight().setDrawLabels(false);
     }
 
@@ -137,21 +137,23 @@ public class TimerFragment extends Fragment {
 
         // Time filter
         String selection = HeadiDBContract.Diary.COLUMN_START_DATE + " >= ? AND " + HeadiDBContract.Diary.COLUMN_END_DATE + " <= ?";
-        String from = Long.toString(System.currentTimeMillis());
-        String to = Long.toString(System.currentTimeMillis() - 1209600000L); // 14 days
-        String[] selectionArgs = {to, from};
+        String to = Long.toString(System.currentTimeMillis());
+        String from = Long.toString(System.currentTimeMillis() - 1209600000L); // 14 days
+        String[] selectionArgs = {from, to};
 
         HeadiDBSQLiteHelper helper = new HeadiDBSQLiteHelper(context);
         DiaryStats diaryStats = helper.readDiaryStatsFromDB(context, selection, selectionArgs);
 
-        if (diaryStats.getDurationOverTimeDataAvailable()){
-            lineDurationOverTime.setData(diaryStats.getDurationOverTime());
+        lineDurationOverTime.setData(diaryStats.getDurationOverTime(true));
+
+        /*if (diaryStats.getDurationOverTimeDataAvailable()){
+            lineDurationOverTime.setData(diaryStats.getDurationOverTime(true));
         }
         else {
             lineDurationOverTime.setVisibility(View.INVISIBLE);
             timer_graph_description.setVisibility(View.INVISIBLE);
             timer_stats_trend_icon.setVisibility(View.INVISIBLE);
-        }
+        }*/
         lineDurationOverTime.invalidate();
 
         // set trend icon

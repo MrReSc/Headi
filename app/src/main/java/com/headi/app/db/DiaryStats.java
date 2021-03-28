@@ -35,6 +35,7 @@ public class DiaryStats {
     private final Context context;
     private final SimpleDateFormat date_formatter = new SimpleDateFormat("E dd. MMM yyyy", Locale.getDefault());
     private static final long DAY_MILLS = 86400000L;
+    private static final long FOURTEEN_DAYS_MILLS = 1209600000L;
     public double trendSlope = 0;
 
     public DiaryStats(Context context, Cursor cursor) {
@@ -141,11 +142,17 @@ public class DiaryStats {
     }
 
     public LineData getDurationOverTime() {
+        return getDurationOverTime(false);
+    }
+
+    public LineData getDurationOverTime(boolean isFourteenDayChart) {
         TreeMap<Long, Long> result = new TreeMap<>();
         ArrayList<Entry> entries = new ArrayList<>();
         ArrayList<Entry> entriesTrendLine = new ArrayList<>();
         long startDate = 0;
         long endDate = 0;
+        long todayDate = getDateFromTimestamp(System.currentTimeMillis());
+        long fourteenDaysAgoDate = getDateFromTimestamp(todayDate - FOURTEEN_DAYS_MILLS);
 
         if (cursor.getCount() > 0) {
             cursor.moveToLast();
@@ -154,9 +161,17 @@ public class DiaryStats {
             endDate = getDateFromTimestamp(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)));
         }
 
-        // generate list for every day between start and end date
-        for (long i = startDate; i <= endDate; i += DAY_MILLS ) {
-            result.put(i, 0L);
+        if (isFourteenDayChart) {
+            // generate list for every day between today-14d and today date
+            for (long i = fourteenDaysAgoDate; i <= todayDate; i += DAY_MILLS ) {
+                result.put(i, 0L);
+            }
+        }
+        else {
+            // generate list for every day between start and end date
+            for (long i = startDate; i <= endDate; i += DAY_MILLS ) {
+                result.put(i, 0L);
+            }
         }
 
         cursor.moveToPosition(-1);
