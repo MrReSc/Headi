@@ -4,7 +4,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.pdf.PdfDocument;
+import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
+import android.view.View;
+import android.widget.ExpandableListAdapter;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -15,11 +23,16 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.Date;
+import java.util.Locale;
 
 public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
+
+    private final SimpleDateFormat date_formatter = new SimpleDateFormat("E dd. MMM yyyy", Locale.getDefault());
 
     private static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "headi_database";
@@ -393,5 +406,124 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
             Toast.makeText(context, context.getString(R.string.restore_error), Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
+    }
+
+    public void exportDiaryToPdf(Context context, Uri path, String selection, String[] selectionArgs) {
+
+        SQLiteDatabase database = new HeadiDBSQLiteHelper(context).getReadableDatabase();
+
+        String[] projection = {
+                HeadiDBContract.Diary._ID,
+                HeadiDBContract.Diary.COLUMN_DURATION,
+                HeadiDBContract.Diary.COLUMN_END_DATE,
+                HeadiDBContract.Diary.COLUMN_PAIN,
+                HeadiDBContract.Diary.COLUMN_STRENGTH,
+                HeadiDBContract.Diary.COLUMN_MEDICATION,
+                HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT,
+                HeadiDBContract.Diary.COLUMN_START_DATE,
+                HeadiDBContract.Diary.COLUMN_DESCRIPTION,
+                HeadiDBContract.Diary.COLUMN_REGION,
+        };
+
+        String orderBy = HeadiDBContract.Diary.COLUMN_START_DATE + " ASC";
+
+        Cursor cursor = database.query(
+                HeadiDBContract.Diary.TABLE_NAME,         // The table to query
+                projection,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                null,                             // don't group the rows
+                null,                              // don't filter by row groups
+                orderBy                                   // sort
+        );
+
+        // from and to date
+        String from = "0";
+        String to = "0";
+        if (selectionArgs != null) {
+            from = selectionArgs[0];
+            to = selectionArgs[1];
+        }
+        else if (cursor.getCount() > 0) {
+            cursor.moveToLast();
+            to = date_formatter.format(new Date(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE))));
+            cursor.moveToFirst();
+            from = date_formatter.format(new Date(cursor.getLong(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE))));
+        }
+
+        Paint pdfPaint = new Paint();
+        pdfPaint.setFakeBoldText(false);
+        pdfPaint.setColor(Color.BLACK);
+
+        // create a new document
+        PdfDocument document = new PdfDocument();
+
+        // create a page description
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(842, 595, 1).create();
+
+        // start a page
+        PdfDocument.Page page = document.startPage(pageInfo);
+        Canvas canvas = page.getCanvas();
+
+        // table columns
+        float dateToTab = 150;
+
+        // PDF margin defaults
+        float pdfHeaderTop = 30;
+        float pdfHeaderBottom = 50;
+        float pdfDataTop = 70;
+        float pdfLineSpacing = 15;
+        float pdfLeftBorder = 10;
+        float pdfTimeTab = 85; // Left offset for time
+        float pdfDataTab = 150;
+
+        float pdfRightBorder = canvas.getWidth() - pdfLeftBorder;
+        float pdfFooterTop = canvas.getHeight() - pdfHeaderBottom;
+        float pdfFooterBottom = pdfFooterTop + pdfHeaderTop;
+
+        float pdfDataBottom = canvas.getHeight() - pdfLineSpacing;
+
+        // calc required pages
+        int dataRowsCount = cursor.getCount();
+        float pageSize = pdfFooterTop - pdfDataTop;
+        int rowsPerPage = (int) (pageSize / pdfLineSpacing);
+        int requiredPages = (int) Math.ceil((double) dataRowsCount / (double) rowsPerPage);
+
+
+        for (int i = 1; i <= requiredPages; i++) {
+            if (i > 1) {
+                page = document.startPage(pageInfo);
+                canvas = page.getCanvas();
+            }
+
+            // header
+            canvas.drawText(context.getString(R.string.diary_export_header, from, to), pdfLeftBorder, pdfHeaderTop, pdfPaint);
+            canvas.drawLine(pdfLeftBorder, pdfHeaderBottom, pdfRightBorder, pdfHeaderBottom, pdfPaint);
+
+            // footer
+            canvas.drawText(context.getString(R.string.diary_export_footer, Integer.toString(i), Integer.toString(requiredPages), date_formatter.format(System.currentTimeMillis())), pdfLeftBorder, pdfFooterBottom, pdfPaint);
+            canvas.drawLine(pdfLeftBorder, pdfFooterTop, pdfRightBorder, pdfFooterTop, pdfPaint);
+
+            // data header
+            canvas.drawText(context.getString(R.string.diary_export_data_header_start), pdfLeftBorder, pdfDataTop, pdfPaint);
+            canvas.drawText(context.getString(R.string.diary_export_data_header_end), dateToTab, pdfDataTop, pdfPaint);
+
+
+
+            // finish the page
+            document.finishPage(page);
+
+
+        }
+
+        // write the document content
+        try {
+            document.writeTo(context.getContentResolver().openOutputStream(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // close the document
+        document.close();
     }
 }

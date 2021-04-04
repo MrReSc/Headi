@@ -1,10 +1,18 @@
 package com.headi.app.ui.diary;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.pdf.PdfDocument;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -14,7 +22,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -28,7 +39,10 @@ import com.headi.app.db.HeadiDBContract;
 import com.headi.app.db.HeadiDBSQLiteHelper;
 import com.headi.app.db.PainsCourserCheckboxAdapter;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 public class DiaryFragment extends Fragment {
@@ -40,11 +54,13 @@ public class DiaryFragment extends Fragment {
     private String toDateFilter;
     private DatePickerDialog fromDatePickerDialog;
     private DatePickerDialog toDatePickerDialog;
+    private View view;
+    private static final int FILE_CREATE_PDF = 5;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_diary, container, false);
+        view = inflater.inflate(R.layout.fragment_diary, container, false);
         DiaryItems = view.findViewById(R.id.diary_list);
         setHasOptionsMenu(true);
 
@@ -72,7 +88,37 @@ public class DiaryFragment extends Fragment {
             openFilterDialog();
             return true;
         }
+
+        if (item.getItemId() == R.id.action_diary_export_pdf) {
+            exportDiaryAsPdf();
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void exportDiaryAsPdf() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
+        String outFileName = sdf.format(new Date()) + "_headi_diary.pdf";
+
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("application/pdf");
+        intent.putExtra(Intent.EXTRA_TITLE, outFileName);
+
+        startActivityForResult(intent, FILE_CREATE_PDF);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+
+        if (requestCode == FILE_CREATE_PDF && resultCode == Activity.RESULT_OK) {
+            if (resultData != null) {
+                Uri uri = resultData.getData();
+                HeadiDBSQLiteHelper helper = new HeadiDBSQLiteHelper(getActivity());
+                helper.exportDiaryToPdf(getActivity(), uri, null, null);
+            }
+        }
     }
 
     @Override

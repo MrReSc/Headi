@@ -4,8 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_diary_export_pdf"
+        android:icon="@drawable/ic_menu_pdf"
+        app:showAsAction="ifRoom"
+        android:title="@string/diary_export_pdf" />
+
+    <item
         android:id="@+id/action_diary_filter_list"
         android:icon="@drawable/ic_menu_filter_list"
         app:showAsAction="ifRoom"
         android:title="@string/diary_filter_list" />
+
 </menu>

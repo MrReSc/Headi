@@ -90,4 +90,9 @@
     <string name="ask_for_new_pain">Please add at least one type of pain.</string>
     <string name="button_ok">OK</string>
     <string name="timer_graph_description">Trend over the last 14 days</string>
+    <string name="diary_export_pdf">Export diary as PDF</string>
+    <string name="diary_export_header">Headache diary export: %1$s - %2$s</string>
+    <string name="diary_export_footer">Page %1$s / %2$s | Export date: %3$s</string>
+    <string name="diary_export_data_header_start">Start</string>
+    <string name="diary_export_data_header_end">End</string>
 </resources>
