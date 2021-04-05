@@ -89,6 +89,17 @@
     <string name="no_data_available">Keine Daten verfügbar</string>
     <string name="title_no_pain_available">Keine Schmerzart vorhanden</string>
     <string name="ask_for_new_pain">Bitte fügen Sie mindestens eine Schmerzart hinzu.</string>
-    <string name="button_ok">OK</string>
+    <string name="button_ok">Ok</string>
     <string name="timer_graph_description">Verlauf in den letzten 14 Tagen</string>
+    <string name="diary_export_pdf">Export diary as PDF</string>
+    <string name="diary_export_header">Headache diary export: %1$s - %2$s</string>
+    <string name="diary_export_footer">Page %1$s / %2$s | Export date: %3$s</string>
+    <string name="diary_export_data_no">#%1$s</string>
+    <string name="diary_export_data_time_from">from: %1$s</string>
+    <string name="diary_export_data_time_to">to: %1$s</string>
+    <string name="diary_export_data_duration">duration: %1$s</string>
+    <string name="diary_export_data_medication">medication: %1$s</string>
+    <string name="diary_export_data_pain_and_strength">pain: %1$s (strength: %2$s)</string>
+    <string name="diary_export_data_description">description: %1$s</string>
+    <string name="pdf_export_finished">PDF export finished</string>
 </resources>
