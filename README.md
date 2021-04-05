@@ -7,6 +7,7 @@
 Headi (Headache Diary) is a privacy-friendly app to log your headaches.  
 No data is transferred to any cloud services. All data is stored locally only.  
 Headi also offers a simple analysis of the recorded data. You can also export your logs as a CSV file for further analysis of the data.
+To save your records you can also export your whole diary, or just parts of it, as a PDF.
 
 I do not have any commercial interests. The app was created for private use and is intended to be available to everyone.
 
@@ -17,7 +18,7 @@ Headi is an open source project. Your contributions are welcome. Below you will 
 - [ ] Further analysis of the data in the app would be useful. If you have ideas, please share them. If you can code, you can implement them.
 - [ ] There is still some potential to improve the design :smirk:
 - [ ] If you are good at drawing, more beautiful pictures for the regions on the head would be very welcome.
-- [ ] An export function of the diary into a PDF that can be used for a visit to the doctor would also be a good function.
+- [x] An export function of the diary into a PDF that can be used for a visit to the doctor would also be a good function.
 - [ ] No unit tests have been implemented yet either. If you like programming tests, I would be happy to receive them.
 - [ ] With GitHub Actions you could implement CI/CD. That would also be great.
 

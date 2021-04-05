@@ -1,3 +1,4 @@
 Headi (Headache Diary) ist eine datenschutzfreundliche App zum protokollieren Ihrer Kopfschmerzen.
 Es werden keine Daten an irgendwelche Cloud-Dienste übertragen. Alle Daten werden nur lokal gespeichert. Headi bietet auch eine einfache Analyse der aufgezeichneten Daten. 
 Sie können Ihre Protokolle auch als CSV-Datei zur weiteren Analyse der Daten exportieren.
+Um deine Aufzeichnungen zu speichern kannst du auch dein ganzes Tagebuch, oder auch nur Teile davon, als PDF exportieren.
