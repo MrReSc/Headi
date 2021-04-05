@@ -279,6 +279,7 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
                     HeadiDBContract.Diary.COLUMN_MEDICATION,
                     HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT,
                     HeadiDBContract.Diary.COLUMN_START_DATE,
+                    HeadiDBContract.Diary.COLUMN_DESCRIPTION,
             };
 
             String orderBy = HeadiDBContract.Diary.COLUMN_START_DATE + " ASC";
@@ -303,7 +304,8 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
                     HeadiDBContract.Diary.COLUMN_DURATION + "," +
                     HeadiDBContract.Diary.COLUMN_STRENGTH + "," +
                     HeadiDBContract.Diary.COLUMN_MEDICATION + "," +
-                    HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT;
+                    HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT + "," +
+                    HeadiDBContract.Diary.COLUMN_DESCRIPTION;
 
             writer.write(header);
             writer.newLine();
@@ -316,7 +318,8 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DURATION)) + "," +
                         cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_STRENGTH)) + "," +
                         cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_MEDICATION)) + "," +
-                        cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT));
+                        cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT)) + "," +
+                        cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DESCRIPTION));
 
                 writer.write(data);
                 writer.newLine();
