@@ -10,8 +10,8 @@ android {
         applicationId "com.headi.app"
         minSdkVersion 26
         targetSdkVersion 30
-        versionCode 191
-        versionName "1.9.1-beta"
+        versionCode 1100
+        versionName "1.10.0-beta"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
