@@ -5,11 +5,6 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.pdf.PdfDocument;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.net.Uri;
@@ -22,11 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -39,8 +32,6 @@ import com.headi.app.db.HeadiDBContract;
 import com.headi.app.db.HeadiDBSQLiteHelper;
 import com.headi.app.db.PainsCourserCheckboxAdapter;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -54,13 +45,14 @@ public class DiaryFragment extends Fragment {
     private String toDateFilter;
     private DatePickerDialog fromDatePickerDialog;
     private DatePickerDialog toDatePickerDialog;
-    private View view;
     private static final int FILE_CREATE_PDF = 5;
+    private String selection = "";
+    private String[] selectionArgs = new String[0];
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_diary, container, false);
+        View view = inflater.inflate(R.layout.fragment_diary, container, false);
         DiaryItems = view.findViewById(R.id.diary_list);
         setHasOptionsMenu(true);
 
@@ -116,7 +108,25 @@ public class DiaryFragment extends Fragment {
             if (resultData != null) {
                 Uri uri = resultData.getData();
                 HeadiDBSQLiteHelper helper = new HeadiDBSQLiteHelper(getActivity());
-                helper.exportDiaryToPdf(getActivity(), uri, null, null);
+
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        if (selection.isEmpty()) {
+                            helper.exportDiaryToPdf(getActivity(), uri, null, null);
+                        }
+                        else {
+                            helper.exportDiaryToPdf(getActivity(), uri, selection, selectionArgs);
+                        }
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getActivity(), getActivity().getString(R.string.pdf_export_finished), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                };
+                new Thread(runnable).start();
             }
         }
     }
@@ -166,9 +176,6 @@ public class DiaryFragment extends Fragment {
             StringBuilder painSelection = new StringBuilder();
             ArrayList<String> timeArgs = new ArrayList<>();
             ArrayList<String> painArgs = new ArrayList<>();
-            String selection = "";
-            String[] selectionArgs = new String[0];
-
 
             // time filter is set
             if (fromDateFilter != null && toDateFilter != null) {

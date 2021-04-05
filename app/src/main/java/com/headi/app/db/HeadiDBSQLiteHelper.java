@@ -4,12 +4,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
 import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -439,8 +443,8 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         String from = "0";
         String to = "0";
         if (selectionArgs != null) {
-            from = selectionArgs[0];
-            to = selectionArgs[1];
+            from = df.format(new Date(Long.parseLong(selectionArgs[0])));
+            to = df.format(new Date(Long.parseLong(selectionArgs[1])));
             cursor.moveToFirst();
         }
         else if (cursor.getCount() > 0) {
@@ -470,9 +474,6 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         PdfDocument.Page page = document.startPage(pageInfo);
         Canvas canvas = page.getCanvas();
 
-        // table columns
-        float dateToTab = 150;
-
         // PDF margin defaults
         float pdfHeaderTop = 30;
         float pdfHeaderBottom = 50;
@@ -481,7 +482,7 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         float pdfLeftBorder = 10;
         float pdfDataTab = 45;
         float pdfInfoTab = 150;
-        float pdfImageTab = 405;
+        float pdfImageTab = 450;
         float textOffset = 3;
         float pdfDataTextTab = pdfDataTab + textOffset;
         float pdfInfoTextTab = pdfInfoTab + textOffset;
@@ -489,7 +490,6 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
         float pdfRightBorder = canvas.getWidth() - pdfLeftBorder;
         float pdfFooterTop = canvas.getHeight() - pdfHeaderBottom;
         float pdfFooterBottom = pdfFooterTop + pdfHeaderTop;
-        float pdfDataBottom = canvas.getHeight() - pdfLineSpacing;
 
         // calc required pages
         int dataRowsCount = cursor.getCount();
@@ -531,16 +531,20 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
             String description = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DESCRIPTION));
             String medication = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_MEDICATION));
             String medication_amount = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT));
+            String pain = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_PAIN));
             String strength = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_STRENGTH));
-
+            String strength_text = context.getString(R.string.strength_of_10, strength);
+            byte[] region_blob = cursor.getBlob(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_REGION));
             cursor.moveToNext();
 
             // 1st column
             canvas.drawText(context.getString(R.string.diary_export_data_no, Integer.toString(i)), pdfLeftBorder, textRow1, pdfPaint);
+
             // 2nd column
             canvas.drawText(startDate, pdfDataTextTab, textRow1, pdfPaint);
             canvas.drawText(context.getString(R.string.diary_export_data_time_from, fromTime), pdfDataTextTab, textRow2, pdfPaint);
             canvas.drawText(context.getString(R.string.diary_export_data_time_to, toTime), pdfDataTextTab, textRow3, pdfPaint);
+
             // 3rd column
             canvas.drawText(context.getString(R.string.diary_export_data_duration, duration), pdfInfoTextTab, textRow1, pdfPaint);
             if (medication.isEmpty() || medication_amount.equals("0") || medication_amount.equals("null")) {
@@ -550,9 +554,23 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
                 String med = context.getString(R.string.pieces, medication_amount, medication);
                 canvas.drawText(context.getString(R.string.diary_export_data_medication, med), pdfInfoTextTab, textRow2, pdfPaint);
             }
+            canvas.drawText(context.getString(R.string.diary_export_data_pain_and_strength, pain, strength_text), pdfInfoTextTab, textRow3, pdfPaint);
 
+            // 4th column
+            Bitmap region = BitmapFactory.decodeByteArray(region_blob, 0, region_blob.length);
+            ImageView region_view = new ImageView(context);
+            region_view.setImageBitmap(region);
+            Drawable drawable = region_view.getDrawable();
+            drawable.setBounds((int) pdfRightBorder - 130, (int) row0 + 5, (int) pdfRightBorder, (int) row0 + 75);
+            drawable.draw(canvas);
 
-
+            // description row
+            if (description.isEmpty()) {
+                canvas.drawText(context.getString(R.string.diary_export_data_description, context.getString(R.string.none)), pdfDataTextTab, textRow4, pdfPaint);
+            }
+            else {
+                canvas.drawText(context.getString(R.string.diary_export_data_description, description), pdfDataTextTab, textRow4, pdfPaint);
+            }
 
             // finish page needed if last row of page or last row in stack
             if (lastRow || i == dataRowsCount) {
@@ -564,7 +582,6 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
 
                 // footer
                 canvas.drawText(context.getString(R.string.diary_export_footer, Integer.toString(currentPage), Integer.toString(requiredPages), df.format(System.currentTimeMillis())), pdfLeftBorder, pdfFooterBottom, pdfHeader);
-                canvas.drawLine(pdfLeftBorder, pdfFooterTop, pdfRightBorder, pdfFooterTop, pdfHeader);
 
                 // finish the page
                 document.finishPage(page);

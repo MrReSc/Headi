@@ -100,4 +100,7 @@
     <string name="diary_export_data_time_to">to: %1$s</string>
     <string name="diary_export_data_duration">duration: %1$s</string>
     <string name="diary_export_data_medication">medication: %1$s</string>
+    <string name="diary_export_data_pain_and_strength">pain: %1$s (strength: %2$s)</string>
+    <string name="diary_export_data_description">description: %1$s</string>
+    <string name="pdf_export_finished">PDF export finished</string>
 </resources>
