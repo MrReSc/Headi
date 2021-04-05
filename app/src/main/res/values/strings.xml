@@ -95,4 +95,9 @@
     <string name="diary_export_footer">Page %1$s / %2$s | Export date: %3$s</string>
     <string name="diary_export_data_header_start">Start</string>
     <string name="diary_export_data_header_end">End</string>
+    <string name="diary_export_data_no">#%1$s</string>
+    <string name="diary_export_data_time_from">from: %1$s</string>
+    <string name="diary_export_data_time_to">to: %1$s</string>
+    <string name="diary_export_data_duration">duration: %1$s</string>
+    <string name="diary_export_data_medication">medication: %1$s</string>
 </resources>
