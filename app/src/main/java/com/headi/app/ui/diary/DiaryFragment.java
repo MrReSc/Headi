@@ -109,22 +109,15 @@ public class DiaryFragment extends Fragment {
                 Uri uri = resultData.getData();
                 HeadiDBSQLiteHelper helper = new HeadiDBSQLiteHelper(getActivity());
 
-                Runnable runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        if (selection.isEmpty()) {
-                            helper.exportDiaryToPdf(getActivity(), uri, null, null);
-                        }
-                        else {
-                            helper.exportDiaryToPdf(getActivity(), uri, selection, selectionArgs);
-                        }
-
-                        getActivity().runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(getActivity(), getActivity().getString(R.string.pdf_export_finished), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                Runnable runnable = () -> {
+                    if (selection.isEmpty()) {
+                        helper.exportDiaryToPdf(getActivity(), uri, null, null);
                     }
+                    else {
+                        helper.exportDiaryToPdf(getActivity(), uri, selection, selectionArgs);
+                    }
+
+                    getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), getActivity().getString(R.string.pdf_export_finished), Toast.LENGTH_SHORT).show());
                 };
                 new Thread(runnable).start();
             }
