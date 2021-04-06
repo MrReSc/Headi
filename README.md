@@ -1,15 +1,19 @@
 # Headi
 
-<p align="center">
-  <img alt="Light" src="fastlane/metadata/android/en-US/images/featureGraphic.png" width="100%">
-</p>
-
 Headi (Headache Diary) is a privacy-friendly app to log your headaches.  
 No data is transferred to any cloud services. All data is stored locally only.  
 Headi also offers a simple analysis of the recorded data. You can also export your logs as a CSV file for further analysis of the data.
 To save your records you can also export your whole diary, or just parts of it, as a PDF.
 
 I do not have any commercial interests. The app was created for private use and is intended to be available to everyone.
+
+## Install
+
+You can download Headi from F-Droid Store or from the this [repository](https://github.com/MrReSc/Headi/releases).
+
+The apk from the F-Droid store is signed by F-Droid and the one on GuitHub is signed by me. There is no crossupdate possible because the apk's are signed differently.
+
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" height="75" alt="Get it on F-Droid">](https://f-droid.org/packages/com.headi.app/)
 
 ## Contribute
 Headi is an open source project. Your contributions are welcome. Below you will find some ways to help me:
