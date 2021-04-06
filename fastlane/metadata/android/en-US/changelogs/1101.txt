@@ -1,0 +1,1 @@
+* automatic cloud backup from android disabled
