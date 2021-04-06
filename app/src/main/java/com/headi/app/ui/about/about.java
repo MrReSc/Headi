@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.Gravity;
@@ -15,8 +16,6 @@ import android.view.ViewGroup;
 import com.headi.app.BuildConfig;
 import com.headi.app.R;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Calendar;
 
 import mehdi.sakout.aboutpage.AboutPage;
@@ -25,7 +24,7 @@ import mehdi.sakout.aboutpage.Element;
 public class about extends Fragment {
 
     @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         Element versionElement = new Element();
