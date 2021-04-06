@@ -1,5 +1,0 @@
-short desc: Headi (Headache Diary) is a privacy-friendly app to log your headaches.
-
-long desc: Headi (Headache Diary) is a privacy-friendly app to log your headaches.
-No data is transferred to any cloud services. All data is stored locally only.
-Headi also offers a simple analysis of the recorded data. You can also export your logs as a CSV file for further analysis of the data.

@@ -24,25 +24,25 @@ Headi is an open source project. Your contributions are welcome. Below you will 
 
 ## Screenshots
 <p align="left">
-  <img alt="Light" src="logo/playstore/screenshots/phone/Screenshot_1.jpg" width="30%">
+  <img alt="Light" src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="30%">
     &nbsp; &nbsp; &nbsp; &nbsp;
-  <img alt="Dark" src="logo/playstore/screenshots/phone/Screenshot_1_2.jpg" width="30%">
+  <img alt="Dark" src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width="30%">
     &nbsp; &nbsp; &nbsp; &nbsp;
-  <img alt="Dark" src="logo/playstore/screenshots/phone/Screenshot_2.jpg" width="30%">
+  <img alt="Dark" src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg" width="30%">
 </p>
 
 <p align="left">
-  <img alt="Light" src="logo/playstore/screenshots/phone/Screenshot_3.jpg" width="30%">
+  <img alt="Light" src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpg" width="30%">
     &nbsp; &nbsp; &nbsp; &nbsp;
-  <img alt="Dark" src="logo/playstore/screenshots/phone/Screenshot_4.jpg" width="30%">
+  <img alt="Dark" src="fastlane/metadata/android/en-US/images/phoneScreenshots/5.jpg" width="30%">
     &nbsp; &nbsp; &nbsp; &nbsp;
-  <img alt="Dark" src="logo/playstore/screenshots/phone/Screenshot_5.jpg" width="30%">
+  <img alt="Dark" src="fastlane/metadata/android/en-US/images/phoneScreenshots/6.jpg" width="30%">
 </p>
 
 <p align="left">
-  <img alt="Light" src="logo/playstore/screenshots/phone/Screenshot_6.jpg" width="30%">
+  <img alt="Light" src="fastlane/metadata/android/en-US/images/phoneScreenshots/7.jpg" width="30%">
     &nbsp; &nbsp; &nbsp; &nbsp;
-  <img alt="Dark" src="logo/playstore/screenshots/phone/Screenshot_7.jpg" width="30%">
+  <img alt="Dark" src="fastlane/metadata/android/en-US/images/phoneScreenshots/8.jpg" width="30%">
 </p>
 
 ## License
