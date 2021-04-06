@@ -1,7 +1,7 @@
 # Headi
 
 <p align="center">
-  <img alt="Light" src="logo/playstore/headi_promo.png" width="100%">
+  <img alt="Light" src="fastlane/metadata/android/en-US/images/featureGraphic.png" width="100%">
 </p>
 
 Headi (Headache Diary) is a privacy-friendly app to log your headaches.  
