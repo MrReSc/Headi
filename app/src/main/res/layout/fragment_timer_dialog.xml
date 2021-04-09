@@ -1,198 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.80" />
+    <SeekBar
+        android:id="@+id/diary_strength"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:max="10"
+        android:paddingStart="5dp"
+        android:progress="3"
+        app:layout_constraintEnd_toStartOf="@+id/diary_strength_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="RtlSymmetry" />
 
-        <SeekBar
-            android:id="@+id/diary_strength"
-            style="@style/Widget.AppCompat.SeekBar.Discrete"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:max="10"
-            android:progress="3"
-            android:paddingStart="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="RtlSymmetry" />
-
-        <TextView
-            android:id="@+id/diary_strength_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/diary_strength_text"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/diary_strength_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/diary_strength_text"
+        app:layout_constraintBottom_toBottomOf="@+id/diary_strength"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/diary_strength" />
 
     <tech.picnic.fingerpaintview.FingerPaintImageView
         android:id="@+id/diary_region"
         android:layout_width="match_parent"
         android:layout_height="210dp"
-        android:layout_marginTop="2dp"
         android:src="@drawable/ic_pain_region"
-        app:inEditMode="true" />
+        app:inEditMode="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/diary_strength" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:text="@string/region_left"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/diary_region" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.6"
-            android:text="@string/region_left"
-            android:textAlignment="center" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.6"
-            android:text="@string/region_right"
-            android:textAlignment="center" />
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        style="?android:attr/buttonBarStyle"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layoutDirection="rtl">
+        android:text="@string/region_right"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline_3"
+        app:layout_constraintTop_toBottomOf="@+id/diary_region" />
 
-        <TextView
-            android:id="@+id/button_undo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="6dp"
-            android:background="?attr/selectableItemBackground"
-            android:textAppearance="?android:attr/textAppearanceButton"
-            android:textColor="?attr/colorPrimary"
-            android:clickable="true"
-            android:textAllCaps="true"
-            android:text="@string/button_undo" />
+    <TextView
+        android:id="@+id/button_undo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:padding="6dp"
+        android:text="@string/button_undo"
+        android:textAllCaps="true"
+        android:textAppearance="?android:attr/textAppearanceButton"
+        android:textColor="?attr/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-        <TextView
-            android:id="@+id/button_clear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="6dp"
-            android:background="?attr/selectableItemBackground"
-            android:textAppearance="?android:attr/textAppearanceButton"
-            android:textColor="?attr/colorPrimary"
-            android:clickable="true"
-            android:textAllCaps="true"
-            android:text="@string/button_clear" />
+    <TextView
+        android:id="@+id/button_clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:padding="6dp"
+        android:text="@string/button_clear"
+        android:textAllCaps="true"
+        android:textAppearance="?android:attr/textAppearanceButton"
+        android:textColor="?attr/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@+id/button_undo"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/button_decrease"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:src="@drawable/ic_menu_minus"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_clear"
+        app:tint="?attr/colorPrimary"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/diary_medication_amount"
+        android:layout_width="32dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="@string/medication_amount"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        app:layout_constraintBottom_toBottomOf="@+id/button_decrease"
+        app:layout_constraintStart_toEndOf="@+id/button_decrease"
+        app:layout_constraintTop_toTopOf="@+id/button_decrease" />
+
+    <ImageView
+        android:id="@+id/button_increase"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:src="@drawable/ic_menu_plus"
+        app:layout_constraintStart_toEndOf="@+id/diary_medication_amount"
+        app:layout_constraintTop_toTopOf="@+id/button_decrease"
+        app:tint="?attr/colorPrimary"
+        tools:ignore="ContentDescription" />
+
+    <Spinner
+        android:id="@+id/diary_medication"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/button_decrease"
+        app:layout_constraintStart_toEndOf="@+id/button_increase"
+        app:layout_constraintTop_toTopOf="@+id/button_decrease"
+        tools:ignore="RtlSymmetry" />
+
+    <EditText
+        android:id="@+id/diary_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/diary_description"
+        android:hint="@string/diary_description_hint"
+        android:inputType="textMultiLine|textCapSentences"
+        android:scrollHorizontally="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_decrease" />
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.22" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.26" />
-
-        <Spinner
-            android:id="@+id/diary_medication"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="20dp"
-            app:layout_constraintStart_toStartOf="@+id/guideline_2"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="RtlSymmetry" />
-
-        <EditText
-            android:id="@+id/diary_description"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:autofillHints="@string/diary_description"
-            android:hint="@string/diary_description_hint"
-            android:inputType="textMultiLine|textCapSentences"
-            android:scrollHorizontally="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/diary_medication" />
-
-        <ImageView
-            android:id="@+id/button_decrease"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/ic_menu_minus"
-            app:tint="?attr/colorPrimary"
-            android:clickable="true"
-            android:background="?attr/selectableItemBackground"
-            app:layout_constraintBottom_toTopOf="@+id/diary_description"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription"/>
-
-        <TextView
-            android:id="@+id/diary_medication_amount"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:text="@string/medication_amount"
-            android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            app:layout_constraintBottom_toTopOf="@+id/diary_description"
-            app:layout_constraintEnd_toStartOf="@+id/button_increase"
-            app:layout_constraintStart_toEndOf="@+id/button_decrease"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/button_increase"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/ic_menu_plus"
-            app:tint="?attr/colorPrimary"
-            android:clickable="true"
-            android:background="?attr/selectableItemBackground"
-            app:layout_constraintBottom_toTopOf="@+id/diary_description"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_3"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
