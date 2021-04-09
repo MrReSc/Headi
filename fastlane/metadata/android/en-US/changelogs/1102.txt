@@ -1,0 +1,3 @@
+* fix color issue if filters gets removed after "no data available"
+* some unused gradle dependencies removed
+* change lots of layouts to constrained layout
