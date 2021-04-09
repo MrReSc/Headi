@@ -1,124 +1,104 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingStart="40dp"
-    android:paddingEnd="@dimen/activity_horizontal_margin"
+    android:paddingEnd="16dp"
     android:paddingTop="8dp"
-    android:orientation="vertical">
+    android:paddingBottom="8dp">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="8dp"
-        android:orientation="horizontal">
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.15" />
 
-        <TextView
-            android:id="@+id/diary_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:text="MO, 15. FEB. 2021"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            tools:ignore="HardcodedText" />
+    <TextView
+        android:id="@+id/diary_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:text="MO, 15. FEB. 2021"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
 
-        <ImageView
-            android:id="@+id/pains_image"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="0dp"
-            app:srcCompat="@drawable/ic_menu_pain"
-            app:tint="@color/pain_icon"
-            tools:ignore="ContentDescription" />
+    <ImageView
+        android:id="@+id/pains_image"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/diary_pain_name"
+        app:layout_constraintEnd_toStartOf="@+id/diary_pain_name"
+        app:layout_constraintTop_toTopOf="@+id/diary_pain_name"
+        app:srcCompat="@drawable/ic_menu_pain"
+        app:tint="@color/pain_icon"
+        tools:ignore="ContentDescription" />
 
-        <TextView
-            android:id="@+id/diary_pain_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="0dp"
-            android:layout_toStartOf="@+id/pains_image"
-            android:text="Migraine"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            tools:ignore="HardcodedText" />
+    <TextView
+        android:id="@+id/diary_pain_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@+id/pains_image"
+        android:text="Migraine"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        app:layout_constraintBottom_toBottomOf="@+id/diary_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/diary_date"
+        tools:ignore="HardcodedText" />
 
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/from"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/diary_date" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="8dp"
-        android:orientation="horizontal"
-        android:baselineAligned="false">
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/to"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-        <RelativeLayout
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="0.25"
-            android:layout_width="0dp">
+    <TextView
+        android:id="@+id/diary_pain_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:text="02H 23M"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        app:layout_constraintBottom_toBottomOf="@+id/textView7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView6"
+        tools:ignore="HardcodedText" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:orientation="vertical"
-                tools:ignore="RelativeOverlap">
+    <TextView
+        android:id="@+id/diary_pain_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="08:16"
+        app:layout_constraintStart_toStartOf="@+id/guideline_3"
+        app:layout_constraintTop_toTopOf="@+id/textView6"
+        tools:ignore="HardcodedText" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/from" />
+    <TextView
+        android:id="@+id/diary_pain_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10:45"
+        app:layout_constraintStart_toStartOf="@+id/guideline_3"
+        app:layout_constraintTop_toTopOf="@+id/textView7"
+        tools:ignore="HardcodedText" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/to" />
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/diary_pain_start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="08:16"
-                    tools:ignore="HardcodedText" />
-
-                <TextView
-                    android:id="@+id/diary_pain_end"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="10:45"
-                    tools:ignore="HardcodedText" />
-            </LinearLayout>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_height="fill_parent"
-            android:layout_weight="0.75"
-            android:layout_width="0dp"
-            android:layout_gravity="center">
-
-            <TextView
-                android:id="@+id/diary_pain_duration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:text="02H 23M"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                tools:ignore="HardcodedText" />
-
-        </RelativeLayout>
-
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
