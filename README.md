@@ -84,3 +84,7 @@ SOFTWARE.
 ### Pictures and Icons
 - [Clker-Free-Vector-Images](https://pixabay.com/de/users/clker-free-vector-images-3736/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=29840)
 - [Material Design Icons](https://materialdesignicons.com/)
+
+### Translation
+* Esperanto translation by @ScubyG
+* Dutch translation by @tversteeg
