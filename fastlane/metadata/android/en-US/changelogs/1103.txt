@@ -1,0 +1,3 @@
+* Beta test finished
+* Esperanto translation added (thx @ScubyG)
+* Dutch translation added (thx @tversteeg)
