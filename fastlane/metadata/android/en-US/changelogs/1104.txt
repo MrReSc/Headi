@@ -1,0 +1,2 @@
+* New message if no pain was created (thx @ Electw)
+* Spanish translation added (thx @neurologia Z1)
