@@ -102,4 +102,7 @@
     <string name="diary_export_data_pain_and_strength">pijn: %1$s (niveau: %2$s)</string>
     <string name="diary_export_data_description">omschrijving: %1$s</string>
     <string name="pdf_export_finished">PDF exporteren voltooid</string>
+    <string name="translation_crowdin">https://crowdin.com/project/headi</string>
+    <string name="title_translate">Help mee met vertalen</string>
+    <string name="contribute_group">Bijdragen</string>
 </resources>

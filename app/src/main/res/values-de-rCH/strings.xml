@@ -102,4 +102,7 @@
     <string name="diary_export_data_pain_and_strength">Schmerzart: %1$s (Stärke: %2$s)</string>
     <string name="diary_export_data_description">Beschreibung: %1$s</string>
     <string name="pdf_export_finished">PDF Export abgeschlossen</string>
+    <string name="translation_crowdin">https://crowdin.com/project/headi</string>
+    <string name="title_translate">Bei der Übersetzung helfen</string>
+    <string name="contribute_group">Mithelfen</string>
 </resources>
