@@ -4,14 +4,13 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.headi.app.BuildConfig;
 import com.headi.app.R;
@@ -41,7 +40,9 @@ public class about extends Fragment {
                 .addGroup(getString(R.string.contact_group))
                 .addEmail(getString(R.string.contact_email), getString(R.string.title_email))
                 .addGitHub(getString(R.string.contact_github), getString(R.string.title_github))
+                .addGroup(getString(R.string.contribute_group))
                 .addWebsite(getString(R.string.contact_website), getString(R.string.title_website))
+                .addWebsite(getString(R.string.translation_crowdin), getString(R.string.title_translate))
                 .addGroup(getString(R.string.app_information_group))
                 .addItem(versionElement)
                 .addItem(getCopyRightsElement())
