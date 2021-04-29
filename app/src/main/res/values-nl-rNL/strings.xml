@@ -88,7 +88,7 @@
     <string name="pain_na">Pijn niet beschikbaar</string>
     <string name="no_data_available">Geen data beschikbaar</string>
     <string name="title_no_pain_available">Geen pijn present</string>
-    <string name="ask_for_new_pain">Voeg minstens één type pijn toe.</string>
+    <string name="ask_for_new_pain">Voeg tenminste één nieuw soort pijn toe in het menu \"Pijnen\".</string>
     <string name="button_ok">OK</string>
     <string name="timer_graph_description">Trend van de laatste 14 dagen</string>
     <string name="diary_export_pdf">Exporteer dagboek als PDF</string>

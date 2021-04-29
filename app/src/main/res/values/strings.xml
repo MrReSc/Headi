@@ -87,7 +87,7 @@
     <string name="pain_na">Pain not available</string>
     <string name="no_data_available">No data available</string>
     <string name="title_no_pain_available">No pain present</string>
-    <string name="ask_for_new_pain">Please add at least one type of pain.</string>
+    <string name="ask_for_new_pain">Please add at least one new type of pain in the menu "Pains".</string>
     <string name="button_ok">OK</string>
     <string name="timer_graph_description">Trend over the last 14 days</string>
     <string name="diary_export_pdf">Export diary as PDF</string>
