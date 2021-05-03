@@ -88,4 +88,5 @@ SOFTWARE.
 ### Translation
 * Esperanto translation by @ScubyG
 * Dutch translation by @tversteeg
-* Spanish translation by @neurologia Z1 
+* Spanish translation by @neurologia Z1
+* Hebrew translation by @YaronSh
