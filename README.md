@@ -11,9 +11,11 @@ I do not have any commercial interests. The app was created for private use and 
 
 You can download Headi from F-Droid Store or from the this [repository](https://github.com/MrReSc/Headi/releases).
 
-The apk from the F-Droid store is signed by F-Droid and the one on GuitHub is signed by me. There is no crossupdate possible because the apk's are signed differently.
+The apk from the F-Droid store is signed by F-Droid and the one on GuitHub and Google Play is signed by me. There is no crossupdate possible because the apk's are signed differently.
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" height="75" alt="Get it on F-Droid">](https://f-droid.org/packages/com.headi.app/)
+
+[<img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height="75"/>](https://play.google.com/store/apps/details?id=com.headi.app)
 
 ## Contribute
 Headi is an open source project. Your contributions are welcome. Below you will find some ways to help me:
