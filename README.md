@@ -92,3 +92,4 @@ SOFTWARE.
 * Dutch translation by @tversteeg
 * Spanish translation by @neurologia Z1
 * Hebrew translation by @YaronSh
+* French translation by @askthedust18
