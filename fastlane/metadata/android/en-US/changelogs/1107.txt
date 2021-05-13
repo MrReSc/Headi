@@ -1,0 +1,4 @@
+* Replace jCenter repository und update Gradle to 6.7.1
+* Vietnamese translation added (thx @bruhwut)
+* Italian translation added (thx @JeLa)
+* Finnish translation added (thx @JeLa)

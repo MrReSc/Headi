@@ -88,8 +88,14 @@ SOFTWARE.
 - [Material Design Icons](https://materialdesignicons.com/)
 
 ### Translation
+The initial translations were made by:
 * Esperanto translation by @ScubyG
 * Dutch translation by @tversteeg
 * Spanish translation by @neurologia Z1
 * Hebrew translation by @YaronSh
 * French translation by @askthedust18
+* Vietnamese translation by @bruhwut
+* Italian translation by @JeLa
+* Finnish translation by @JeLa
+
+Thanks also to all the others who have made corrections and additions.
