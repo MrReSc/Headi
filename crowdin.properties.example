@@ -1,0 +1,5 @@
+# suppress inspection "UnusedProperty" for whole file
+project-id=************************
+api-token=*************************
+debug=true
+disable-branches=false
