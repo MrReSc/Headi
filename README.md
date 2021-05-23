@@ -97,5 +97,6 @@ The initial translations were made by:
 * Vietnamese translation by @bruhwut
 * Italian translation by @JeLa
 * Finnish translation by @JeLa
+* Czech translation by @alonewalker
 
 Thanks also to all the others who have made corrections and additions.
