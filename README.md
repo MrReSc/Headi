@@ -84,8 +84,8 @@ SOFTWARE.
 - [Android About Page](https://github.com/medyo/android-about-page) MIT
 
 ### Pictures and Icons
-- [Clker-Free-Vector-Images](https://pixabay.com/de/users/clker-free-vector-images-3736/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=29840)
-- [Material Design Icons](https://materialdesignicons.com/)
+- [Donna by Clker-Free-Vector-Images](https://pixabay.com/de/vectors/frau-gesicht-donna-kopf-linie-29840/) ([Pixabay License](https://pixabay.com/de/service/license/))
+- [Material Design Icons](https://materialdesignicons.com/) ([License](https://github.com/Templarian/MaterialDesign/blob/master/LICENSE))
 
 ### Translation
 The initial translations were made by:
