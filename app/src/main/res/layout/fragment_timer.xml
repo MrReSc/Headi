@@ -28,7 +28,7 @@
             android:gravity="center"
             android:text="@string/timer_time"
             android:textColor="?android:textColorPrimary"
-            android:textSize="65sp"
+            android:textSize="65dp"
             android:textStyle="bold"
             tools:layout_editor_absoluteX="16dp" />
 
@@ -99,16 +99,26 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/timer_graph_description"
-        app:layout_constraintStart_toStartOf="@+id/stats_duration_over_time"
+        app:layout_constraintStart_toStartOf="@+id/chart_scrollable_view"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/stats_duration_over_time"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timer_stats_trend_icon"
-        tools:layout_editor_absoluteX="16dp" />
+        android:id="@+id/chart_scrollable_view">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/stats_duration_over_time"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                tools:layout_editor_absoluteX="16dp"/>
+        </LinearLayout>
+    </ScrollView>
 
     <ImageView
         android:id="@+id/timer_stats_trend_icon"
