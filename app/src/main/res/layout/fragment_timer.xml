@@ -69,7 +69,6 @@
         app:layout_constraintBottom_toTopOf="@+id/timer_save_button"
         tools:layout_editor_absoluteX="16dp" />
 
-
     <ImageButton
         android:id="@+id/timer_save_button"
         android:layout_width="50dp"
@@ -99,26 +98,16 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/timer_graph_description"
-        app:layout_constraintStart_toStartOf="@+id/chart_scrollable_view"
+        app:layout_constraintStart_toStartOf="@+id/stats_duration_over_time"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
-    <ScrollView
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/stats_duration_over_time"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timer_stats_trend_icon"
-        android:id="@+id/chart_scrollable_view">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/stats_duration_over_time"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                tools:layout_editor_absoluteX="16dp"/>
-        </LinearLayout>
-    </ScrollView>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timer_stats_trend_icon" />
 
     <ImageView
         android:id="@+id/timer_stats_trend_icon"
@@ -134,14 +123,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.25"/>
+        app:layout_constraintGuide_percent="0.25" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.70"/>
+        app:layout_constraintGuide_percent="0.7" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

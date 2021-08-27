@@ -127,6 +127,7 @@ public class TimerFragment extends Fragment {
         yAxis.setDrawGridLines(false);
         yAxis.setTextColor(UiHelper.getPrimaryTextColor(getActivity()));
         yAxis.setAxisMinimum(0f);
+        yAxis.setLabelCount(4);
         lineDurationOverTime.getAxisRight().setDrawLabels(false);
     }
 
