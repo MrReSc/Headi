@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.13055555555555556" />
+        <entry key="app/src/main/res/layout/fragment_diary.xml" value="0.35260416666666666" />
+        <entry key="app/src/main/res/layout/fragment_diary_list_child.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/layout/fragment_timer.xml" value="0.25" />
       </map>
     </option>
