@@ -20,6 +20,8 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.headi.app.R;
 
+import org.apache.commons.text.StringEscapeUtils;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -311,7 +313,7 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
             writer.newLine();
 
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-                String data = cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary._ID)) + "," +
+                String data = StringEscapeUtils.escapeCsv(cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary._ID)) + "," +
                         cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_PAIN)) + "," +
                         cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)) + "," +
                         cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_END_DATE)) + "," +
@@ -319,7 +321,7 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_STRENGTH)) + "," +
                         cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_MEDICATION)) + "," +
                         cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT)) + "," +
-                        cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DESCRIPTION));
+                        cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DESCRIPTION)));
 
                 writer.write(data);
                 writer.newLine();
@@ -581,7 +583,7 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
                     canvas.drawText(context.getString(R.string.diary_export_data_description,
                             context.getString(R.string.none)), pdfDataTextTab, textRow4, pdfPaint);
                 } else {
-                    canvas.drawText(context.getString(R.string.diary_export_data_description, description),
+                    canvas.drawText(context.getString(R.string.diary_export_data_description, description).substring(0, 70),
                             pdfDataTextTab, textRow4, pdfPaint);
                 }
 
