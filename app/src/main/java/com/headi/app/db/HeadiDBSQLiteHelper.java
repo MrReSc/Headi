@@ -299,29 +299,29 @@ public class HeadiDBSQLiteHelper extends SQLiteOpenHelper {
             OutputStream output = context.getContentResolver().openOutputStream(path);
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(output));
 
-            String header = HeadiDBContract.Diary._ID + "," +
-                    HeadiDBContract.Diary.COLUMN_PAIN + "," +
-                    HeadiDBContract.Diary.COLUMN_START_DATE + "," +
-                    HeadiDBContract.Diary.COLUMN_END_DATE + "," +
-                    HeadiDBContract.Diary.COLUMN_DURATION + "," +
-                    HeadiDBContract.Diary.COLUMN_STRENGTH + "," +
-                    HeadiDBContract.Diary.COLUMN_MEDICATION + "," +
-                    HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT + "," +
-                    HeadiDBContract.Diary.COLUMN_DESCRIPTION;
+            String header = StringEscapeUtils.escapeCsv(HeadiDBContract.Diary._ID) + "," +
+                    StringEscapeUtils.escapeCsv(HeadiDBContract.Diary.COLUMN_PAIN) + "," +
+                    StringEscapeUtils.escapeCsv(HeadiDBContract.Diary.COLUMN_START_DATE) + "," +
+                    StringEscapeUtils.escapeCsv(HeadiDBContract.Diary.COLUMN_END_DATE) + "," +
+                    StringEscapeUtils.escapeCsv(HeadiDBContract.Diary.COLUMN_DURATION) + "," +
+                    StringEscapeUtils.escapeCsv(HeadiDBContract.Diary.COLUMN_STRENGTH) + "," +
+                    StringEscapeUtils.escapeCsv(HeadiDBContract.Diary.COLUMN_MEDICATION) + "," +
+                    StringEscapeUtils.escapeCsv(HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT) + "," +
+                    StringEscapeUtils.escapeCsv(HeadiDBContract.Diary.COLUMN_DESCRIPTION);
 
             writer.write(header);
             writer.newLine();
 
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-                String data = StringEscapeUtils.escapeCsv(cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary._ID)) + "," +
-                        cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_PAIN)) + "," +
-                        cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE)) + "," +
-                        cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_END_DATE)) + "," +
-                        cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DURATION)) + "," +
-                        cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_STRENGTH)) + "," +
-                        cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_MEDICATION)) + "," +
-                        cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT)) + "," +
-                        cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DESCRIPTION)));
+                String data = StringEscapeUtils.escapeCsv(cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary._ID))) + "," +
+                        StringEscapeUtils.escapeCsv(cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_PAIN))) + "," +
+                        StringEscapeUtils.escapeCsv(cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_START_DATE))) + "," +
+                        StringEscapeUtils.escapeCsv(cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_END_DATE))) + "," +
+                        StringEscapeUtils.escapeCsv(cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DURATION))) + "," +
+                        StringEscapeUtils.escapeCsv(cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_STRENGTH))) + "," +
+                        StringEscapeUtils.escapeCsv(cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_MEDICATION))) + "," +
+                        StringEscapeUtils.escapeCsv(cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_MEDICATION_AMOUNT))) + "," +
+                        StringEscapeUtils.escapeCsv(cursor.getString(cursor.getColumnIndexOrThrow(HeadiDBContract.Diary.COLUMN_DESCRIPTION)));
 
                 writer.write(data);
                 writer.newLine();
