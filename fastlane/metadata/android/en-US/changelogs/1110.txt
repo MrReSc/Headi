@@ -1,0 +1,3 @@
+* PDF icon replaced (thx @LeoColman)
+* Fix rotation issue #27 (thx @davirec)
+* Fix CSV and PDF export issue (thx @wilayahapps)
