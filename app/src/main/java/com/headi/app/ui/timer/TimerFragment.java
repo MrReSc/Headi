@@ -1,5 +1,6 @@
 package com.headi.app.ui.timer;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -13,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -159,6 +161,7 @@ public class TimerFragment extends Fragment {
         }
     }
 
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     private void registerListeners() {
 
         // Start / Stop Button listener
@@ -199,8 +202,14 @@ public class TimerFragment extends Fragment {
             }
         });
 
-        requireActivity().registerReceiver(broadcastReceiverTimer,
-                new IntentFilter(Constants.BROADCAST.ACTION_CURRENT_TIME));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireActivity().registerReceiver(broadcastReceiverTimer,
+                    new IntentFilter(Constants.BROADCAST.ACTION_CURRENT_TIME), Context.RECEIVER_EXPORTED);
+        }
+        else {
+            requireActivity().registerReceiver(broadcastReceiverTimer,
+                    new IntentFilter(Constants.BROADCAST.ACTION_CURRENT_TIME));
+        }
     }
 
     private boolean onePainAvailable() {
