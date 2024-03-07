@@ -15,6 +15,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import timerx.Stopwatch;
@@ -47,14 +48,14 @@ public class TimerForegroundService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        stopwatch = new StopwatchBuilder()
-                // Set the initial format
-                .startFormat("HH:MM:SS")
-                // Set the tick listener for displaying time
-                .onTick(this::updateNotification)
-                // When time is equal to one hour, change format to "HH:MM:SS"
-                .changeFormatWhen(1, TimeUnit.HOURS, "HH:MM:SS")
-                .build();
+        StopwatchBuilder builder = new StopwatchBuilder();
+        // Set the initial format
+        builder.startFormat("HH:MM:SS");
+        // Set the tick listener for displaying time
+        builder.onTick(this::updateNotification);
+        // When time is equal to one hour, change format to "HH:MM:SS"
+        builder.changeFormatWhen(1, TimeUnit.HOURS, "HH:MM:SS");
+        stopwatch = builder.build$timerx_core_release();
 
         calcTimes();
     }
@@ -62,7 +63,7 @@ public class TimerForegroundService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        switch (intent.getAction()) {
+        switch (Objects.requireNonNull(intent.getAction())) {
             case Constants.ACTION.START_ACTION:
                 startForeground(Constants.SERVICE.NOTIFICATION_ID_TIMER_SERVICE, prepareNotification("00:00:00"));
                 stopwatch.start();
@@ -94,6 +95,7 @@ public class TimerForegroundService extends Service {
 
     private Bitmap getLargeIconBitmap() {
         VectorDrawableCompat vectorDrawable = VectorDrawableCompat.create(getResources(), R.drawable.ic_play_icon, null);
+        assert vectorDrawable != null;
         vectorDrawable.setTint(ContextCompat.getColor(this, R.color.button_play));
 
         Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
@@ -107,7 +109,7 @@ public class TimerForegroundService extends Service {
     private Notification prepareNotification(CharSequence time) {
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
 
         return new NotificationCompat.Builder(this, Constants.SERVICE.NOTIFICATION_CHANEL_ID)
                 .setContentTitle(getText(R.string.notification_title))
@@ -122,7 +124,7 @@ public class TimerForegroundService extends Service {
                 .build();
     }
 
-    private void updateNotification(CharSequence time) {
+    private void updateNotification(long mills, CharSequence time) {
         currentTime = time;
 
         Notification notification = prepareNotification(time);
@@ -139,7 +141,7 @@ public class TimerForegroundService extends Service {
     }
 
     private void calcTimes() {
-        elapsedTime = stopwatch.getTimeIn(TimeUnit.MILLISECONDS);
+        elapsedTime = stopwatch.getCurrentTimeInMillis();
         startDate = System.currentTimeMillis() - elapsedTime;
         endDate = System.currentTimeMillis();
     }
