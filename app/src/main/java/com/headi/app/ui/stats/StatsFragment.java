@@ -235,7 +235,7 @@ public class StatsFragment extends Fragment {
         fromAndTo.setTextColor(UiHelper.getPrimaryTextColor(getActivity()));
         if (diaryStats.getStatsFromDate().equals("0")) {
             fromAndTo.setText(context.getString(R.string.no_data_available));
-            fromAndTo.setTextColor(context.getColor(R.color.button_stop));
+            fromAndTo.setTextColor(context.getColor(R.color.design_default_color_error));
         }
     }
 

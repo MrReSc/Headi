@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        try {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -52,6 +54,11 @@ public class MainActivity extends AppCompatActivity {
         }
         // Create notification channel
         createNotificationChannel();
+
+    } catch (Exception e) {
+        Log.e("Error scheisse", "onCreateView", e);
+        throw e;
+    }
     }
 
     @Override

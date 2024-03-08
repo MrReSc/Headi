@@ -96,7 +96,7 @@ public class TimerForegroundService extends Service {
     private Bitmap getLargeIconBitmap() {
         VectorDrawableCompat vectorDrawable = VectorDrawableCompat.create(getResources(), R.drawable.ic_play_icon, null);
         assert vectorDrawable != null;
-        vectorDrawable.setTint(ContextCompat.getColor(this, R.color.button_play));
+        vectorDrawable.setTint(ContextCompat.getColor(this, R.color.design_default_color_on_primary));
 
         Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
@@ -116,7 +116,7 @@ public class TimerForegroundService extends Service {
                 .setContentText(time)
                 .setLargeIcon(getLargeIconBitmap())
                 .setSmallIcon(R.drawable.ic_notification_icon)
-                .setColor(getColor(R.color.primaryColor))
+                .setColor(getColor(R.color.design_default_color_primary))
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setOnlyAlertOnce(true) // so when data is updated don't make sound and alert in android 8.0+

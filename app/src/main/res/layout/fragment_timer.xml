@@ -15,7 +15,7 @@
         style="?attr/cardStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="32dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -45,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        app:cardCornerRadius="4dp"
+        app:cardCornerRadius="25dp"
         app:layout_constraintBottom_toTopOf="@+id/timer_startOrStop_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -53,7 +53,8 @@
         <Spinner
             android:id="@+id/timer_pains_select"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
+            android:popupBackground="?attr/colorBackgroundFloating"
             android:gravity="start" />
 
     </androidx.cardview.widget.CardView>
@@ -65,32 +66,26 @@
         android:gravity="center"
         android:text="@string/timer_start"
         android:textSize="20sp"
-        app:backgroundTint="@color/button_play"
-        app:layout_constraintBottom_toTopOf="@+id/timer_save_button"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintBottom_toTopOf="@+id/timer_save_button" />
 
-    <ImageButton
+    <Button
         android:id="@+id/timer_save_button"
-        android:layout_width="50dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_save_icon"
-        android:backgroundTint="@color/button_save"
-        android:tint="@color/white"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/save_button"
+        android:text="@string/save_button"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintEnd_toStartOf="@+id/timer_delete_button"
-        android:contentDescription="@string/save_button" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageButton
+    <Button
         android:id="@+id/timer_delete_button"
-        android:layout_width="50dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:src="@drawable/ic_delete_icon"
-        android:backgroundTint="@color/button_delete"
-        android:tint="@color/white"
+        android:text="@string/delete_button"
+        android:contentDescription="@string/delete_button"
         app:layout_constraintBottom_toBottomOf="@+id/timer_save_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="@string/delete_button" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/timer_graph_description"
@@ -116,7 +111,7 @@
         android:src="@drawable/ic_trend_flat"
         app:layout_constraintStart_toStartOf="@+id/timer_graph_description"
         app:layout_constraintTop_toBottomOf="@+id/timer_graph_description"
-        tools:ignore="ContentDescription"/>
+        tools:ignore="ContentDescription" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
@@ -131,6 +126,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.7" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="-77dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

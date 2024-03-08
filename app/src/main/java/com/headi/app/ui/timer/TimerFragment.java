@@ -59,8 +59,8 @@ public class TimerFragment extends Fragment {
     private View view;
     private Spinner pains_items;
     private Button button_start;
-    private ImageButton button_save;
-    private ImageButton button_delete;
+    private Button button_save;
+    private Button button_delete;
     private LineChart lineDurationOverTime;
 
     final BroadcastReceiver broadcastReceiverTimer = new BroadcastReceiver() {
@@ -262,11 +262,9 @@ public class TimerFragment extends Fragment {
         switch (action) {
             case Constants.ACTION.STOP_ACTION:
                 button.setText(requireActivity().getString(R.string.timer_start));
-                button.setBackgroundColor(requireActivity().getColor(R.color.button_play));
                 break;
             case Constants.ACTION.START_ACTION:
                 button.setText(requireActivity().getString(R.string.timer_stop));
-                button.setBackgroundColor(requireActivity().getColor(R.color.button_stop));
                 button_save.setEnabled(false);
                 button_delete.setEnabled(false);
                 break;
@@ -282,22 +280,16 @@ public class TimerFragment extends Fragment {
                 if (TimerForegroundService.elapsedTime == 0L) {
                     button_save.setEnabled(false);
                     button_delete.setEnabled(false);
-                    button_save.setImageAlpha(0x3F);
-                    button_delete.setImageAlpha(0x3F);
                 }
                 else {
                     button_save.setEnabled(true);
                     button_delete.setEnabled(true);
-                    button_save.setImageAlpha(0xFF);
-                    button_delete.setImageAlpha(0xFF);
                 }
                 break;
             case Constants.ACTION.START_ACTION:
             case Constants.ACTION.END_ACTION:
                 button_save.setEnabled(false);
                 button_delete.setEnabled(false);
-                button_save.setImageAlpha(0x3F);
-                button_delete.setImageAlpha(0x3F);
                 break;
             default:
                 break;
